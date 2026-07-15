@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Asset Status Cross-Check Tool case study by Ali Aslam."
+    >
+    <title>Asset Status Cross-Check Tool | Ali Aslam</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="../index.html" aria-label="Ali Aslam home"><span class="brand-mark" aria-hidden="true">AA</span><span>Ali Aslam</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+        <div class="nav-links" id="primary-navigation">
+          <a href="../index.html" data-nav="home">Home</a>
+          <a href="../projects.html" data-nav="projects">Projects</a>
+          <a href="../about.html" data-nav="about">About</a>
+          <a href="../resume.html" data-nav="resume">Resume</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="case-hero">
+        <div class="shell case-hero-grid">
+          <div>
+            <p class="eyebrow">Case study 02</p>
+            <h1>Asset Status Cross-Check Tool</h1>
+            <p>
+              A tool concept for comparing expected deliverables against received media assets across video,
+              audio, subtitles, captions, artwork, metadata, regions, and language versions.
+            </p>
+            <div class="case-tags" aria-label="Project tags">
+              <span>Expected vs received</span>
+              <span>Fictional dataset</span>
+              <span>QA support</span>
+            </div>
+          </div>
+          <aside class="case-summary" aria-label="Project summary">
+            <dl>
+              <div><dt>Role focus</dt><dd>Validation logic and interface concept</dd></div>
+              <div><dt>Primary users</dt><dd>Media operators, coordinators, and QC teams</dd></div>
+              <div><dt>Output</dt><dd>Delivery gap summary and exception list</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell case-layout">
+          <div class="case-content">
+            <section class="case-section">
+              <h2>The Problem</h2>
+              <p>
+                Delivery packages can include many expected components. When operators manually compare received
+                files against title requirements, issues like missing language versions, duplicate files, naming
+                inconsistencies, and unexpected versions can slip through or take too long to verify.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>My Approach</h2>
+              <p>
+                The concept creates a simple comparison layer: load the expected deliverables, load the received
+                inventory, normalize naming and language codes, then generate an exception report that is easy to
+                review and escalate.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Process or Workflow</h2>
+              <ol>
+                <li>Define the expected package by title, territory, asset type, and language.</li>
+                <li>Import a received file list from a fictional delivery folder or CSV export.</li>
+                <li>Normalize common naming patterns and language code variants.</li>
+                <li>Flag missing assets, duplicate files, unexpected versions, and delivery gaps.</li>
+                <li>Export a human-readable summary for follow-up.</li>
+              </ol>
+            </section>
+
+            <section class="case-section">
+              <h2>Tools and Technologies</h2>
+              <ul>
+                <li>CSV or JSON inputs for expected and received files</li>
+                <li>JavaScript or Python for rule-based comparison</li>
+                <li>Configurable language and territory mappings</li>
+                <li>Spreadsheet-friendly exception exports</li>
+              </ul>
+            </section>
+
+            <section class="case-section">
+              <h2>Sample Interface or Diagram</h2>
+              <div class="mock-window" aria-label="Fictional asset cross-check mockup">
+                <div class="mock-titlebar">
+                  <span>Delivery cross-check</span>
+                  <span>Fictional title: North Pier S01E03</span>
+                </div>
+                <div class="mock-body">
+                  <div class="check-table">
+                    <div class="check-row">
+                      <strong>Video master</strong>
+                      <span>north_pier_s01e03_master_uhd.mov</span>
+                      <span class="status-pill">Received</span>
+                    </div>
+                    <div class="check-row">
+                      <strong>Audio es-419</strong>
+                      <span>north_pier_s01e03_audio_es-la.wav</span>
+                      <span class="status-pill">Code review</span>
+                    </div>
+                    <div class="check-row">
+                      <strong>Subtitles pt-BR</strong>
+                      <span>No matching file</span>
+                      <span class="status-pill">Missing</span>
+                    </div>
+                    <div class="check-row">
+                      <strong>Artwork key art</strong>
+                      <span>north_pier_keyart_v02.jpg, north_pier_keyart_v02_copy.jpg</span>
+                      <span class="status-pill">Duplicate</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h3>Sample fictional dataset</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Expected item</th>
+                      <th>Received item</th>
+                      <th>Asset type</th>
+                      <th>Language</th>
+                      <th>Status</th>
+                      <th>Issue detected</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>North Pier S01E03 master</td>
+                      <td>north_pier_s01e03_master_uhd.mov</td>
+                      <td>Video</td>
+                      <td>N/A</td>
+                      <td>Received</td>
+                      <td>None</td>
+                    </tr>
+                    <tr>
+                      <td>Spanish LatAm audio</td>
+                      <td>north_pier_s01e03_audio_es-la.wav</td>
+                      <td>Audio</td>
+                      <td>es-419 expected</td>
+                      <td>Review</td>
+                      <td>Language code inconsistency</td>
+                    </tr>
+                    <tr>
+                      <td>Portuguese Brazil subtitles</td>
+                      <td>Not found</td>
+                      <td>Subtitles</td>
+                      <td>pt-BR</td>
+                      <td>Missing</td>
+                      <td>Delivery gap</td>
+                    </tr>
+                    <tr>
+                      <td>Key art v02</td>
+                      <td>Two matching files</td>
+                      <td>Artwork</td>
+                      <td>N/A</td>
+                      <td>Review</td>
+                      <td>Duplicate files</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="case-section">
+              <h2>Results or Expected Impact</h2>
+              <p>
+                The tool could reduce repetitive manual comparison work, make delivery gaps visible earlier,
+                and give teams cleaner language for vendor follow-up. It would not replace human review, but
+                it would help operators prioritize the exceptions that need attention.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Key Lessons</h2>
+              <p>
+                Reliable comparison depends on clean expectations. Before automation is useful, teams need
+                consistent required asset profiles, agreed language mappings, and clear exception categories.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Next Steps</h2>
+              <p>
+                Next improvements could include drag-and-drop CSV upload, configurable naming patterns, severity
+                rules, and a printable delivery gap report.
+              </p>
+            </section>
+          </div>
+
+          <aside class="case-aside">
+            <div class="note-box">
+              <h2>Possible inputs</h2>
+              <p>Video, audio, subtitles, captions, artwork, metadata, regional versions, and language versions.</p>
+            </div>
+            <div class="note-box">
+              <h2>Detection examples</h2>
+              <p>Missing assets, duplicate files, naming inconsistencies, incorrect language codes, and unexpected versions.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="shell footer-grid">
+        <div><p class="section-kicker">Contact</p><h2>Review an asset workflow.</h2><p>Replace contact placeholders in <code>script.js</code>.</p></div>
+        <address class="contact-card" aria-label="Contact links">
+          <a href="mailto:ali.email@example.com" data-contact="email">ali.email@example.com</a>
+          <a href="https://www.linkedin.com/in/your-profile" data-contact="linkedin">LinkedIn placeholder</a>
+          <a href="https://github.com/Ali1128/ali-aslam-portfolio" data-contact="github">GitHub repository</a>
+          <a href="https://www.imdb.com/name/your-id" data-contact="imdb">IMDb placeholder</a>
+        </address>
+      </div>
+      <div class="shell footer-bottom"><p>&copy; <span data-current-year>2026</span> Ali Aslam. Portfolio content uses sanitized examples and fictional data.</p></div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>
