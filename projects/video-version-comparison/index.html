@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Compared two versions of the same episode and exported representative screenshots of detected differences.">
+    <title>Automated Video Version Comparison and Difference Reporter | Ali Aslam</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body data-page="projects">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+      </div>
+    </nav>
+  </header>
+    <main id="main">
+      <section class="page-hero case-hero">
+    <div class="shell">
+      <p class="eyebrow">Media-analysis prototype</p>
+      <h1>Automated Video Version Comparison and Difference Reporter</h1>
+      <p>Compared two versions of the same episode and exported representative screenshots of detected differences.</p>
+      <div class="hero-actions">
+        <a class="button button-secondary" href="../../projects.html">All projects</a>
+        <a class="button button-ghost" href="#case-study">Read case study</a>
+      </div>
+      <dl class="metadata-grid">
+    <div><dt>Status</dt><dd>Working prototype with preserved output; public demo reconstructed</dd></div><div><dt>Role</dt><dd>Workflow designer and prototype developer</dd></div><div><dt>Scale</dt><dd>Prototype workflow for same-episode version comparison</dd></div><div><dt>Tools</dt><dd>FFmpeg, ffprobe, VMAF, Frame analysis</dd></div>
+  </dl>
+    </div>
+  </section>
+  <section class="section" id="case-study">
+    <div class="shell">
+      <section class="demo-panel video-demo" data-video-demo aria-label="Video version comparison demo">
+    <div class="demo-panel-header">
+      <div>
+        <p class="demo-kicker">Illustrative public reconstruction</p>
+        <h2>VMAF-assisted version comparison</h2>
+      </div>
+      <button class="button button-primary" type="button" data-report-export>Export review report</button>
+    </div>
+    <div class="vmaf-summary">
+      <div><span>VMAF mean</span><strong>91.8</strong></div>
+      <div><span>Duration delta</span><strong>00:00:51</strong></div>
+      <div><span>Review ranges</span><strong>03</strong></div>
+      <div><span>Decision</span><strong>Human review</strong></div>
+    </div>
+    <div class="video-panes">
+      <figure class="video-pane">
+        <figcaption><span>Reference frame</span><small>00:11:48.120 | VMAF 96.4</small></figcaption>
+        <div class="frame-art frame-a"><span class="frame-horizon"></span><span class="frame-subject"></span><span class="frame-monitor"></span><b>REF</b></div>
+      </figure>
+      <figure class="video-pane">
+        <figcaption><span>Comparison frame</span><small>00:11:48.120 | VMAF 78.2</small></figcaption>
+        <div class="frame-art frame-b"><span class="frame-horizon"></span><span class="frame-subject"></span><span class="frame-monitor"></span><span class="difference-box">region 02</span><b>CMP</b></div>
+      </figure>
+    </div>
+    <div class="difference-timeline" aria-label="Detected difference timeline">
+      <button type="button" data-diff-range="Commercial break" style="--start: 18%; --width: 9%;">Commercial break</button>
+      <button type="button" data-diff-range="Regional edit" style="--start: 46%; --width: 6%;">Regional edit</button>
+      <button type="button" data-diff-range="Audio offset" style="--start: 70%; --width: 12%;">Audio offset</button>
+    </div>
+    <div class="comparison-grid">
+      <div><h3>Detected ranges</h3><ul><li>00:04:12-00:05:03 commercial break mismatch</li><li>00:11:42-00:12:09 regional editorial difference</li><li>00:18:20-00:21:14 audio offset requires review</li></ul></div>
+      <div><h3>Representative frames</h3><div class="screenshot-strip"><span class="sample-one"></span><span class="sample-two"></span><span class="sample-three"></span></div><small>Generated visual placeholders for the public reconstruction, not source media.</small></div>
+      <div><h3>Selected range</h3><p data-diff-output>Choose a range on the timeline.</p></div>
+    </div>
+  </section>
+      <div class="impact-strip">
+        <div><span>Outcome</span><strong>Produced a reviewable report for commercial breaks, regional edits, duration mismatches, frame changes and audio offsets.</strong></div>
+        <div><span>Public status</span><strong>Working prototype with preserved output; public demo reconstructed</strong></div>
+        <div><span>Contribution</span><strong>Workflow designer and prototype developer</strong></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell case-layout">
+      <aside class="case-aside">
+        <nav aria-label="Case study sections">
+          <a href="#problem">Context</a>
+          <a href="#approach">Contribution</a>
+          <a href="#architecture">Workflow</a>
+          <a href="#validation">Review + safeguards</a>
+          <a href="#results">Outcome</a>
+        </nav>
+      </aside>
+      <article class="case-content">
+        <div id="problem"><section class="case-section">
+    <h2>Operational problem</h2>
+    <ul class="clean-list"><li>Two episode files could appear similar while containing editorial, timing or technical differences.</li><li>Manual comparison was slow and easy to lose track of when mismatches occurred across many time ranges.</li><li>Reviewers needed representative screenshots and technical context, not just a pass/fail result.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Constraints</h2>
+    <ul class="clean-list"><li>Original source code is not currently preserved.</li><li>The public demo is reconstructed from the workflow and preserved output behavior.</li><li>Only public, open or generated sample media should be used in any future live demo.</li></ul>
+  </section>
+        <div id="approach"><section class="case-section">
+    <h2>My contribution</h2>
+    <ul class="clean-list"><li>Inspect both files with ffprobe before analysis.</li><li>Normalize resolution, frame rate and timing where needed.</li><li>Align audio, run perceptual-quality analysis and detect frame-difference clusters.</li><li>Export representative screenshots for human review rather than hiding decisions in a score.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Production supervision lens</h2>
+    <ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Organize review materials, time ranges and technical findings so creative and production stakeholders can act on them.</li></ul>
+  </section>
+        <section class="case-section" id="architecture"><h2>System architecture</h2><div class="flow-diagram" aria-label="Automated Video Version Comparison and Difference Reporter architecture flow">
+    <div class="flow-node"><span>01</span>Reference video</div><div class="flow-node"><span>02</span>Comparison video</div><div class="flow-node"><span>03</span>ffprobe inspection</div><div class="flow-node"><span>04</span>Normalization</div><div class="flow-node"><span>05</span>VMAF and frame-difference analysis</div><div class="flow-node"><span>06</span>Audio alignment</div><div class="flow-node"><span>07</span>Screenshot export</div><div class="flow-node"><span>08</span>Human review</div>
+  </div></section>
+        <section class="case-section"><h2>Workflow</h2><ol class="workflow-steps">
+    <li>Load file metadata</li><li>Normalize comparison inputs</li><li>Align audio</li><li>Calculate similarity signals</li><li>Detect time ranges</li><li>Export screenshots</li><li>Review and annotate</li><li>Export report</li>
+  </ol></section>
+        <section class="case-section">
+    <h2>Implementation notes</h2>
+    <ul class="clean-list"><li>VMAF and frame differences served different review purposes: one quality-focused, one mismatch-focused.</li><li>Detected ranges were grouped so reviewers could inspect coherent segments instead of isolated frames.</li><li>Audio offset results were shown beside visual differences because timing issues can appear in either channel.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Human review and safeguards</h2>
+    <ul class="clean-list"><li>The workflow produced evidence for human review rather than automatic editorial decisions.</li><li>Public reconstruction avoids private media and private source code.</li><li>Any future demo media should be public-domain, open-license or generated.</li></ul>
+  </section>
+        <div id="validation"><section class="case-section">
+    <h2>Testing and validation</h2>
+    <ul class="clean-list"><li>Validated output by inspecting representative screenshot ranges.</li><li>Checked metadata and duration mismatches before deeper analysis.</li><li>Compared audio-offset output with visible timeline differences.</li></ul>
+  </section></div>
+        <div id="results"><section class="case-section">
+    <h2>Outcome</h2>
+    <ul class="clean-list"><li>Created a structured report that made version differences easier to review.</li><li>Supported investigation of commercial breaks, regional editorial changes and missing or added sections.</li><li>Preserved enough output behavior to reconstruct a public demo honestly.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Limitations</h2>
+    <ul class="clean-list"><li>The exact original source implementation is not available in this repo.</li><li>The public page demonstrates the workflow concept, not private production code.</li><li>Media-analysis thresholds would need calibration by content type and review need.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Next iteration</h2>
+    <ul class="clean-list"><li>Rebuild the public version with generated sample clips.</li><li>Add a review-note export format.</li><li>Add threshold presets for editorial, encoding and duration-focused investigations.</li></ul>
+  </section>
+        <section class="case-section code-section">
+          <details class="code-disclosure">
+            <summary>View sanitized illustrative code</summary>
+            <h2>FFmpeg command construction and VMAF parsing</h2>
+            <pre><code>// Sanitized illustrative excerpt
+function buildVmafCommand(referencePath, comparisonPath, reportPath) {
+  return [
+    &quot;ffmpeg&quot;,
+    &quot;-i&quot;, comparisonPath,
+    &quot;-i&quot;, referencePath,
+    &quot;-lavfi&quot;, &quot;libvmaf=log_fmt=json:log_path=&quot; + reportPath,
+    &quot;-f&quot;, &quot;null&quot;,
+    &quot;-&quot;
+  ];
+}
+
+function summarizeRanges(frameScores, threshold) {
+  return groupAdjacentFrames(
+    frameScores.filter((frame) =&gt; frame.score &lt; threshold)
+  );
+}</code></pre>
+          </details>
+        </section>
+      </article>
+    </div>
+  </section>
+    </main>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
+      </div>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
+  </body>
+</html>

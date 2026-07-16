@@ -1,0 +1,98 @@
+[
+  {
+    "id": "INV-1001",
+    "fileName": "demo_s01e02_master_fhd_2398.mov",
+    "class": "video",
+    "locale": "-",
+    "version": "simulcast",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1002",
+    "fileName": "demo_s01e02_master_fhd_2398_proxy.mp4",
+    "class": "video",
+    "locale": "-",
+    "version": "proxy",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1003",
+    "fileName": "demo_s01e02_audio_en-us_51.wav",
+    "class": "audio",
+    "locale": "en-US",
+    "version": "simulcast",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1004",
+    "fileName": "demo_s01e02_audio_ja-jp_20.wav",
+    "class": "audio",
+    "locale": "ja-JP",
+    "version": "simulcast",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1005",
+    "fileName": "demo_s01e02_subtitle_en-us_full.vtt",
+    "class": "subtitle",
+    "locale": "en-US",
+    "version": "simulcast",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1006",
+    "fileName": "demo_s01e02_subtitle_en-us_forced.vtt",
+    "class": "forced",
+    "locale": "en-US",
+    "version": "simulcast",
+    "status": "Review"
+  },
+  {
+    "id": "INV-1007",
+    "fileName": "demo_s01e02_caption_en-us_sdh.vtt",
+    "class": "caption",
+    "locale": "en-US",
+    "version": "simulcast",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1008",
+    "fileName": "demo_s01e02_subtitle_es-es_full.vtt",
+    "class": "subtitle",
+    "locale": "es-ES",
+    "version": "simulcast",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1009",
+    "fileName": "demo_s01e02_subtitle_fr-fr_full.vtt",
+    "class": "subtitle",
+    "locale": "fr-FR",
+    "version": "uncut",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1010",
+    "fileName": "demo_s01e02_subtitle_pt-br_forced.vtt",
+    "class": "forced",
+    "locale": "pt-BR",
+    "version": "uncut",
+    "status": "Review"
+  },
+  {
+    "id": "INV-1011",
+    "fileName": "demo_s01e02_keyart_main.jpg",
+    "class": "image",
+    "locale": "-",
+    "version": "global",
+    "status": "Ready"
+  },
+  {
+    "id": "INV-1012",
+    "fileName": "demo_s01e02_metadata_delivery.xml",
+    "class": "metadata",
+    "locale": "-",
+    "version": "global",
+    "status": "Ready"
+  }
+]

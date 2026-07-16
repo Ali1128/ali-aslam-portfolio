@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Added a temporary search and filter layer to an authenticated file-linking modal so operators could find browser-visible assets without repeatedly navigating folders and clicking through long lists.">
+    <title>Browser-Side File Linking Search and Inventory Hydration | Ali Aslam</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body data-page="projects">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+      </div>
+    </nav>
+  </header>
+    <main id="main">
+      <section class="page-hero case-hero">
+    <div class="shell">
+      <p class="eyebrow">Browser-side operations tool</p>
+      <h1>Browser-Side File Linking Search and Inventory Hydration</h1>
+      <p>Added a temporary search and filter layer to an authenticated file-linking modal so operators could find browser-visible assets without repeatedly navigating folders and clicking through long lists.</p>
+      <div class="hero-actions">
+        <a class="button button-secondary" href="../../projects.html">All projects</a>
+        <a class="button button-ghost" href="#case-study">Read case study</a>
+      </div>
+      <dl class="metadata-grid">
+    <div><dt>Status</dt><dd>Working browser-side workflow extension</dd></div><div><dt>Role</dt><dd>Workflow designer, JavaScript developer and tester</dd></div><div><dt>Scale</dt><dd>Lazy-loaded file locations containing dozens to hundreds of browser-visible rows</dd></div><div><dt>Tools</dt><dd>JavaScript, DOM APIs, Regex, Browser session</dd></div>
+  </dl>
+    </div>
+  </section>
+  <section class="section" id="case-study">
+    <div class="shell">
+      <section class="demo-panel standalone-demo-embed" aria-label="Interactive file linking search demo">
+    <div class="demo-panel-header">
+      <div>
+        <p class="demo-kicker">Sanitized interactive reconstruction</p>
+        <h2>Hydrated file-linking search</h2>
+      </div>
+      <a class="button button-secondary" href="../../demos/file-linking-search/" target="_blank" rel="noopener">Open full-screen demo</a>
+    </div>
+    <div class="standalone-demo-frame linking-demo-frame">
+      <iframe src="../../demos/file-linking-search/" title="Sanitized interactive file linking search" loading="eager"></iframe>
+    </div>
+    <div class="inventory-impact" aria-label="Workflow impact">
+      <div><strong>37-step baseline</strong><span>recorded manual linking path before the search layer</span></div>
+      <div><strong>Hydration-aware</strong><span>indexes rows only after lazy-loaded coverage stabilizes</span></div>
+      <div><strong>Human confirmation</strong><span>native link decision remains with the operator</span></div>
+    </div>
+  </section>
+      <div class="impact-strip">
+        <div><span>Outcome</span><strong>Turned a multi-step manual file-browsing path into a hydrated, keyboard-first search while preserving the system's native link confirmation.</strong></div>
+        <div><span>Public status</span><strong>Working browser-side workflow extension</strong></div>
+        <div><span>Contribution</span><strong>Workflow designer, JavaScript developer and tester</strong></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell case-layout">
+      <aside class="case-aside">
+        <nav aria-label="Case study sections">
+          <a href="#problem">Context</a>
+          <a href="#approach">Contribution</a>
+          <a href="#architecture">Workflow</a>
+          <a href="#validation">Review + safeguards</a>
+          <a href="#results">Outcome</a>
+        </nav>
+      </aside>
+      <article class="case-content">
+        <div id="problem"><section class="case-section">
+    <h2>Operational problem</h2>
+    <ul class="clean-list"><li>The existing file-linking modal required operators to navigate nested folders and repeatedly click through results to locate an exact delivered asset.</li><li>The built-in search worked only against rows already rendered in the modal, so valid files could remain invisible until the list was scrolled and hydrated.</li><li>Filename conventions carried useful title, episode, language, asset-class and extension signals, but the interface did not expose them as fast operational filters.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Constraints</h2>
+    <ul class="clean-list"><li>No direct API or service credential was available for the internal system.</li><li>The tool ran only inside the operator's existing authenticated browser session and used browser-visible data.</li><li>The file list was lazy-loaded, so indexing before hydration produced incomplete results.</li><li>Published material cannot include private domains, selectors, storage paths, titles, account data or session material.</li></ul>
+  </section>
+        <div id="approach"><section class="case-section">
+    <h2>My contribution</h2>
+    <ul class="clean-list"><li>Record the original linking path and inspect a saved DOM snapshot to understand the rendered modal, row structure and loading behavior.</li><li>Hydrate the file list through controlled scroll passes until the visible filename count stabilized.</li><li>Build a temporary in-memory filename and path index, then add debounced search, regex or AND/OR matching and extension filters.</li><li>Keep candidate selection separate from the system's native confirmation so search acceleration did not bypass the operator's final link decision.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Production supervision lens</h2>
+    <ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Reduce repetitive linking work while keeping hydration coverage, candidate selection and operator confirmation visible.</li></ul>
+  </section>
+        <section class="case-section" id="architecture"><h2>System architecture</h2><div class="flow-diagram" aria-label="Browser-Side File Linking Search and Inventory Hydration architecture flow">
+    <div class="flow-node"><span>01</span>Authenticated Link File modal</div><div class="flow-node"><span>02</span>Scroll hydrator</div><div class="flow-node"><span>03</span>Browser-visible row reader</div><div class="flow-node"><span>04</span>Temporary filename index</div><div class="flow-node"><span>05</span>Search and extension filters</div><div class="flow-node"><span>06</span>Candidate selection</div><div class="flow-node"><span>07</span>Native confirmation</div>
+  </div></section>
+        <section class="case-section"><h2>Workflow</h2><ol class="workflow-steps">
+    <li>Open Link File modal</li><li>Hydrate lazy-loaded rows</li><li>Build temporary index</li><li>Search filename or path</li><li>Filter by extension</li><li>Select one candidate</li><li>Review target and candidate</li><li>Confirm through native workflow</li>
+  </ol></section>
+        <section class="case-section">
+    <h2>Implementation notes</h2>
+    <ul class="clean-list"><li>The working search layer exposed .scc, .dfxp, .mov and .wav filters alongside text matching.</li><li>A debounced input reduced repeated full-list filtering while the user typed.</li><li>Hydration status and indexed-row counts made incomplete search coverage visible to the operator.</li><li>The public demo reconstructs the interaction with fictional filenames and generic storage paths.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Human review and safeguards</h2>
+    <ul class="clean-list"><li>No separate internal-system credential was stored or distributed by the search layer.</li><li>Session-derived access remained privileged and temporary; no token, cookie or session identifier is included in this portfolio.</li><li>Search and selection did not bypass the system's human confirmation boundary.</li><li>The public demo cannot connect to or modify any production system.</li></ul>
+  </section>
+        <div id="validation"><section class="case-section">
+    <h2>Testing and validation</h2>
+    <ul class="clean-list"><li>Captured the original multi-click flow as a browser recording before changing the workflow.</li><li>Compared indexed counts before and after repeated scroll hydration passes.</li><li>Tested AND/OR matching, regex handling, extension combinations and empty-result states.</li><li>Checked that selecting a search result mapped back to the correct rendered file row.</li></ul>
+  </section></div>
+        <div id="results"><section class="case-section">
+    <h2>Outcome</h2>
+    <ul class="clean-list"><li>Reduced repetitive folder navigation and manual scanning during linking work.</li><li>Made incomplete lazy-loaded coverage visible instead of silently returning partial search results.</li><li>Created a faster operator workflow without requiring a direct API integration.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Limitations</h2>
+    <ul class="clean-list"><li>The tool depended on an authenticated browser session and sufficiently stable rendered UI surfaces.</li><li>A browser refresh, session expiry or interface update could require relaunching or adjusting the tool.</li><li>The public demo is a functional reconstruction, not the private production script or DOM.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Next iteration</h2>
+    <ul class="clean-list"><li>Add saved search presets for recurring asset conventions.</li><li>Add structured candidate scoring for title, episode, locale and asset class.</li><li>Move the workflow to an approved integration path if a stable internal endpoint becomes available.</li></ul>
+  </section>
+        <section class="case-section code-section">
+          <details class="code-disclosure">
+            <summary>View sanitized illustrative code</summary>
+            <h2>Lazy-list hydration and temporary filename index</h2>
+            <pre><code>// Sanitized illustrative excerpt
+async function buildVisibleFileIndex(scrollArea, readVisibleRows) {
+  let previousCount = -1;
+  let stablePasses = 0;
+
+  while (stablePasses &lt; 3) {
+    scrollArea.scrollTop = scrollArea.scrollHeight;
+    await waitForRenderedRows();
+
+    const count = readVisibleRows().length;
+    stablePasses = count === previousCount ? stablePasses + 1 : 0;
+    previousCount = count;
+  }
+
+  return readVisibleRows().map(toSearchableFileRecord);
+}
+
+function searchIndex(records, terms, extensions) {
+  return records.filter((record) =&gt;
+    extensions.has(record.extension) &amp;&amp;
+    terms.every((term) =&gt; record.searchText.includes(term))
+  );
+}</code></pre>
+          </details>
+        </section>
+      </article>
+    </div>
+  </section>
+    </main>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
+      </div>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
+  </body>
+</html>

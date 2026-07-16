@@ -3,161 +3,70 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="description"
-      content="Resume page for Ali Aslam, focused on media operations, creative operations, and workflow automation."
-    >
+    <meta name="description" content="Ali Aslam resume summary for media operations, production workflow and creative technology roles.">
     <title>Resume | Ali Aslam</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
   </head>
-  <body>
+  <body data-page="resume">
     <a class="skip-link" href="#main">Skip to main content</a>
-
     <header class="site-header" data-site-header>
-      <nav class="nav shell" aria-label="Primary navigation">
-        <a class="brand" href="index.html" aria-label="Ali Aslam home">
-          <span class="brand-mark" aria-hidden="true">AA</span>
-          <span>Ali Aslam</span>
-        </a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </button>
-        <div class="nav-links" id="primary-navigation">
-          <a href="index.html" data-nav="home">Home</a>
-          <a href="projects.html" data-nav="projects">Projects</a>
-          <a href="about.html" data-nav="about">About</a>
-          <a href="resume.html" data-nav="resume">Resume</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
-    </header>
-
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="index.html" data-nav="home">Home</a><a href="projects.html" data-nav="projects">Work</a><a href="about.html" data-nav="about">About</a><a href="resume.html" data-nav="resume" aria-current="page">Resume</a>
+      </div>
+    </nav>
+  </header>
     <main id="main">
       <section class="page-hero">
-        <div class="shell narrow">
-          <p class="eyebrow">Resume</p>
-          <h1>Media operations, production coordination, and workflow improvement.</h1>
-          <p>
-            A web resume designed to be easy to edit as Ali updates roles, selected projects, tools, education,
-            and downloadable resume materials.
-          </p>
-          <a class="button button-primary resume-download" href="#" aria-disabled="true" data-resume-download>
-            PDF resume placeholder
-          </a>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="shell resume-layout">
-          <aside class="resume-sidebar" aria-label="Resume highlights">
-            <div>
-              <h2>Core skills</h2>
-              <ul class="clean-list">
-                <li>Streaming media operations</li>
-                <li>Asset readiness tracking</li>
-                <li>Localization workflows</li>
-                <li>Metadata review</li>
-                <li>Quality-control coordination</li>
-                <li>Vendor and freelancer coordination</li>
-                <li>Operational documentation</li>
-                <li>Workflow automation concepts</li>
-              </ul>
-            </div>
-            <div>
-              <h2>Technical tools</h2>
-              <ul class="clean-list">
-                <li>Spreadsheets and structured trackers</li>
-                <li>Media asset management concepts</li>
-                <li>Issue tracking and documentation tools</li>
-                <li>FFmpeg and Python workflow concepts</li>
-                <li>Automation and AI-assisted operations experiments</li>
-              </ul>
-            </div>
-            <div>
-              <h2>Languages</h2>
-              <p>English. Add additional languages here when ready.</p>
-            </div>
-          </aside>
-
-          <div class="resume-main">
-            <section class="resume-block">
-              <p class="section-kicker">Professional summary</p>
-              <h2>Operations-focused media professional.</h2>
-              <p>
-                Ali Aslam brings experience across streaming asset delivery, localization and distribution,
-                metadata review, VFX production coordination, creative operations, vendor coordination,
-                documentation, and workflow improvement. He is interested in roles where practical systems,
-                production visibility, and cross-functional coordination improve the reliability of creative
-                and technical media work.
-              </p>
-            </section>
-
-            <section class="resume-block">
-              <p class="section-kicker">Experience</p>
-              <div class="resume-item">
-                <h3>Media Operations and Distribution Experience</h3>
-                <p class="resume-meta">Streaming, localization, metadata, and partner delivery environments</p>
-                <ul>
-                  <li>Supported media preparation, quality-control review, asset delivery, and operational tracking.</li>
-                  <li>Coordinated across internal teams, partners, vendors, and freelancers to keep deliverables moving.</li>
-                  <li>Reviewed metadata and delivery details for consistency, completeness, and launch readiness.</li>
-                  <li>Created and maintained documentation that helped teams understand workflow steps and open items.</li>
-                </ul>
-              </div>
-              <div class="resume-item">
-                <h3>VFX Production and Creative Operations Experience</h3>
-                <p class="resume-meta">Production tracking, vendor coordination, purchase orders, and documentation</p>
-                <ul>
-                  <li>Helped track production work, approvals, status updates, and schedule-sensitive follow-up.</li>
-                  <li>Supported vendor and freelancer coordination, purchase order workflows, and invoice-related tracking.</li>
-                  <li>Contributed to cleaner operational records and more visible next steps across creative workstreams.</li>
-                </ul>
-              </div>
-            </section>
-
-            <section class="resume-block">
-              <p class="section-kicker">Selected projects</p>
-              <div class="compact-link-list">
-                <a href="projects/streaming-asset-operations-overlay.html">Streaming Asset Operations Overlay</a>
-                <a href="projects/asset-status-cross-check-tool.html">Asset Status Cross-Check Tool</a>
-                <a href="projects/sla-asset-readiness-dashboard.html">SLA Asset Readiness Dashboard</a>
-                <a href="projects/ai-assisted-qc-prototypes.html">AI-Assisted QC Prototypes</a>
-              </div>
-            </section>
-
-            <section class="resume-block">
-              <p class="section-kicker">Education</p>
-              <p>
-                Add degree, school, certificate, coursework, or continuing education details here when ready.
-              </p>
-            </section>
-          </div>
-        </div>
-      </section>
+    <div class="shell">
+      <p class="eyebrow">Resume</p>
+      <h1>Production operations + emerging workflow systems.</h1>
+      <p>A simple web resume focused on production tracking, creative operations, media pipelines and human-in-the-loop AI workflows.</p>
+      <div class="hero-actions"><a class="button button-primary" href="docs/resume.txt">Plain-text resume</a><a class="button button-secondary" href="projects.html">Selected work</a></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell resume-sheet">
+      <section class="resume-section"><h2>Summary</h2><ul class="clean-list">
+        <li>Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production.</li>
+        <li>Coordinates creative stakeholders, vendors and technical teams through delivery schedules, review cycles, asset tracking and release-critical workflows.</li>
+        <li>Creates workflow documents, trackers and status reports that make due work, blockers, approvals and escalation needs visible.</li>
+        <li>Comfortable supporting experimental GenAI/traditional hybrid environments where tools and operating requirements change quickly.</li>
+      </ul></section>
+      <section class="resume-section"><h2>Selected projects</h2><ul class="clean-list"><li><strong>Media Inventory Console:</strong> Reduced locate, verify and delete/replace work from about 4-7 minutes per asset to under one minute in large season inventories.</li><li><strong>File Linking Search:</strong> Turned a multi-step manual file-browsing path into a hydrated, keyboard-first search while preserving the system's native link confirmation.</li><li><strong>Ingest Status Reconciliation:</strong> Converted repetitive cross-system status checks into a conservative batch pass while leaving incomplete, missing and ambiguous records unchanged for human review.</li><li><strong>Video Version Comparison:</strong> Produced a reviewable report for commercial breaks, regional edits, duration mismatches, frame changes and audio offsets.</li></ul></section>
+      <section class="resume-section"><h2>Relevant experience</h2><ul class="clean-list">
+        <li><strong>Media operations:</strong> asset readiness, ingest, localization, delivery tracking, timed text, metadata, partner distribution and release support.</li>
+        <li><strong>VFX production coordination:</strong> artist assignments, ShotGrid tracking, review preparation, notes, assets, vendor coordination and delivery escalation.</li>
+        <li><strong>Creative operations:</strong> schedules, budgets, campaign assets, approvals, documentation and cross-functional production support.</li>
+        <li><strong>Workflow development:</strong> browser automation, Airtable systems, media-analysis prototypes and operator-facing tools.</li>
+      </ul></section>
+      <section class="resume-section"><h2>Tools</h2><p>ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, DAM/MAM systems, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Gemini and Codex.</p></section>
+    </div>
+  </section>
     </main>
-
-    <footer class="site-footer" id="contact">
-      <div class="shell footer-grid">
-        <div>
-          <p class="section-kicker">Contact</p>
-          <h2>Request Ali's resume or portfolio details.</h2>
-          <p>Update the PDF link and contact placeholders in <code>script.js</code>.</p>
-        </div>
-        <address class="contact-card" aria-label="Contact links">
-          <a href="mailto:ali.email@example.com" data-contact="email">ali.email@example.com</a>
-          <a href="https://www.linkedin.com/in/your-profile" data-contact="linkedin">LinkedIn placeholder</a>
-          <a href="https://github.com/Ali1128/ali-aslam-portfolio" data-contact="github">GitHub repository</a>
-          <a href="https://www.imdb.com/name/your-id" data-contact="imdb">IMDb placeholder</a>
-        </address>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
       </div>
-      <div class="shell footer-bottom">
-        <p>&copy; <span data-current-year>2026</span> Ali Aslam. Portfolio content uses sanitized examples and fictional data.</p>
-      </div>
-    </footer>
-
-    <script src="script.js"></script>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
   </body>
 </html>

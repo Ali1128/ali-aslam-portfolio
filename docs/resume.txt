@@ -1,0 +1,91 @@
+RESUME
+
+SUMMARY
+
+- Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution, post-production, content operations and entertainment marketing.
+- Experienced coordinating artists, production staff, creative stakeholders, vendors and technical teams through fast-moving delivery schedules, review cycles, asset tracking, production documentation and release-critical workflows.
+- Comfortable supporting experimental animation and GenAI/traditional hybrid production environments where tools, creative needs and workflow requirements evolve quickly.
+- Creates and updates workflow documents, review processes, delivery trackers and status reports so production teams can understand what is due, what is blocked and what needs escalation.
+- Supports artists and operators by translating creative and technical feedback into clear tasks, deadlines, labeled materials and follow-up actions.
+- Tracks complex dependencies across shots, assets, media, metadata, localization, versions, approvals, delivery status and review materials.
+- Works well with producers, production managers, artists, coordinators, vendors, legal, marketing, IT, pipeline teams and technical stakeholders.
+- Identifies schedule risk, workflow vulnerabilities, missing materials, tool blockers and quality issues early, then communicates practical course-correction options.
+- Hands-on with production tracking systems, media operations tools, AI-assisted development tools, browser automation and human-in-the-loop workflow design.
+
+TOOLS AND SYSTEMS
+
+- Production tracking: ShotGrid, Ftrack, Airtable, Jira, Asana
+- Office and reporting: Google Workspace, Microsoft Office, Excel, PowerPoint
+- Media and delivery: Aspera, Amazon S3/AWS, Google Cloud, DAM/MAM systems, CSV reporting
+- Creative and post tools: Adobe Premiere Pro, DaVinci Resolve, Photoshop, After Effects
+- Technical workflow tools: JavaScript, browser automation, Puppeteer, Python, FFmpeg, OpenCV, CSV/Excel automation
+- AI-assisted workflow exposure: Gemini, Codex, ResNet-based image comparison experiments, GenAI-assisted development and interface prototyping
+
+SELECTED PRODUCTION AND WORKFLOW PROJECTS
+
+- Season-Level Media Inventory Operations Console
+  Developed a browser-based operations console for a media CMS workflow, supporting season-level inventory loading, search, filtering, classification, CSV export, selected-file queues and confirmed delete/replace review steps. Helped reduce locate, verify and delete/replace work from approximately 4-7 minutes per asset to under one minute while supporting large season inventories with more than 1,000 assets.
+
+- Cross-System Media Asset Reconciliation and Ingest Readiness Automation
+  Built a deterministic Puppeteer and Airtable workflow that compared expected streaming/localization requirements against completed ingest records, verified DONE status, updated unchecked readiness fields and routed ambiguous results to manual review. Typical runs handled roughly 50-100 tracker records.
+
+- Automated Video Version Comparison and Difference Reporter
+  Created a working prototype workflow using FFmpeg, VMAF-style perceptual analysis, frame comparison and audio alignment to help compare two versions of the same episode and export reviewable difference ranges and screenshots for human review.
+
+- Dataset-Assisted Opening and Ending Timestamp Detection
+  Prototyped a season-level workflow using human-validated reference timestamps, audio features, speech/non-speech signals and Excel output to suggest opening and ending ranges for human review. Designed as decision support, not automatic final approval.
+
+- Live Multi-Studio Schedule and Calendar Platform
+  Designed a live scheduling and calendar platform using Airtable as the source of truth, Cloudflare Worker/API delivery, custom Squarespace HTML/CSS/JavaScript and Softr studio dashboards. Supported studio-specific schedules, events, information sections, admin review concepts and public calendar presentation.
+
+- AI-Assisted Instructional Keyframe Selection
+  Evaluated OpenCV pixel-difference and ResNet50 embedding-based approaches for selecting representative instructional frames from martial-arts videos while reducing repeated or visually redundant images. Documented limitations and future improvements such as clustering, perceptual hashes, scene detection and pose estimation.
+
+PROFESSIONAL EXPERIENCE
+
+Crunchyroll - Media Operations
+
+- Supported high-volume anime media operations for simulcast, catalog, backlog/archive updates, partner distribution and digital/home video release workflows.
+- Coordinated release-critical assets across video, audio, metadata, timed text, localization materials, thumbnails, screenshots and marketing assets for internal teams and external distribution partners.
+- Tracked language deliverables, ingest status, missing assets, version changes, SLA deadlines, metadata mismatches, subtitle/CC/SDH issues, dub updates, audio conforms and release blockers across Airtable, Jira, Aspera, Google Cloud, Amazon S3/AWS and internal media systems.
+- Created ingest orders, replaced incorrect inventory, linked assets to correct title records and resolved Jira tickets involving subtitles, closed captions, SDH, dubs, metadata, missing deliverables, backlog catalog updates and audio conform issues.
+- Served as a weekend operator for priority licensor-delivered anime releases, coordinating asset checks, delivery, ingest packaging, subtitle orders, territory validation and post-release platform verification under tight launch windows.
+- Supported high-visibility event deliverables, coordinating media assets, localization materials, metadata, marketing assets, approvals and cross-functional delivery requirements.
+- Built and tested workflow-support tools that improved visibility into media inventories, ingest readiness, asset status and manual review requirements.
+
+JK Moodo - Content Creator / Marketing Operations
+
+- Produced and edited short-form content for Instagram, TikTok and YouTube while managing thumbnails, metadata, uploads, copy, campaign materials, budgets, production schedules and audience engagement reporting.
+- Created and managed digital marketing campaigns for tournaments and studio events, including posters, badges, website content, email campaigns, event materials and promotional assets.
+- Used audience metrics and platform feedback to improve short-form creative, titles, descriptions, keywords and posting strategy.
+- Co-directed and edited an independent documentary project, supporting creative planning, production organization and post-production delivery.
+
+The Mill - VFX Coordinator
+
+- Coordinated creative production workflows for high-profile commercial campaigns across TV, TikTok, Instagram, YouTube and digital platforms.
+- Supervised production coordinators, freelance artists and project contributors; assigned work, tracked deliverables, managed capacity and escalated creative, budget and delivery blockers.
+- Worked with producers, creative teams, agencies, vendors, legal, art, marketing, IT and client teams to manage approvals, asset readiness, versioning, review cycles and final delivery requirements.
+- Supported production schedules, bid comparisons, vendor onboarding, rate tracking, SOW documentation, project budgets, cost approvals and vendor performance tracking.
+- Helped implement a company-wide legal clearance workflow for 3D models, images, videos and other production materials.
+- Rebuilt urgent production workflows when campaigns required legal, creative or release changes, gathering missing assets, reassembling teams, coordinating approvals and delivering within compressed timelines.
+
+THE THIRD FLOOR Inc. - VFX Production Coordinator
+
+- Coordinated postvis and previs workflows for film and game production in remote VFX environments.
+- Managed artist onboarding, task assignments, production tracking, shot status, 3D assets, storyboards, director/producer notes, meetings, review readiness and file/data integrity across ShotGrid.
+- Designed custom ShotGrid pages and delegated work to Unreal and Maya artists, improving daily production visibility, note tracking and review preparation.
+- Supported communication between artists, supervisors, producers and technical team members to keep shots, notes and creative reviews moving.
+
+Playback Productions - Operations Associate
+
+- Coordinated production operations for a camera equipment rental house and live event production company, managing logistics, scheduling, inventory, client support, equipment readiness and delivery workflows across concurrent projects.
+- Produced product videos, technical reviews and digital marketing content while coordinating scripts, gear prep, shoot logistics, production workflows and final delivery.
+- Built an internal automation tool that generated production call sheets from structured production inputs, reducing manual administrative work across productions.
+
+Additional Animation Experience
+
+- Directed, produced and animated short-form digital videos for an editorial publication.
+
+EDUCATION
+
+BA in Communication

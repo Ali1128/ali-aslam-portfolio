@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sanitized interactive reconstruction of a browser-side file-linking search workflow.">
+  <title>File Linking Search | Sanitized Demo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090b0c;
+      --surface: #1c1f23;
+      --surface-2: #25282d;
+      --surface-3: #101214;
+      --line: #373b40;
+      --line-strong: #565b61;
+      --text: #f1f3f4;
+      --muted: #969ca2;
+      --orange: #f47621;
+      --orange-soft: #503025;
+      --blue: #2f78d0;
+      --green: #40c86d;
+      --red: #dc625e;
+      --focus: #ff9c5d;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--bg); }
+    body { min-height: 100vh; margin: 0; background: var(--bg); color: var(--text); }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    [hidden] { display: none !important; }
+
+    .demo-shell { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 100vh; }
+    .demo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 62px;
+      padding: 0.7rem clamp(0.85rem, 2vw, 1.4rem);
+      border-bottom: 1px solid #282b2e;
+      background: #0d0f10;
+    }
+    .demo-title strong, .demo-title span { display: block; }
+    .demo-title strong { font-size: 0.88rem; }
+    .demo-title span { margin-top: 0.18rem; color: var(--muted); font-size: 0.69rem; }
+    .demo-state { display: flex; align-items: center; gap: 0.45rem; color: #b8bdb9; font-size: 0.7rem; }
+    .demo-state::before { content: ""; width: 7px; height: 7px; background: var(--green); }
+
+    .workspace { position: relative; min-height: 760px; overflow: hidden; background: #0b0d0e; }
+    .pending-table { position: absolute; inset: 0; opacity: 0.3; pointer-events: none; }
+    .pending-head { display: grid; grid-template-columns: 100px 130px 1.2fr 1fr 120px; gap: 1rem; padding: 1.1rem 2rem; border-bottom: 1px solid #232629; color: #747a7e; font-size: 0.7rem; text-transform: uppercase; }
+    .pending-row { display: grid; grid-template-columns: 100px 130px 1.2fr 1fr 120px; gap: 1rem; padding: 1.1rem 2rem; border-bottom: 1px solid #26292c; color: #868c90; font-size: 0.76rem; }
+    .pending-row span:last-child { color: var(--green); }
+
+    .link-modal {
+      position: absolute;
+      inset: clamp(1rem, 3vw, 2.4rem);
+      display: grid;
+      grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid #2f3337;
+      background: var(--surface);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.56);
+    }
+    .modal-head { display: flex; align-items: center; gap: 0.75rem; min-height: 58px; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); }
+    .link-mark { display: grid; width: 32px; height: 32px; place-items: center; background: var(--orange-soft); color: var(--orange); font-weight: 900; }
+    .modal-head h1 { margin: 0; font-size: 1rem; font-weight: 650; }
+    .close-button { width: 34px; height: 34px; margin-left: auto; border: 0; background: transparent; color: #a3a8ac; font-size: 1.25rem; cursor: pointer; }
+
+    .target-card { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 0.8rem; align-items: center; margin: 1rem 1.15rem 0.8rem; padding: 0.9rem; border: 1px dashed #62676c; background: #2a2d33; }
+    .file-icon { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid #5b6065; color: #adb2b6; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.62rem; }
+    .target-copy { min-width: 0; }
+    .target-copy strong, .target-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .target-copy strong { font-size: 0.83rem; }
+    .target-copy span { margin-top: 0.2rem; color: #93999d; font-size: 0.68rem; }
+    .locale { color: #d5d8d6; font-size: 0.75rem; }
+
+    .browser-bar { display: flex; align-items: center; gap: 0.55rem; min-width: 0; padding: 0.55rem 1.15rem; border-block: 1px solid #303438; background: #191c1f; }
+    .nav-button { width: 30px; height: 30px; border: 1px solid #3f4448; background: #121416; color: #8e9498; cursor: pointer; }
+    .breadcrumb { display: flex; min-width: 0; align-items: center; gap: 0.4rem; color: #aaafb2; font-size: 0.72rem; }
+    .breadcrumb strong { color: var(--orange); }
+    .breadcrumb span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .loaded-count { margin-left: auto; color: var(--muted); font-size: 0.7rem; white-space: nowrap; }
+    .loaded-count strong { color: var(--orange); }
+
+    .file-area { position: relative; min-width: 0; min-height: 0; overflow: auto; background: var(--surface-3); }
+    .file-table-head, .file-row { display: grid; grid-template-columns: minmax(280px, 1fr) 120px 90px; gap: 1rem; align-items: center; min-width: 600px; padding: 0.65rem 1rem; }
+    .file-table-head { position: sticky; top: 0; z-index: 1; border-bottom: 1px solid #2d3033; background: #121416; color: #7f8589; font-size: 0.66rem; text-transform: uppercase; }
+    .file-row { min-height: 46px; border-bottom: 1px solid #25282a; color: #b2b6b8; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.71rem; cursor: pointer; }
+    .file-row:hover { background: #191c1e; }
+    .file-row.is-selected { outline: 1px solid var(--orange); outline-offset: -1px; background: #39251d; color: white; }
+    .file-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-row span:not(.file-name) { color: #8c9295; }
+
+    .search-hud {
+      position: absolute;
+      z-index: 4;
+      top: 1rem;
+      right: 1rem;
+      width: min(310px, calc(100% - 2rem));
+      border: 1px solid #29415c;
+      background: #0d1928;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
+    }
+    .hud-head { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; min-height: 36px; padding: 0.5rem 0.65rem; border-bottom: 1px solid #243750; font-size: 0.72rem; }
+    .hud-head strong { color: #e3edf7; }
+    .hud-head span { color: #7f9ab5; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.63rem; }
+    .search-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.4rem; padding: 0.55rem; }
+    .search-wrap input { min-width: 0; min-height: 34px; padding: 0.4rem 0.55rem; border: 1px solid #446c9e; border-radius: 0; background: #0a111b; color: white; }
+    .search-wrap input::placeholder { color: #69809a; }
+    .mode-button { min-width: 48px; border: 1px solid #446c9e; background: #162b43; color: #cbd9e7; cursor: pointer; }
+    .extension-row { display: flex; flex-wrap: wrap; gap: 0.65rem; padding: 0 0.6rem 0.55rem; color: #afbed0; font-size: 0.66rem; }
+    .extension-row label { display: inline-flex; align-items: center; gap: 0.25rem; }
+    .extension-row input { accent-color: #5b9ee6; }
+    .hud-status { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.5rem 0.6rem; border-block: 1px solid #22354c; color: #8fa6bc; font-size: 0.64rem; }
+    .hydrate-button { min-height: 28px; border: 1px solid #3d638e; background: #172c43; color: #d5e1ec; font-size: 0.63rem; cursor: pointer; }
+    .hydrate-button:disabled { opacity: 0.6; cursor: default; }
+    .progress { height: 3px; background: #16283d; }
+    .progress span { display: block; width: 0; height: 100%; background: #5ca5ed; transition: width 160ms ease; }
+    .hud-results { max-height: 220px; overflow: auto; }
+    .hud-result { display: grid; width: 100%; gap: 0.15rem; padding: 0.55rem 0.65rem; border: 0; border-bottom: 1px solid #1d3045; background: transparent; text-align: left; cursor: pointer; }
+    .hud-result:hover, .hud-result[aria-pressed="true"] { background: #162b42; }
+    .hud-result strong { overflow: hidden; color: #d9e4ee; font-size: 0.66rem; text-overflow: ellipsis; white-space: nowrap; }
+    .hud-result span { overflow: hidden; color: #748fa8; font-size: 0.61rem; text-overflow: ellipsis; white-space: nowrap; }
+    .no-results { margin: 0; padding: 0.8rem; color: #7f98af; font-size: 0.67rem; }
+
+    .modal-foot { display: flex; align-items: center; gap: 0.6rem; min-width: 0; padding: 0.7rem 1rem; border-top: 1px solid var(--line); background: #191c1f; }
+    .selection { min-width: 0; margin-right: auto; color: #8f969a; font-size: 0.68rem; }
+    .selection strong { display: block; overflow: hidden; color: #d9dcda; text-overflow: ellipsis; white-space: nowrap; }
+    .action-button { min-height: 36px; padding: 0.45rem 0.8rem; border: 1px solid #51565a; background: transparent; color: #c7cbce; font-size: 0.7rem; font-weight: 750; cursor: pointer; }
+    .action-button.primary { border-color: var(--orange); background: var(--orange); color: white; }
+    .action-button:disabled { border-color: #34383b; background: #292c2e; color: #696f73; cursor: not-allowed; }
+
+    .confirm-bar { position: absolute; z-index: 5; inset: auto 0 0 0; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 0.6rem; align-items: center; padding: 0.75rem 1rem; border-top: 1px solid #76503c; background: #2b211c; box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.4); }
+    .confirm-bar p { margin: 0; color: #d8cbc4; font-size: 0.72rem; }
+    .confirm-bar strong { color: white; }
+
+    .privacy-note { margin: 0; padding: 0.65rem 1rem; border-top: 1px solid #292c2f; background: #0d0f10; color: #858b8f; font-size: 0.67rem; text-align: center; }
+    .privacy-note strong { color: #c3c7c4; }
+
+    @media (max-width: 800px) {
+      .workspace { min-height: 850px; }
+      .link-modal { inset: 0; }
+      .search-hud { top: auto; right: 0.65rem; bottom: 4.7rem; }
+      .target-card { margin-inline: 0.75rem; }
+      .browser-bar { padding-inline: 0.75rem; }
+    }
+
+    @media (max-width: 560px) {
+      .demo-bar { align-items: flex-start; flex-direction: column; }
+      .workspace { min-height: 960px; }
+      .modal-head { min-height: 52px; }
+      .target-card { grid-template-columns: 28px minmax(0, 1fr); }
+      .target-card .locale { grid-column: 2; }
+      .breadcrumb { flex: 1; }
+      .nav-button { display: none; }
+      .file-table-head, .file-row { grid-template-columns: minmax(260px, 1fr) 105px 75px; }
+      .file-area { display: flex; flex-direction: column; padding-bottom: 0; }
+      .search-hud { position: relative; inset: auto; order: 1; width: auto; margin: 0.7rem; }
+      .file-table-head { position: relative; order: 2; }
+      [data-file-rows] { order: 3; }
+      .modal-foot { align-items: stretch; flex-wrap: wrap; }
+      .selection { flex-basis: 100%; }
+      .action-button { flex: 1; }
+      .confirm-bar { grid-template-columns: 1fr 1fr; }
+      .confirm-bar p { grid-column: 1 / -1; }
+      .privacy-note { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-bar">
+      <div class="demo-title">
+        <strong>File Linking Search</strong>
+        <span>Sanitized browser-side workflow reconstruction</span>
+      </div>
+      <span class="demo-state">Temporary in-session index</span>
+    </header>
+
+    <main class="workspace">
+      <div class="pending-table" aria-hidden="true">
+        <div class="pending-head"><span>Asset ID</span><span>Due</span><span>Title</span><span>Asset</span><span>Status</span></div>
+        <div class="pending-row"><span>A44120</span><span>Today</span><span>Riverside Signal E07</span><span>English caption</span><span>Complete</span></div>
+        <div class="pending-row"><span>A44121</span><span>Today</span><span>Riverside Signal E07</span><span>French subtitle</span><span>Complete</span></div>
+        <div class="pending-row"><span>A44122</span><span>Tomorrow</span><span>Northstar Kitchen E03</span><span>English audio</span><span>Complete</span></div>
+      </div>
+
+      <section class="link-modal" aria-label="Fictional Link File dialog">
+        <header class="modal-head">
+          <span class="link-mark" aria-hidden="true">L</span>
+          <h1>Link File</h1>
+          <button class="close-button" type="button" title="Close demo dialog" aria-label="Close demo dialog">x</button>
+        </header>
+
+        <div class="target-card">
+          <span class="file-icon" aria-hidden="true">CC</span>
+          <div class="target-copy">
+            <strong>riverside_signal_s01e07_caption_en-us.scc</strong>
+            <span>storage://delivery-staging</span>
+          </div>
+          <span class="locale">en-us</span>
+        </div>
+
+        <div class="browser-bar">
+          <button class="nav-button" type="button" title="Back" aria-label="Back">&lt;</button>
+          <button class="nav-button" type="button" title="Forward" aria-label="Forward">&gt;</button>
+          <div class="breadcrumb" aria-label="Current folder">
+            <span>storage</span><span>/</span><strong>delivery-staging</strong><span>/</span><span>incoming-partner-a</span>
+          </div>
+          <span class="loaded-count"><strong data-loaded-count>8</strong> / <span data-total-count>0</span> indexed</span>
+        </div>
+
+        <div class="file-area" data-file-area>
+          <div class="file-table-head"><span>Name</span><span>Last modified</span><span>Size</span></div>
+          <div data-file-rows></div>
+
+          <aside class="search-hud" aria-label="Search loaded files">
+            <div class="hud-head"><strong>File Search</strong><span>browser-visible rows</span></div>
+            <div class="search-wrap">
+              <label>
+                <span hidden>Search indexed filenames</span>
+                <input type="search" data-search placeholder="Search filename or path" value="riverside en-us" autocomplete="off">
+              </label>
+              <button class="mode-button" type="button" data-mode aria-pressed="true" title="Toggle AND or OR matching">AND</button>
+            </div>
+            <div class="extension-row" aria-label="Extension filters">
+              <label><input type="checkbox" value="scc" checked> .scc</label>
+              <label><input type="checkbox" value="dfxp" checked> .dfxp</label>
+              <label><input type="checkbox" value="mov" checked> .mov</label>
+              <label><input type="checkbox" value="wav" checked> .wav</label>
+            </div>
+            <div class="hud-status">
+              <span><strong data-result-count>0</strong> matches</span>
+              <button class="hydrate-button" type="button" data-hydrate>Hydrate full list</button>
+            </div>
+            <div class="progress" aria-hidden="true"><span data-progress></span></div>
+            <div class="hud-results" data-results></div>
+          </aside>
+        </div>
+
+        <footer class="modal-foot">
+          <div class="selection">
+            <span>Selected candidate</span>
+            <strong data-selection>None</strong>
+          </div>
+          <button class="action-button" type="button" data-reset>Reset</button>
+          <button class="action-button primary" type="button" data-use disabled>Use selected</button>
+        </footer>
+
+        <div class="confirm-bar" data-confirm hidden>
+          <p><strong>Human confirmation retained.</strong> This demo can only simulate the native link action.</p>
+          <button class="action-button" type="button" data-cancel>Cancel</button>
+          <button class="action-button primary" type="button" data-confirm-link>Confirm simulated link</button>
+        </div>
+      </section>
+    </main>
+
+    <p class="privacy-note"><strong>Portfolio-safe demo:</strong> fictional titles, paths, IDs, filenames, and records; no private selectors, domains, credentials, or session material.</p>
+  </div>
+
+  <script>
+    const showNames = ["riverside_signal", "northstar_kitchen", "quiet_harbor", "paper_satellite"];
+    const locales = ["en-us", "es-la", "fr-fr", "pt-br"];
+    const extensions = ["scc", "dfxp", "mov", "wav"];
+    const records = [];
+
+    showNames.forEach((show, showIndex) => {
+      for (let episode = 1; episode <= 3; episode += 1) {
+        locales.forEach((locale, localeIndex) => {
+          const extension = extensions[(showIndex + episode + localeIndex) % extensions.length];
+          const type = extension === "mov" ? "master" : extension === "wav" ? "audio" : localeIndex % 2 ? "subtitle" : "caption";
+          records.push({
+            id: `F${String(records.length + 1).padStart(3, "0")}`,
+            name: `${show}_s01e${String(episode).padStart(2, "0")}_${type}_${locale}.${extension}`,
+            path: `incoming-partner-${String.fromCharCode(97 + showIndex)}/${show}/season-01`,
+            modified: `07/${String(10 + episode).padStart(2, "0")}/2026`,
+            size: `${48 + showIndex * 9 + episode * 4 + localeIndex}.2 KB`,
+            extension
+          });
+        });
+      }
+    });
+
+    let loadedCount = 8;
+    let useAnd = true;
+    let selectedId = null;
+    let hydrationTimer = null;
+
+    const rowsRoot = document.querySelector("[data-file-rows]");
+    const resultsRoot = document.querySelector("[data-results]");
+    const search = document.querySelector("[data-search]");
+    const modeButton = document.querySelector("[data-mode]");
+    const loadedLabel = document.querySelector("[data-loaded-count]");
+    const totalLabel = document.querySelector("[data-total-count]");
+    const resultLabel = document.querySelector("[data-result-count]");
+    const progress = document.querySelector("[data-progress]");
+    const hydrateButton = document.querySelector("[data-hydrate]");
+    const selectionLabel = document.querySelector("[data-selection]");
+    const useButton = document.querySelector("[data-use]");
+    const confirmBar = document.querySelector("[data-confirm]");
+
+    totalLabel.textContent = String(records.length);
+
+    function checkedExtensions() {
+      return new Set([...document.querySelectorAll(".extension-row input:checked")].map((input) => input.value));
+    }
+
+    function matches(record) {
+      const terms = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      const haystack = `${record.path} ${record.name}`.toLowerCase();
+      const textMatch = terms.length === 0 || (useAnd ? terms.every((term) => haystack.includes(term)) : terms.some((term) => haystack.includes(term)));
+      return textMatch && checkedExtensions().has(record.extension);
+    }
+
+    function visibleRecords() {
+      return records.slice(0, loadedCount);
+    }
+
+    function selectRecord(id) {
+      selectedId = id;
+      const record = records.find((item) => item.id === id);
+      selectionLabel.textContent = record ? `${record.path}/${record.name}` : "None";
+      useButton.disabled = !record;
+      render();
+    }
+
+    function render() {
+      const visible = visibleRecords();
+      const matchesVisible = visible.filter(matches);
+      loadedLabel.textContent = String(loadedCount);
+      resultLabel.textContent = String(matchesVisible.length);
+      progress.style.width = `${Math.round((loadedCount / records.length) * 100)}%`;
+
+      rowsRoot.innerHTML = visible.map((record) => `
+        <div class="file-row${record.id === selectedId ? " is-selected" : ""}" data-row-id="${record.id}" role="button" tabindex="0" aria-pressed="${record.id === selectedId}">
+          <span class="file-name">${record.name}</span>
+          <span>${record.modified}</span>
+          <span>${record.size}</span>
+        </div>
+      `).join("");
+
+      resultsRoot.innerHTML = matchesVisible.length
+        ? matchesVisible.slice(0, 8).map((record) => `
+          <button class="hud-result" type="button" data-result-id="${record.id}" aria-pressed="${record.id === selectedId}">
+            <strong>${record.name}</strong>
+            <span>${record.path}</span>
+          </button>
+        `).join("")
+        : '<p class="no-results">No loaded rows match. Hydrate the list or adjust the filters.</p>';
+    }
+
+    function activateRow(target) {
+      const row = target.closest("[data-row-id]");
+      if (row) selectRecord(row.dataset.rowId);
+    }
+
+    rowsRoot.addEventListener("click", (event) => activateRow(event.target));
+    rowsRoot.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activateRow(event.target);
+      }
+    });
+
+    resultsRoot.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-result-id]");
+      if (button) selectRecord(button.dataset.resultId);
+    });
+
+    search.addEventListener("input", render);
+    document.querySelectorAll(".extension-row input").forEach((input) => input.addEventListener("change", render));
+    modeButton.addEventListener("click", () => {
+      useAnd = !useAnd;
+      modeButton.textContent = useAnd ? "AND" : "OR";
+      modeButton.setAttribute("aria-pressed", String(useAnd));
+      render();
+    });
+
+    hydrateButton.addEventListener("click", () => {
+      if (loadedCount === records.length || hydrationTimer) return;
+      hydrateButton.disabled = true;
+      hydrateButton.textContent = "Hydrating...";
+      hydrationTimer = window.setInterval(() => {
+        loadedCount = Math.min(records.length, loadedCount + 8);
+        render();
+        if (loadedCount === records.length) {
+          window.clearInterval(hydrationTimer);
+          hydrationTimer = null;
+          hydrateButton.textContent = "List hydrated";
+        }
+      }, 140);
+    });
+
+    document.querySelector("[data-reset]").addEventListener("click", () => {
+      selectedId = null;
+      search.value = "riverside en-us";
+      useAnd = true;
+      modeButton.textContent = "AND";
+      modeButton.setAttribute("aria-pressed", "true");
+      document.querySelectorAll(".extension-row input").forEach((input) => { input.checked = true; });
+      selectionLabel.textContent = "None";
+      useButton.disabled = true;
+      confirmBar.hidden = true;
+      render();
+    });
+
+    useButton.addEventListener("click", () => { confirmBar.hidden = false; });
+    document.querySelector("[data-cancel]").addEventListener("click", () => { confirmBar.hidden = true; });
+    document.querySelector("[data-confirm-link]").addEventListener("click", () => {
+      confirmBar.hidden = true;
+      useButton.textContent = "Simulated link complete";
+      useButton.disabled = true;
+    });
+
+    render();
+  </script>
+</body>
+</html>

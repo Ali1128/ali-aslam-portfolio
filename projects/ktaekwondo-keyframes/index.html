@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Evaluated automated frame-selection approaches for converting martial-arts videos into representative instructional images while reducing repeated or visually redundant frames.">
+    <title>AI-Assisted Instructional Keyframe Selection | Ali Aslam</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body data-page="projects">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+      </div>
+    </nav>
+  </header>
+    <main id="main">
+      <section class="page-hero case-hero">
+    <div class="shell">
+      <p class="eyebrow">Computer-vision experiment</p>
+      <h1>AI-Assisted Instructional Keyframe Selection</h1>
+      <p>Evaluated automated frame-selection approaches for converting martial-arts videos into representative instructional images while reducing repeated or visually redundant frames.</p>
+      <div class="hero-actions">
+        <a class="button button-secondary" href="../../projects.html">All projects</a>
+        <a class="button button-ghost" href="#case-study">Read case study</a>
+      </div>
+      <dl class="metadata-grid">
+    <div><dt>Status</dt><dd>Computer-vision experiment</dd></div><div><dt>Role</dt><dd>Prototype designer and evaluator</dd></div><div><dt>Scale</dt><dd>Prototype frame-selection workflow for martial-arts videos</dd></div><div><dt>Tools</dt><dd>OpenCV, NumPy, TensorFlow/Keras, ResNet50</dd></div>
+  </dl>
+    </div>
+  </section>
+  <section class="section" id="case-study">
+    <div class="shell">
+      <section class="demo-panel keyframe-demo" aria-label="Instructional keyframe selection demo">
+    <div class="demo-panel-header">
+      <div>
+        <p class="demo-kicker">Computer-vision experiment</p>
+        <h2>Representative frame selection</h2>
+      </div>
+      <span class="status-badge">Human annotation required</span>
+    </div>
+    <div class="filmstrip" aria-label="Illustrative sampled frames">
+      <span class="frame selected">01<br><small>0.82</small></span>
+      <span class="frame rejected">02<br><small>0.08</small></span>
+      <span class="frame selected">03<br><small>0.71</small></span>
+      <span class="frame rejected">04<br><small>0.12</small></span>
+      <span class="frame selected">05<br><small>0.89</small></span>
+    </div>
+    <div class="comparison-grid">
+      <div><h3>Baseline</h3><p>OpenCV grayscale absolute difference and changed-pixel threshold.</p></div>
+      <div><h3>AI-assisted experiment</h3><p>ResNet50 embeddings with cosine-distance comparison between consecutive samples.</p></div>
+      <div><h3>Future improvement</h3><p>Compare against all retained frames with hashes, clustering, scene detection and pose signals.</p></div>
+    </div>
+  </section>
+      <div class="impact-strip">
+        <div><span>Outcome</span><strong>Compared a pixel-difference baseline with an embedding-based experiment and clarified future improvements needed for global uniqueness.</strong></div>
+        <div><span>Public status</span><strong>Computer-vision experiment</strong></div>
+        <div><span>Contribution</span><strong>Prototype designer and evaluator</strong></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell case-layout">
+      <aside class="case-aside">
+        <nav aria-label="Case study sections">
+          <a href="#problem">Context</a>
+          <a href="#approach">Contribution</a>
+          <a href="#architecture">Workflow</a>
+          <a href="#validation">Review + safeguards</a>
+          <a href="#results">Outcome</a>
+        </nav>
+      </aside>
+      <article class="case-content">
+        <div id="problem"><section class="case-section">
+    <h2>Operational problem</h2>
+    <ul class="clean-list"><li>Instructional videos can contain many near-duplicate frames that are not useful as separate teaching images.</li><li>Manual frame selection is slow when a reviewer only needs representative body positions or technique moments.</li><li>The system needed to reduce redundant candidates while keeping final instructional judgment human-led.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Constraints</h2>
+    <ul class="clean-list"><li>The supplied prototype compared consecutive frames.</li><li>It did not guarantee global uniqueness across every saved image.</li><li>The public page uses illustrative frame blocks because no clearly relevant instructional screenshot was found in the inspected generic image files.</li></ul>
+  </section>
+        <div id="approach"><section class="case-section">
+    <h2>My contribution</h2>
+    <ul class="clean-list"><li>Start with an OpenCV baseline: decode video, convert to grayscale, compare consecutive frames and export frames above a changed-pixel threshold.</li><li>Evaluate an AI-assisted experiment using pretrained ResNet50 average-pooling embeddings and cosine distance between consecutive sampled frames.</li><li>Keep human annotation as the final step because visual difference does not guarantee instructional usefulness.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Production supervision lens</h2>
+    <ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Gather feedback on an emerging AI-assisted workflow and keep artist selection central to the final instructional output.</li></ul>
+  </section>
+        <section class="case-section" id="architecture"><h2>System architecture</h2><div class="flow-diagram" aria-label="AI-Assisted Instructional Keyframe Selection architecture flow">
+    <div class="flow-node"><span>01</span>Source instructional video</div><div class="flow-node"><span>02</span>Frame sampling</div><div class="flow-node"><span>03</span>Pixel-difference baseline</div><div class="flow-node"><span>04</span>ResNet50 feature extraction</div><div class="flow-node"><span>05</span>Similarity filtering</div><div class="flow-node"><span>06</span>Candidate export</div><div class="flow-node"><span>07</span>Human annotation</div><div class="flow-node"><span>08</span>Instructional image</div>
+  </div></section>
+        <section class="case-section"><h2>Workflow</h2><ol class="workflow-steps">
+    <li>Decode frames</li><li>Sample at intervals</li><li>Score consecutive change</li><li>Extract embeddings</li><li>Compare cosine distance</li><li>Reject near-duplicates</li><li>Export candidates</li><li>Annotate selected frames</li>
+  </ol></section>
+        <section class="case-section">
+    <h2>Implementation notes</h2>
+    <ul class="clean-list"><li>The OpenCV baseline was simple and explainable but sensitive to lighting and camera movement.</li><li>The ResNet50 experiment captured higher-level visual similarity but still compared consecutive frames in the prototype.</li><li>Future versions should compare against all retained keyframes, not only the previous frame.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Human review and safeguards</h2>
+    <ul class="clean-list"><li>Frame candidates are suggestions for human review.</li><li>The public demo does not imply pose correctness or automatic coaching judgment.</li><li>No private instructional footage is included.</li></ul>
+  </section>
+        <div id="validation"><section class="case-section">
+    <h2>Testing and validation</h2>
+    <ul class="clean-list"><li>Compared saved candidate sets for obvious repeated frames.</li><li>Reviewed similarity scores alongside visual differences.</li><li>Documented failure modes where consecutive comparison retained later duplicates.</li></ul>
+  </section></div>
+        <div id="results"><section class="case-section">
+    <h2>Outcome</h2>
+    <ul class="clean-list"><li>Identified a practical baseline and a more semantic embedding approach.</li><li>Clarified that global deduplication is required before the workflow can be relied on for larger instructional libraries.</li><li>Produced a stronger technical roadmap for future computer-vision experiments.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Limitations</h2>
+    <ul class="clean-list"><li>Consecutive-frame comparison does not guarantee global uniqueness.</li><li>Technique usefulness requires human review.</li><li>Pose estimation and clustering were not part of the initial prototype.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Next iteration</h2>
+    <ul class="clean-list"><li>Add perceptual hashes and clustering across all retained frames.</li><li>Add scene detection and pose estimation.</li><li>Compare candidate frames against every selected keyframe before export.</li></ul>
+  </section>
+        <section class="case-section code-section">
+          <details class="code-disclosure">
+            <summary>View sanitized illustrative code</summary>
+            <h2>ResNet feature extraction and consecutive-frame filtering</h2>
+            <pre><code>// Sanitized illustrative excerpt
+function shouldSaveCandidate(previousEmbedding, currentEmbedding, threshold) {
+  const distance = cosineDistance(previousEmbedding, currentEmbedding);
+
+  return {
+    save: distance &gt; threshold,
+    distance,
+    reason: distance &gt; threshold
+      ? &quot;visually distinct from previous sample&quot;
+      : &quot;near-duplicate of previous sample&quot;
+  };
+}</code></pre>
+          </details>
+        </section>
+      </article>
+    </div>
+  </section>
+    </main>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
+      </div>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
+  </body>
+</html>

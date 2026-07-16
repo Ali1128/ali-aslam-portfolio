@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Used Puppeteer inside an operator's authenticated browser context to hydrate and read ingest records, verify completed asset matches, and update only the corresponding unchecked Airtable readiness fields.">
+    <title>Ingest Status Reconciliation and Airtable Readiness Automation | Ali Aslam</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body data-page="projects">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+      </div>
+    </nav>
+  </header>
+    <main id="main">
+      <section class="page-hero case-hero">
+    <div class="shell">
+      <p class="eyebrow">Browser automation and reconciliation</p>
+      <h1>Ingest Status Reconciliation and Airtable Readiness Automation</h1>
+      <p>Used Puppeteer inside an operator's authenticated browser context to hydrate and read ingest records, verify completed asset matches, and update only the corresponding unchecked Airtable readiness fields.</p>
+      <div class="hero-actions">
+        <a class="button button-secondary" href="../../projects.html">All projects</a>
+        <a class="button button-ghost" href="#case-study">Read case study</a>
+      </div>
+      <dl class="metadata-grid">
+    <div><dt>Status</dt><dd>Working automation used by multiple operators</dd></div><div><dt>Role</dt><dd>Workflow designer, automation developer and tester</dd></div><div><dt>Scale</dt><dd>Typical runs handled roughly 50-100 publishing tracker records</dd></div><div><dt>Tools</dt><dd>Puppeteer, Airtable, JavaScript, Authenticated browser session</dd></div>
+  </dl>
+    </div>
+  </section>
+  <section class="section" id="case-study">
+    <div class="shell">
+      <section class="demo-panel standalone-demo-embed" aria-label="Interactive ingest status reconciliation demo">
+    <div class="demo-panel-header">
+      <div>
+        <p class="demo-kicker">Sanitized interactive reconstruction</p>
+        <h2>Ingest status to readiness update</h2>
+      </div>
+      <a class="button button-secondary" href="../../demos/asset-status-reconciliation/" target="_blank" rel="noopener">Open full-screen demo</a>
+    </div>
+    <div class="standalone-demo-frame reconciliation-demo-frame">
+      <iframe src="../../demos/asset-status-reconciliation/" title="Sanitized interactive ingest status reconciliation" loading="eager"></iframe>
+    </div>
+    <div class="inventory-impact" aria-label="Workflow safeguards">
+      <div><strong>Browser-visible read</strong><span>uses the operator's existing authenticated context</span></div>
+      <div><strong>Single-match guard</strong><span>updates only one mapped unchecked readiness field</span></div>
+      <div><strong>Manual review</strong><span>processing, missing and ambiguous rows remain unchanged</span></div>
+    </div>
+  </section>
+      <div class="impact-strip">
+        <div><span>Outcome</span><strong>Converted repetitive cross-system status checks into a conservative batch pass while leaving incomplete, missing and ambiguous records unchanged for human review.</strong></div>
+        <div><span>Public status</span><strong>Working automation used by multiple operators</strong></div>
+        <div><span>Contribution</span><strong>Workflow designer, automation developer and tester</strong></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell case-layout">
+      <aside class="case-aside">
+        <nav aria-label="Case study sections">
+          <a href="#problem">Context</a>
+          <a href="#approach">Contribution</a>
+          <a href="#architecture">Workflow</a>
+          <a href="#validation">Review + safeguards</a>
+          <a href="#results">Outcome</a>
+        </nav>
+      </aside>
+      <article class="case-content">
+        <div id="problem"><section class="case-section">
+    <h2>Operational problem</h2>
+    <ul class="clean-list"><li>Delivery presence alone did not prove that an asset had completed ingest and was linked successfully.</li><li>Operators had to compare Airtable requirements against a separate authenticated ingest interface and update asset-specific linked fields one row at a time.</li><li>The ingest list was lazy-loaded, so automation could miss valid rows unless it actively scrolled and hydrated the browser-visible inventory.</li><li>False positives could create downstream launch risk, so ambiguous matches had to stop or produce review logs.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Constraints</h2>
+    <ul class="clean-list"><li>The automation was deterministic browser automation, not AI.</li><li>No direct API or service credential was available for the internal ingest system.</li><li>Puppeteer reused the operator's existing authenticated browser context and read only what that logged-in user could already see.</li><li>The Airtable write used a separate scoped token and could not blindly overwrite completed tracker fields.</li><li>Private selectors, domains, session material, storage paths, titles and tracker identifiers are excluded from this public reconstruction.</li></ul>
+  </section>
+        <div id="approach"><section class="case-section">
+    <h2>My contribution</h2>
+    <ul class="clean-list"><li>Represent each tracker row as a requirement with title alpha ID, episode, language, locale, asset class and expected extension.</li><li>Launch Puppeteer against the authenticated ingest interface, then scroll and hydrate the result list until the rendered row count stabilized.</li><li>Score candidates across language, locale, filename convention, extension, asset class and ingest stage.</li><li>Update only the mapped unchecked Airtable field when exactly one completed candidate passed every required check.</li><li>Leave processing, delivered-only, missing and ambiguous candidates unchanged, with a legible reason for manual review.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Production supervision lens</h2>
+    <ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Track deliverables across systems and route ambiguous matches to course correction instead of silent updates.</li></ul>
+  </section>
+        <section class="case-section" id="architecture"><h2>System architecture</h2><div class="flow-diagram" aria-label="Ingest Status Reconciliation and Airtable Readiness Automation architecture flow">
+    <div class="flow-node"><span>01</span>Airtable requirements</div><div class="flow-node"><span>02</span>Rules engine</div><div class="flow-node"><span>03</span>Puppeteer in authenticated browser context</div><div class="flow-node"><span>04</span>Lazy-list hydrator</div><div class="flow-node"><span>05</span>Browser-visible ingest records</div><div class="flow-node"><span>06</span>Readiness update guard</div><div class="flow-node"><span>07</span>Exception log</div>
+  </div></section>
+        <section class="case-section"><h2>Workflow</h2><ol class="workflow-steps">
+    <li>Read unchecked requirement</li><li>Open authenticated search</li><li>Hydrate rendered rows</li><li>Collect candidates</li><li>Match ID, locale and asset type</li><li>Verify completed stage</li><li>Update one scoped field</li><li>Stop on ambiguity</li><li>Write run log</li>
+  </ol></section>
+        <section class="case-section">
+    <h2>Implementation notes</h2>
+    <ul class="clean-list"><li>Locale maps normalized operational variations before comparison.</li><li>Separate tracker fields represented A/V, DFXP, SCC, SCC with forced narrative, descriptive audio and exception state.</li><li>The update guard prevented overwriting already-complete readiness fields.</li><li>Candidate rejection reasons were logged so a human could understand why a row stopped.</li><li>Pagination, scrolling and loaded-record handling were treated as correctness requirements, not performance details.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Human review and safeguards</h2>
+    <ul class="clean-list"><li>No match means no update.</li><li>Multiple plausible matches route to manual review.</li><li>Processing or delivered-only records do not satisfy a completed-ingest requirement.</li><li>The browser session reduced credential distribution but remained sensitive and temporary; no session token, cookie or authentication value was stored in this portfolio.</li><li>The public demo uses fictional rows and simulated browser activity.</li></ul>
+  </section>
+        <div id="validation"><section class="case-section">
+    <h2>Testing and validation</h2>
+    <ul class="clean-list"><li>Ran fixture sets for accepted, missing, wrong-locale and ambiguous candidates.</li><li>Checked that already-complete tracker fields were not overwritten.</li><li>Compared row counts before and after list hydration to detect incomplete browser reads.</li><li>Reviewed logs with operators to make failures and skipped updates legible.</li></ul>
+  </section></div>
+        <div id="results"><section class="case-section">
+    <h2>Outcome</h2>
+    <ul class="clean-list"><li>Allowed multiple users or testers to run repeatable readiness checks.</li><li>Made DONE verification explicit instead of assuming delivery meant processing was complete.</li><li>Reduced repeated browser-to-tracker comparison work while preserving exception review.</li><li>Created a safer path for high-volume tracker maintenance without a direct internal-system API.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Limitations</h2>
+    <ul class="clean-list"><li>The automation depended on the operator's authenticated browser access and stable enough rendered UI surfaces.</li><li>A refresh, session expiry or interface change could require relaunching or updating the browser automation.</li><li>Some edge cases required manual review by design.</li><li>The public demo is a reconstruction and does not include private selectors, session data or Airtable credentials.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Next iteration</h2>
+    <ul class="clean-list"><li>Add richer fixture coverage for edge locales.</li><li>Add operator-facing run summaries grouped by failure reason.</li><li>Move stable matching rules into a shared validation library if the workflow expands.</li><li>Migrate to an approved API integration if a stable internal endpoint and service credentials become available.</li></ul>
+  </section>
+        <section class="case-section code-section">
+          <details class="code-disclosure">
+            <summary>View sanitized illustrative code</summary>
+            <h2>Puppeteer hydration, completed-stage verification and update guard</h2>
+            <pre><code>// Sanitized illustrative excerpt
+async function reconcileRequirement(requirement, browserPage, tracker) {
+  await hydrateSearchResults(browserPage);
+  const candidates = await searchIngestResults(browserPage, requirement.alphaId);
+  const matches = candidates.filter((candidate) =&gt;
+    candidate.status === &quot;DONE&quot; &amp;&amp;
+    sameLocale(candidate.locale, requirement.locale) &amp;&amp;
+    candidate.assetClass === requirement.assetClass &amp;&amp;
+    candidate.fileName.endsWith(requirement.expectedExtension)
+  );
+
+  if (matches.length !== 1) {
+    return logManualReview(requirement, matches);
+  }
+
+  if (!requirement.readinessChecked) {
+    await tracker.markReady(
+      requirement.rowId,
+      requirement.readinessField
+    );
+  }
+
+  return logAccepted(requirement, matches[0]);
+}</code></pre>
+          </details>
+        </section>
+      </article>
+    </div>
+  </section>
+    </main>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
+      </div>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
+  </body>
+</html>

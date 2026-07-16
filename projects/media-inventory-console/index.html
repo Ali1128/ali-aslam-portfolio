@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Extended an authenticated media CMS with season-level inventory loading, search, filtering, classification, CSV export, download queues and confirmed delete/replace workflows.">
+    <title>Season-Level Media Inventory Operations Console | Ali Aslam</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body data-page="projects">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+      </div>
+    </nav>
+  </header>
+    <main id="main">
+      <section class="page-hero case-hero">
+    <div class="shell">
+      <p class="eyebrow">Production operations tool</p>
+      <h1>Season-Level Media Inventory Operations Console</h1>
+      <p>Extended an authenticated media CMS with season-level inventory loading, search, filtering, classification, CSV export, download queues and confirmed delete/replace workflows.</p>
+      <div class="hero-actions">
+        <a class="button button-secondary" href="../../projects.html">All projects</a>
+        <a class="button button-ghost" href="#case-study">Read case study</a>
+      </div>
+      <dl class="metadata-grid">
+    <div><dt>Status</dt><dd>Production-facing internal tool</dd></div><div><dt>Role</dt><dd>Workflow designer and developer</dd></div><div><dt>Scale</dt><dd>Approximately 10 seasons, 120 episodes and 1,000+ assets in a season inventory</dd></div><div><dt>Tools</dt><dd>JavaScript, Browser APIs, DOM observation, CSV</dd></div>
+  </dl>
+    </div>
+  </section>
+  <section class="section" id="case-study">
+    <div class="shell">
+      <section class="demo-panel inventory-demo inventory-embed" aria-label="Interactive media inventory console demo">
+    <div class="demo-panel-header">
+      <div>
+        <p class="demo-kicker">Sanitized interactive reconstruction</p>
+        <h2>Season inventory overlay</h2>
+      </div>
+      <a class="button button-secondary" href="../../demos/media-inventory-console/" target="_blank" rel="noopener">Open full-screen demo</a>
+    </div>
+    <div class="inventory-demo-frame">
+      <iframe src="../../demos/media-inventory-console/" title="Sanitized interactive media inventory console" loading="eager"></iframe>
+    </div>
+    <div class="inventory-impact" aria-label="Workflow impact">
+      <div><strong>1,000+</strong><span>assets supported in a season inventory</span></div>
+      <div><strong>4-7 min to under 1 min</strong><span>reported locate, verify and delete/replace workflow</span></div>
+      <div><strong>Human confirmation</strong><span>required before destructive operations</span></div>
+    </div>
+  </section>
+      <div class="impact-strip">
+        <div><span>Outcome</span><strong>Reduced locate, verify and delete/replace work from about 4-7 minutes per asset to under one minute in large season inventories.</strong></div>
+        <div><span>Public status</span><strong>Production-facing internal tool</strong></div>
+        <div><span>Contribution</span><strong>Workflow designer and developer</strong></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell case-layout">
+      <aside class="case-aside">
+        <nav aria-label="Case study sections">
+          <a href="#problem">Context</a>
+          <a href="#approach">Contribution</a>
+          <a href="#architecture">Workflow</a>
+          <a href="#validation">Review + safeguards</a>
+          <a href="#results">Outcome</a>
+        </nav>
+      </aside>
+      <article class="case-content">
+        <div id="problem"><section class="case-section">
+    <h2>Operational problem</h2>
+    <ul class="clean-list"><li>Operators needed to act on assets across an entire season, but the CMS exposed records through episode pages and virtualized lists.</li><li>Records appeared only after scrolling, so a normal page search or single table export could miss files that had not been hydrated into the browser yet.</li><li>Deletion and replacement work carried real operational risk, so the workflow needed review, selection and confirmation steps.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Constraints</h2>
+    <ul class="clean-list"><li>No direct integration endpoint was available to the operator.</li><li>The tool had to operate inside an existing authorized browser session.</li><li>Published portfolio material cannot include real selectors, private titles, session details or unreleased identifiers.</li><li>Virtualized loading required repeated passes until the season inventory stabilized.</li></ul>
+  </section>
+        <div id="approach"><section class="case-section">
+    <h2>My contribution</h2>
+    <ul class="clean-list"><li>Map the page behavior first: how episodes loaded, when rows entered the DOM, and which visible fields were reliable enough for classification.</li><li>Hydrate the inventory deliberately, then keep a local state model of fictionalized records for filtering, selection and export.</li><li>Classify filenames into useful operational categories such as video, audio, subtitles, captions, forced narrative, image and metadata.</li><li>Separate read-only discovery actions from destructive actions, and require a confirmation modal for delete or replace steps.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Production supervision lens</h2>
+    <ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Support operators with a documented, repeatable system for high-volume asset review.</li></ul>
+  </section>
+        <section class="case-section" id="architecture"><h2>System architecture</h2><div class="flow-diagram" aria-label="Season-Level Media Inventory Operations Console architecture flow">
+    <div class="flow-node"><span>01</span>Authorized CMS page</div><div class="flow-node"><span>02</span>Bookmarklet or console launcher</div><div class="flow-node"><span>03</span>DOM observer and scroll hydrator</div><div class="flow-node"><span>04</span>Local inventory state</div><div class="flow-node"><span>05</span>Filters, CSV and action queue</div><div class="flow-node"><span>06</span>Human confirmation</div>
+  </div></section>
+        <section class="case-section"><h2>Workflow</h2><ol class="workflow-steps">
+    <li>Open season inventory</li><li>Hydrate virtualized rows</li><li>Classify filenames</li><li>Filter by type, locale and version</li><li>Select files</li><li>Export CSV or queue action</li><li>Confirm delete/replace</li><li>Log outcome</li>
+  </ol></section>
+        <section class="case-section">
+    <h2>Implementation notes</h2>
+    <ul class="clean-list"><li>The public demo uses fictional filenames and a simulated scroll hydrator rather than private selectors.</li><li>Search supports multi-word AND matching, exact filename matching and regex matching.</li><li>Locale normalization keeps variations such as en-US and en_us comparable.</li><li>The selected-file queue is intentionally separate from the table so operators can review work before action.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Human review and safeguards</h2>
+    <ul class="clean-list"><li>No destructive operation occurs automatically in the public demo.</li><li>Production-facing behavior required explicit human review before delete or replace actions.</li><li>The public case study omits session capture, private selectors, employer data, production domains and real file identifiers.</li></ul>
+  </section>
+        <div id="validation"><section class="case-section">
+    <h2>Testing and validation</h2>
+    <ul class="clean-list"><li>Compared counts before and after hydration passes until the row count stabilized.</li><li>Spot-checked filename classification against known asset categories.</li><li>Tested selected-file queues and CSV output with large fictionalized inventories.</li></ul>
+  </section></div>
+        <div id="results"><section class="case-section">
+    <h2>Outcome</h2>
+    <ul class="clean-list"><li>Supported whole-season review instead of repeated single-episode inspection.</li><li>Improved locate and verify speed for large inventories.</li><li>Created a workflow that multiple team members could use without needing a direct backend integration.</li></ul>
+  </section></div>
+        <section class="case-section">
+    <h2>Limitations</h2>
+    <ul class="clean-list"><li>The original workflow depended on browser-visible data and the existing authorized session.</li><li>It was intentionally an operator-side extension, not a permanent product integration.</li><li>The public portfolio demo is reconstructed with fictional data.</li></ul>
+  </section>
+        <section class="case-section">
+    <h2>Next iteration</h2>
+    <ul class="clean-list"><li>Add stronger saved filter presets.</li><li>Add a private audit export format for action review.</li><li>Move the concept into an approved integration path if a stable endpoint becomes available.</li></ul>
+  </section>
+        <section class="case-section code-section">
+          <details class="code-disclosure">
+            <summary>View sanitized illustrative code</summary>
+            <h2>Virtualized-list hydration and safe action queue</h2>
+            <pre><code>// Sanitized illustrative excerpt
+async function hydrateInventory(scrollArea, readRows) {
+  let previousCount = 0;
+  let stablePasses = 0;
+
+  while (stablePasses &lt; 3) {
+    scrollArea.scrollTop = scrollArea.scrollHeight;
+    await waitForIdleFrame();
+
+    const rows = readRows();
+    stablePasses = rows.length === previousCount ? stablePasses + 1 : 0;
+    previousCount = rows.length;
+  }
+
+  return classifyRows(readRows()).filter((row) =&gt; row.fileName);
+}
+
+function requestDestructiveAction(selectedRows) {
+  return {
+    mode: &quot;requires-human-confirmation&quot;,
+    count: selectedRows.length,
+    filenames: selectedRows.map((row) =&gt; row.fileName)
+  };
+}</code></pre>
+          </details>
+        </section>
+      </article>
+    </div>
+  </section>
+    </main>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
+      </div>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
+  </body>
+</html>

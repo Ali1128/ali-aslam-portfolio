@@ -3,172 +3,140 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="description"
-      content="Sanitized media operations and creative technology case studies by Ali Aslam."
-    >
+    <meta name="description" content="Selected portfolio case studies for Ali Aslam.">
     <title>Projects | Ali Aslam</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
   </head>
-  <body>
+  <body data-page="projects">
     <a class="skip-link" href="#main">Skip to main content</a>
-
     <header class="site-header" data-site-header>
-      <nav class="nav shell" aria-label="Primary navigation">
-        <a class="brand" href="index.html" aria-label="Ali Aslam home">
-          <span class="brand-mark" aria-hidden="true">AA</span>
-          <span>Ali Aslam</span>
-        </a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </button>
-        <div class="nav-links" id="primary-navigation">
-          <a href="index.html" data-nav="home">Home</a>
-          <a href="projects.html" data-nav="projects">Projects</a>
-          <a href="about.html" data-nav="about">About</a>
-          <a href="resume.html" data-nav="resume">Resume</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
-    </header>
-
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="Ali Aslam home">
+        <span class="brand-mark" aria-hidden="true">AA</span>
+        <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="index.html" data-nav="home">Home</a><a href="projects.html" data-nav="projects" aria-current="page">Work</a><a href="about.html" data-nav="about">About</a><a href="resume.html" data-nav="resume">Resume</a>
+      </div>
+    </nav>
+  </header>
     <main id="main">
       <section class="page-hero">
-        <div class="shell narrow">
-          <p class="eyebrow">Case studies</p>
-          <h1>Portfolio projects for media operations and creative technology.</h1>
-          <p>
-            These projects use fictional or generalized data to show practical thinking around asset readiness,
-            workflow visibility, QC support, and responsible automation.
-          </p>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="shell">
-          <div class="project-list">
-            <article class="project-row">
-              <div>
-                <p class="card-label">01 | Workflow overlay</p>
-                <h2><a href="projects/streaming-asset-operations-overlay.html">Streaming Asset Operations Overlay</a></h2>
-                <p>
-                  A browser-based workflow concept that helps operators see asset status, missing deliverables,
-                  risk flags, and next actions.
-                </p>
-              </div>
-              <div class="project-meta">
-                <span>Media operations</span>
-                <span>Asset tracking</span>
-                <span>Sanitized concept</span>
-              </div>
-            </article>
-
-            <article class="project-row">
-              <div>
-                <p class="card-label">02 | Deliverable check</p>
-                <h2><a href="projects/asset-status-cross-check-tool.html">Asset Status Cross-Check Tool</a></h2>
-                <p>
-                  A tool concept for comparing expected deliverables against received media assets and identifying
-                  naming, language, duplicate, and version issues.
-                </p>
-              </div>
-              <div class="project-meta">
-                <span>Expected vs received</span>
-                <span>Fictional dataset</span>
-                <span>QA support</span>
-              </div>
-            </article>
-
-            <article class="project-row">
-              <div>
-                <p class="card-label">03 | Version QC</p>
-                <h2><a href="projects/video-version-comparison-workflow.html">Video Version Comparison Workflow</a></h2>
-                <p>
-                  A QC workflow concept for comparing video versions and highlighting duration, frame, audio,
-                  edit, and encoding differences.
-                </p>
-              </div>
-              <div class="project-meta">
-                <span>FFmpeg</span>
-                <span>Python</span>
-                <span>Automated reports</span>
-              </div>
-            </article>
-
-            <article class="project-row">
-              <div>
-                <p class="card-label">04 | SLA dashboard</p>
-                <h2><a href="projects/sla-asset-readiness-dashboard.html">SLA Asset Readiness Dashboard</a></h2>
-                <p>
-                  A release readiness dashboard concept for deadline tracking, missing components, vendor status,
-                  localization status, and escalation flow.
-                </p>
-              </div>
-              <div class="project-meta">
-                <span>Release deadlines</span>
-                <span>Vendor status</span>
-                <span>Escalations</span>
-              </div>
-            </article>
-
-            <article class="project-row">
-              <div>
-                <p class="card-label">05 | Timestamp data</p>
-                <h2><a href="projects/timestamp-dataset.html">Opening and Ending Timestamp Dataset</a></h2>
-                <p>
-                  A structured dataset concept for tracking opening credits, ending credits, recaps, previews,
-                  runtime notes, and validation status.
-                </p>
-              </div>
-              <div class="project-meta">
-                <span>Timecodes</span>
-                <span>Playback support</span>
-                <span>Metadata prep</span>
-              </div>
-            </article>
-
-            <article class="project-row">
-              <div>
-                <p class="card-label">06 | AI operations</p>
-                <h2><a href="projects/ai-assisted-qc-prototypes.html">AI-Assisted QC Prototypes</a></h2>
-                <p>
-                  Responsible AI concepts for summarizing QC notes, classifying delivery issues, drafting incident
-                  reports, and supporting documentation updates.
-                </p>
-              </div>
-              <div class="project-meta">
-                <span>Human approval</span>
-                <span>QC notes</span>
-                <span>Documentation</span>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
+    <div class="shell">
+      <p class="eyebrow">Selected systems</p>
+      <h1>Production workflow case studies.</h1>
+      <p>Working tools, experimental prototypes and sanitized public reconstructions across asset tracking, browser automation, media review and AI-assisted production support.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading"><p class="section-kicker">Core workflow systems</p><h2>Assets, readiness, review and production data.</h2></div>
+      <div class="project-index-grid"><article class="project-card">
+    <a class="project-card-link" href="projects/media-inventory-console/">
+      <span class="project-visual project-visual-image"><img src="assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized media inventory overlay interface"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Production-facing internal tool</span>
+        <h3>Season-Level Media Inventory Operations Console</h3>
+        <p>Extended an authenticated media CMS with season-level inventory loading, search, filtering, classification, CSV export, download queues and confirmed delete/replace workflows.</p>
+        <strong>Reduced locate, verify and delete/replace work from about 4-7 minutes per asset to under one minute in large season inventories.</strong>
+        <div class="tag-list"><span>JavaScript</span><span>Browser APIs</span><span>DOM observation</span><span>CSV</span></div>
+      </span>
+    </a>
+  </article><article class="project-card">
+    <a class="project-card-link" href="projects/file-linking-search/">
+      <span class="project-visual project-visual-linking" aria-hidden="true"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Working browser-side workflow extension</span>
+        <h3>Browser-Side File Linking Search and Inventory Hydration</h3>
+        <p>Added a temporary search and filter layer to an authenticated file-linking modal so operators could find browser-visible assets without repeatedly navigating folders and clicking through long lists.</p>
+        <strong>Turned a multi-step manual file-browsing path into a hydrated, keyboard-first search while preserving the system's native link confirmation.</strong>
+        <div class="tag-list"><span>JavaScript</span><span>DOM APIs</span><span>Regex</span><span>Browser session</span></div>
+      </span>
+    </a>
+  </article><article class="project-card">
+    <a class="project-card-link" href="projects/asset-reconciliation/">
+      <span class="project-visual project-visual-reconciliation" aria-hidden="true"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Working automation used by multiple operators</span>
+        <h3>Ingest Status Reconciliation and Airtable Readiness Automation</h3>
+        <p>Used Puppeteer inside an operator's authenticated browser context to hydrate and read ingest records, verify completed asset matches, and update only the corresponding unchecked Airtable readiness fields.</p>
+        <strong>Converted repetitive cross-system status checks into a conservative batch pass while leaving incomplete, missing and ambiguous records unchanged for human review.</strong>
+        <div class="tag-list"><span>Puppeteer</span><span>Airtable</span><span>JavaScript</span><span>Authenticated browser session</span></div>
+      </span>
+    </a>
+  </article><article class="project-card">
+    <a class="project-card-link" href="projects/video-version-comparison/">
+      <span class="project-visual project-visual-video" aria-hidden="true"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Working prototype with preserved output; public demo reconstructed</span>
+        <h3>Automated Video Version Comparison and Difference Reporter</h3>
+        <p>Compared two versions of the same episode and exported representative screenshots of detected differences.</p>
+        <strong>Produced a reviewable report for commercial breaks, regional edits, duration mismatches, frame changes and audio offsets.</strong>
+        <div class="tag-list"><span>FFmpeg</span><span>ffprobe</span><span>VMAF</span><span>Frame analysis</span></div>
+      </span>
+    </a>
+  </article></div>
+    </div>
+  </section>
+  <section class="section section-ruled">
+    <div class="shell">
+      <div class="section-heading"><p class="section-kicker">Additional systems</p><h2>Scheduling and instructional-media experiments.</h2></div>
+      <div class="project-index-grid"><article class="project-card">
+    <a class="project-card-link" href="projects/op-ed-detection/">
+      <span class="project-visual project-visual-oped" aria-hidden="true"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Experimental season-level prototype</span>
+        <h3>Dataset-Assisted Opening and Ending Timestamp Detection</h3>
+        <p>Used human-validated OP/ED reference timestamps, audio features and speech-recognition output to estimate opening and ending boundaries.</p>
+        <strong>Created candidate timestamp ranges for human review without claiming automatic final accuracy.</strong>
+        <div class="tag-list"><span>Python</span><span>FFmpeg</span><span>pandas</span><span>openpyxl</span></div>
+      </span>
+    </a>
+  </article><article class="project-card">
+    <a class="project-card-link" href="projects/ktaekwondo-calendar/">
+      <span class="project-visual project-visual-image project-visual-calendar-image"><img src="assets/images/ktaekwondo-calendar-august-2026.png" alt="Published multi-studio calendar artwork"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Live web application and operations prototype</span>
+        <h3>Live Multi-Studio Schedule and Calendar Platform</h3>
+        <p>Uses Airtable as the operational source of truth, a Cloudflare Worker/API layer for secure public data delivery, custom HTML/CSS/JavaScript embedded in Squarespace and Softr portals for authenticated studio users.</p>
+        <strong>Connected public-facing calendar presentation with maintainable studio operations data and role-based administrative workflows.</strong>
+        <div class="tag-list"><span>Squarespace</span><span>Airtable</span><span>Cloudflare Workers</span><span>Softr</span></div>
+      </span>
+    </a>
+  </article><article class="project-card">
+    <a class="project-card-link" href="projects/ktaekwondo-keyframes/">
+      <span class="project-visual project-visual-keyframes" aria-hidden="true"></span>
+      <span class="project-card-body">
+        <span class="status-badge">Computer-vision experiment</span>
+        <h3>AI-Assisted Instructional Keyframe Selection</h3>
+        <p>Evaluated automated frame-selection approaches for converting martial-arts videos into representative instructional images while reducing repeated or visually redundant frames.</p>
+        <strong>Compared a pixel-difference baseline with an embedding-based experiment and clarified future improvements needed for global uniqueness.</strong>
+        <div class="tag-list"><span>OpenCV</span><span>NumPy</span><span>TensorFlow/Keras</span><span>ResNet50</span></div>
+      </span>
+    </a>
+  </article></div>
+    </div>
+  </section>
     </main>
-
-    <footer class="site-footer" id="contact">
-      <div class="shell footer-grid">
-        <div>
-          <p class="section-kicker">Contact</p>
-          <h2>Interested in this kind of workflow thinking?</h2>
-          <p>Update contact links once and they will populate across the site.</p>
-        </div>
-        <address class="contact-card" aria-label="Contact links">
-          <a href="mailto:ali.email@example.com" data-contact="email">ali.email@example.com</a>
-          <a href="https://www.linkedin.com/in/your-profile" data-contact="linkedin">LinkedIn placeholder</a>
-          <a href="https://github.com/Ali1128/ali-aslam-portfolio" data-contact="github">GitHub repository</a>
-          <a href="https://www.imdb.com/name/your-id" data-contact="imdb">IMDb placeholder</a>
-        </address>
+    <footer class="site-footer">
+    <div class="shell footer-main">
+      <div>
+        <p class="footer-title">Ali Aslam</p>
+        <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
       </div>
-      <div class="shell footer-bottom">
-        <p>&copy; <span data-current-year>2026</span> Ali Aslam. Portfolio content uses sanitized examples and fictional data.</p>
-      </div>
-    </footer>
-
-    <script src="script.js"></script>
+      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>&copy; <span data-current-year></span> Ali Aslam.</span>
+      <span>Sanitized reconstructions and fictional operational data.</span>
+    </div>
+  </footer>
   </body>
 </html>

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sanitized interactive reconstruction of browser-based ingest status reconciliation and tracker updates.">
+  <title>Asset Status Reconciliation | Sanitized Demo</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --ink: #172022;
+      --muted: #657073;
+      --line: #d9dfdc;
+      --paper: #f8faf8;
+      --paper-2: #eef2ef;
+      --dark: #111315;
+      --dark-2: #202328;
+      --dark-3: #292d32;
+      --dark-line: #383d42;
+      --orange: #f27622;
+      --green: #35b65f;
+      --red: #d75b59;
+      --blue: #2d73c5;
+      --yellow: #d69d24;
+      --focus: #0f766e;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--paper); }
+    body { min-height: 100vh; margin: 0; background: var(--paper); color: var(--ink); }
+    button { font: inherit; color: inherit; }
+    button:focus-visible { outline: 3px solid rgba(15, 118, 110, 0.5); outline-offset: 2px; }
+
+    .demo-shell { min-height: 100vh; }
+    .demo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 64px;
+      padding: 0.75rem clamp(0.85rem, 2vw, 1.4rem);
+      border-bottom: 1px solid var(--line);
+      background: white;
+    }
+    .demo-title strong, .demo-title span { display: block; }
+    .demo-title strong { font-size: 0.9rem; }
+    .demo-title span { margin-top: 0.15rem; color: var(--muted); font-size: 0.69rem; }
+    .run-controls { display: flex; gap: 0.5rem; }
+    .control-button { min-height: 36px; padding: 0.45rem 0.8rem; border: 1px solid #b8c1bd; background: white; color: #334042; font-size: 0.71rem; font-weight: 750; cursor: pointer; }
+    .control-button.primary { border-color: #0f766e; background: #0f766e; color: white; }
+    .control-button:disabled { border-color: #d3d8d5; background: #e9ecea; color: #929a96; cursor: default; }
+
+    .workflow-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--line); background: var(--paper-2); }
+    .workflow-step { position: relative; min-width: 0; padding: 0.75rem 0.85rem; border-right: 1px solid var(--line); }
+    .workflow-step:last-child { border-right: 0; }
+    .workflow-step span, .workflow-step strong { display: block; }
+    .workflow-step span { color: #7b8580; font-size: 0.61rem; text-transform: uppercase; }
+    .workflow-step strong { margin-top: 0.22rem; color: #4d5854; font-size: 0.71rem; }
+    .workflow-step.is-active { background: #dff0eb; }
+    .workflow-step.is-active strong { color: #0a6d60; }
+    .workflow-step.is-complete::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--green); }
+
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); min-height: 690px; }
+    .system-pane { display: grid; min-width: 0; grid-template-rows: auto minmax(0, 1fr) auto; background: var(--dark); color: #edf0ed; }
+    .tracker-pane { display: grid; min-width: 0; grid-template-rows: auto minmax(0, 1fr); border-left: 1px solid #2d3331; background: white; }
+    .pane-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0.75rem 1rem; }
+    .system-pane .pane-head { border-bottom: 1px solid var(--dark-line); }
+    .tracker-pane .pane-head { border-bottom: 1px solid var(--line); }
+    .pane-head h2 { margin: 0; font-size: 0.9rem; }
+    .pane-head p { margin: 0.2rem 0 0; font-size: 0.65rem; }
+    .system-pane .pane-head p { color: #899196; }
+    .tracker-pane .pane-head p { color: var(--muted); }
+    .counter { color: var(--orange); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.7rem; white-space: nowrap; }
+
+    .ingest-list { min-width: 0; min-height: 0; overflow: auto; }
+    .ingest-row { display: grid; grid-template-columns: 70px minmax(180px, 1fr) 94px 86px; gap: 0.65rem; align-items: center; min-width: 520px; min-height: 54px; padding: 0.6rem 0.8rem; border-bottom: 1px solid #303438; background: var(--dark-2); font-size: 0.68rem; }
+    .ingest-row:nth-child(even) { background: #1b1e22; }
+    .ingest-id { color: var(--orange); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ingest-file { min-width: 0; }
+    .ingest-file strong, .ingest-file span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ingest-file strong { color: #e5e8e6; }
+    .ingest-file span { margin-top: 0.16rem; color: #858d91; }
+    .asset-type { width: fit-content; padding: 0.25rem 0.45rem; background: #555a5e; color: white; font-size: 0.61rem; font-weight: 800; }
+    .stage { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 850; text-transform: uppercase; }
+    .stage::before { content: ""; width: 6px; height: 6px; background: currentColor; }
+    .stage.done { color: var(--green); }
+    .stage.processing { color: var(--red); }
+    .stage.delivered { color: #4f9de7; }
+    .stage.duplicate { color: var(--yellow); }
+
+    .runtime-log { min-height: 98px; padding: 0.6rem 0.8rem; border-top: 1px solid var(--dark-line); background: #0d0f10; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.63rem; }
+    .runtime-log ol { display: grid; gap: 0.25rem; margin: 0; padding: 0; list-style: none; }
+    .runtime-log li { color: #8f9993; }
+    .runtime-log .ok { color: #65d785; }
+    .runtime-log .warn { color: #e0b24a; }
+    .runtime-log .info { color: #83aed9; }
+
+    .tracker-scroll { min-width: 0; min-height: 0; overflow: auto; }
+    .tracker-grid { min-width: 860px; }
+    .tracker-row { display: grid; grid-template-columns: 122px 116px repeat(5, 94px) 130px; min-height: 48px; border-bottom: 1px solid var(--line); }
+    .tracker-row.header { position: sticky; top: 0; z-index: 2; min-height: 52px; background: #f4f6f4; color: #47504d; font-size: 0.65rem; font-weight: 800; }
+    .tracker-cell { display: flex; align-items: center; min-width: 0; padding: 0.5rem; border-right: 1px solid var(--line); font-size: 0.67rem; }
+    .tracker-cell:last-child { border-right: 0; }
+    .tracker-cell.name { display: grid; align-content: center; }
+    .tracker-cell.name strong, .tracker-cell.name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tracker-cell.name span { margin-top: 0.15rem; color: #7d8681; }
+    .tracker-cell.center { justify-content: center; }
+    .checkmark { color: var(--green); font-size: 1.2rem; font-weight: 900; }
+    .pending-mark { color: #aeb5b1; }
+    .issue { padding: 0.25rem 0.42rem; background: #fff1cd; color: #8e6500; font-size: 0.61rem; font-weight: 800; }
+    .updated-row { background: #f1fbf5; }
+    .review-row { background: #fff9eb; }
+
+    .security-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); background: #f4f7f5; }
+    .security-step { position: relative; min-width: 0; padding: 0.8rem 1rem; border-right: 1px solid var(--line); }
+    .security-step:last-child { border-right: 0; }
+    .security-step span, .security-step strong { display: block; }
+    .security-step span { color: #76817c; font-size: 0.6rem; text-transform: uppercase; }
+    .security-step strong { margin-top: 0.2rem; color: #263331; font-size: 0.69rem; }
+
+    .privacy-note { margin: 0; padding: 0.65rem 1rem; border-top: 1px solid var(--line); background: white; color: #79837e; font-size: 0.67rem; text-align: center; }
+    .privacy-note strong { color: #384541; }
+
+    @media (max-width: 960px) {
+      .workspace { grid-template-columns: 1fr; }
+      .system-pane, .tracker-pane { min-height: 620px; }
+      .tracker-pane { border-left: 0; border-top: 1px solid var(--line); }
+      .security-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .security-step:nth-child(2) { border-right: 0; }
+      .security-step:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+    }
+
+    @media (max-width: 620px) {
+      .demo-bar { align-items: flex-start; flex-direction: column; }
+      .run-controls { width: 100%; }
+      .control-button { flex: 1; }
+      .workflow-strip { grid-template-columns: 1fr; }
+      .workflow-step { display: grid; grid-template-columns: 60px 1fr; align-items: center; border-right: 0; border-bottom: 1px solid var(--line); }
+      .workflow-step:last-child { border-bottom: 0; }
+      .workspace { min-height: 0; }
+      .system-pane, .tracker-pane { min-height: 680px; }
+      .security-strip { grid-template-columns: 1fr; }
+      .security-step, .security-step:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
+      .security-step:last-child { border-bottom: 0; }
+      .privacy-note { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-bar">
+      <div class="demo-title">
+        <strong>Ingest Status Reconciliation</strong>
+        <span>Authenticated browser read + scoped tracker update</span>
+      </div>
+      <div class="run-controls">
+        <button class="control-button" type="button" data-reset>Reset</button>
+        <button class="control-button primary" type="button" data-run>Run reconciliation</button>
+      </div>
+    </header>
+
+    <div class="workflow-strip" aria-label="Reconciliation progress">
+      <div class="workflow-step" data-step="0"><span>01</span><strong>Open session</strong></div>
+      <div class="workflow-step" data-step="1"><span>02</span><strong>Hydrate rows</strong></div>
+      <div class="workflow-step" data-step="2"><span>03</span><strong>Match assets</strong></div>
+      <div class="workflow-step" data-step="3"><span>04</span><strong>Verify stage</strong></div>
+      <div class="workflow-step" data-step="4"><span>05</span><strong>Update tracker</strong></div>
+    </div>
+
+    <main class="workspace">
+      <section class="system-pane" aria-label="Fictional ingest management interface">
+        <header class="pane-head">
+          <div><h2>Ingest Manager</h2><p>Browser-visible records in the current authorized session</p></div>
+          <span class="counter"><strong data-hydrated-count>4</strong> / 8 rows</span>
+        </header>
+        <div class="ingest-list" data-ingest-list></div>
+        <div class="runtime-log" aria-live="polite"><ol data-runtime-log><li class="info">INFO: Ready. No credential values are displayed or retained.</li></ol></div>
+      </section>
+
+      <section class="tracker-pane" aria-label="Fictional operations tracker">
+        <header class="pane-head">
+          <div><h2>Operations Tracker</h2><p>Only unchecked fields with one verified completed match are updated</p></div>
+          <span class="counter"><strong data-updated-count>0</strong> updated</span>
+        </header>
+        <div class="tracker-scroll">
+          <div class="tracker-grid" data-tracker-grid></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="security-strip" aria-label="Credential and data boundary">
+      <div class="security-step"><span>Source access</span><strong>Existing operator browser session</strong></div>
+      <div class="security-step"><span>Source action</span><strong>Read browser-visible status only</strong></div>
+      <div class="security-step"><span>Runtime state</span><strong>Temporary in-memory candidates</strong></div>
+      <div class="security-step"><span>Destination write</span><strong>Scoped tracker fields through separate token</strong></div>
+    </div>
+    <p class="privacy-note"><strong>Portfolio-safe demo:</strong> fictional shows, files, IDs, people, and records; no private URLs, selectors, credentials, cookies, tokens, or session identifiers.</p>
+  </div>
+
+  <script>
+    const records = [
+      { id: "R7101", alpha: "RIVS01007", episode: "Riverside Signal E07", file: "riverside_signal_s01e07_master_1080p.mov", type: "A/V", status: "DONE", field: "av", outcome: "update" },
+      { id: "R7102", alpha: "RIVS01007", episode: "Riverside Signal E07", file: "riverside_signal_s01e07_subtitle_en-us.dfxp", type: "DFXP", status: "DONE", field: "dfxp", outcome: "update" },
+      { id: "R7103", alpha: "RIVS01007", episode: "Riverside Signal E07", file: "riverside_signal_s01e07_caption_en-us.scc", type: "SCC", status: "DONE", field: "scc", outcome: "update" },
+      { id: "R7104", alpha: "RIVS01007", episode: "Riverside Signal E07", file: "riverside_signal_s01e07_caption_fn_en-us.scc", type: "SCC FN", status: "PROCESSING", field: "sccFn", outcome: "wait" },
+      { id: "R7105", alpha: "NORK01003", episode: "Northstar Kitchen E03", file: "northstar_kitchen_s01e03_audio_description_en-us.wav", type: "AD", status: "DONE", field: "ad", outcome: "update" },
+      { id: "R7106", alpha: "NORK01003", episode: "Northstar Kitchen E03", file: "northstar_kitchen_s01e03_subtitle_en-us.dfxp", type: "DFXP", status: "DELIVERED", field: "dfxp", outcome: "wait" },
+      { id: "R7107", alpha: "QHAR01005", episode: "Quiet Harbor E05", file: "quiet_harbor_s01e05_caption_en-us.scc", type: "SCC", status: "DONE", field: "scc", outcome: "review" },
+      { id: "R7108", alpha: "QHAR01005", episode: "Quiet Harbor E05", file: "quiet_harbor_s01e05_caption_en-us_alt.scc", type: "SCC", status: "DONE", field: "scc", outcome: "review" }
+    ];
+
+    const trackerRows = [
+      { alpha: "RIVS01007", episode: "Riverside Signal E07", locale: "English", fields: { av: false, dfxp: false, scc: false, sccFn: false, ad: false }, issue: "" },
+      { alpha: "NORK01003", episode: "Northstar Kitchen E03", locale: "English", fields: { av: true, dfxp: false, scc: true, sccFn: false, ad: false }, issue: "" },
+      { alpha: "QHAR01005", episode: "Quiet Harbor E05", locale: "English", fields: { av: true, dfxp: true, scc: false, sccFn: false, ad: true }, issue: "" }
+    ];
+
+    const initialTracker = JSON.stringify(trackerRows);
+    let hydratedCount = 4;
+    let updatedCount = 0;
+    let running = false;
+    let timers = [];
+
+    const ingestList = document.querySelector("[data-ingest-list]");
+    const trackerGrid = document.querySelector("[data-tracker-grid]");
+    const hydratedLabel = document.querySelector("[data-hydrated-count]");
+    const updatedLabel = document.querySelector("[data-updated-count]");
+    const logRoot = document.querySelector("[data-runtime-log]");
+    const runButton = document.querySelector("[data-run]");
+
+    function renderIngest() {
+      ingestList.innerHTML = records.slice(0, hydratedCount).map((record) => `
+        <div class="ingest-row">
+          <span class="ingest-id">${record.id}</span>
+          <div class="ingest-file"><strong>${record.file}</strong><span>${record.episode} / ${record.alpha}</span></div>
+          <span class="asset-type">${record.type}</span>
+          <span class="stage ${record.status.toLowerCase()}">${record.status}</span>
+        </div>
+      `).join("");
+      hydratedLabel.textContent = String(hydratedCount);
+    }
+
+    function mark(value) {
+      return value ? '<span class="checkmark" aria-label="Linked">&#10003;</span>' : '<span class="pending-mark" aria-label="Not yet verified">-</span>';
+    }
+
+    function renderTracker() {
+      trackerGrid.innerHTML = `
+        <div class="tracker-row header">
+          <div class="tracker-cell">Episode</div><div class="tracker-cell">Alpha / locale</div><div class="tracker-cell center">A/V linked</div><div class="tracker-cell center">DFXP linked</div><div class="tracker-cell center">SCC linked</div><div class="tracker-cell center">SCC FN</div><div class="tracker-cell center">AD linked</div><div class="tracker-cell">Issue flag</div>
+        </div>
+        ${trackerRows.map((row) => `
+          <div class="tracker-row${row.issue ? " review-row" : Object.values(row.fields).some(Boolean) ? " updated-row" : ""}">
+            <div class="tracker-cell name"><strong>${row.episode}</strong><span>${row.locale}</span></div>
+            <div class="tracker-cell name"><strong>${row.alpha}</strong><span>unchecked fields only</span></div>
+            <div class="tracker-cell center">${mark(row.fields.av)}</div>
+            <div class="tracker-cell center">${mark(row.fields.dfxp)}</div>
+            <div class="tracker-cell center">${mark(row.fields.scc)}</div>
+            <div class="tracker-cell center">${mark(row.fields.sccFn)}</div>
+            <div class="tracker-cell center">${mark(row.fields.ad)}</div>
+            <div class="tracker-cell">${row.issue ? `<span class="issue">${row.issue}</span>` : ""}</div>
+          </div>
+        `).join("")}
+      `;
+      updatedLabel.textContent = String(updatedCount);
+    }
+
+    function log(message, level = "info") {
+      logRoot.insertAdjacentHTML("beforeend", `<li class="${level}">${message}</li>`);
+      logRoot.parentElement.scrollTop = logRoot.parentElement.scrollHeight;
+    }
+
+    function setStep(index) {
+      document.querySelectorAll("[data-step]").forEach((step, stepIndex) => {
+        step.classList.toggle("is-active", stepIndex === index);
+        step.classList.toggle("is-complete", stepIndex < index);
+      });
+    }
+
+    function schedule(delay, callback) {
+      const timer = window.setTimeout(callback, delay);
+      timers.push(timer);
+    }
+
+    function completeRun() {
+      running = false;
+      runButton.disabled = false;
+      runButton.textContent = "Run again";
+      document.querySelectorAll("[data-step]").forEach((step) => {
+        step.classList.remove("is-active");
+        step.classList.add("is-complete");
+      });
+    }
+
+    function runReconciliation() {
+      if (running) return;
+      running = true;
+      runButton.disabled = true;
+      runButton.textContent = "Running...";
+      logRoot.innerHTML = "";
+      setStep(0);
+      log("INFO: Reused the operator's existing authenticated browser context.", "info");
+
+      schedule(450, () => {
+        setStep(1);
+        hydratedCount = records.length;
+        renderIngest();
+        log(`OK: Hydrated lazy-loaded rows from 4 to ${records.length}.`, "ok");
+      });
+
+      schedule(900, () => {
+        setStep(2);
+        log("INFO: Normalized alpha ID, locale, asset class, and expected extension.", "info");
+      });
+
+      schedule(1350, () => {
+        setStep(3);
+        log("OK: Verified five completed candidates; two records are not complete.", "ok");
+        log("WARN: Two completed SCC candidates map to one requirement.", "warn");
+      });
+
+      schedule(1800, () => {
+        setStep(4);
+        records.filter((record) => record.outcome === "update").forEach((record) => {
+          const row = trackerRows.find((item) => item.alpha === record.alpha);
+          if (row && !row.fields[record.field]) {
+            row.fields[record.field] = true;
+            updatedCount += 1;
+          }
+        });
+        const reviewRow = trackerRows.find((row) => row.alpha === "QHAR01005");
+        reviewRow.issue = "Manual review";
+        renderTracker();
+        log(`OK: Updated ${updatedCount} unchecked tracker fields.`, "ok");
+        log("WARN: Processing, delivered-only, and ambiguous rows were left unchanged.", "warn");
+        completeRun();
+      });
+    }
+
+    function reset() {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      timers = [];
+      running = false;
+      hydratedCount = 4;
+      updatedCount = 0;
+      const cleanRows = JSON.parse(initialTracker);
+      trackerRows.splice(0, trackerRows.length, ...cleanRows);
+      runButton.disabled = false;
+      runButton.textContent = "Run reconciliation";
+      document.querySelectorAll("[data-step]").forEach((step) => step.classList.remove("is-active", "is-complete"));
+      logRoot.innerHTML = '<li class="info">INFO: Ready. No credential values are displayed or retained.</li>';
+      renderIngest();
+      renderTracker();
+    }
+
+    runButton.addEventListener("click", runReconciliation);
+    document.querySelector("[data-reset]").addEventListener("click", reset);
+
+    renderIngest();
+    renderTracker();
+  </script>
+</body>
+</html>
