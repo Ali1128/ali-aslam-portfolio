@@ -1,13 +1,47 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync
+} from "node:fs";
+import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
+const GENERATED_HTML = new Set();
+
+const contact = {
+  email: "ali.aslam1128@gmail.com",
+  github: "https://github.com/Ali1128/ali-aslam-portfolio",
+  linkedin: "https://www.linkedin.com/in/aliaslam2/",
+  resume: "docs/resume.pdf"
+};
 
 function write(relativePath, content) {
   const target = join(ROOT, relativePath);
+  const normalized = content
+    .trim()
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .join("\n");
   mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, `${content.trimStart()}\n`);
+  writeFileSync(target, `${normalized}\n`);
+  if (extname(target) === ".html") GENERATED_HTML.add(target);
+}
+
+function copyRequired(sourcePath, outputPath) {
+  const source = join(ROOT, sourcePath);
+  const output = join(ROOT, outputPath);
+
+  if (!existsSync(source)) {
+    throw new Error(`Required source asset is missing: ${sourcePath}`);
+  }
+
+  mkdirSync(dirname(output), { recursive: true });
+  copyFileSync(source, output);
+  if (extname(output) === ".html") GENERATED_HTML.add(output);
 }
 
 function escapeHtml(value) {
@@ -122,6 +156,7 @@ function requestDestructiveAction(selectedRows) {
   },
   {
     slug: "file-linking-search",
+    supportingModuleFor: "media-inventory-console",
     title: "Browser-Side File Linking Search and Inventory Hydration",
     shortTitle: "File Linking Search",
     status: "Working browser-side workflow extension",
@@ -629,7 +664,7 @@ async function buildPublicCalendarPayload(studioSlug, language) {
     constraints: [
       "The supplied prototype compared consecutive frames.",
       "It did not guarantee global uniqueness across every saved image.",
-      "The public page uses illustrative frame blocks because no clearly relevant instructional screenshot was found in the inspected generic image files."
+      "The public page uses the supplied annotated instructional images; candidate scores in the interface remain fictional demonstration values."
     ],
     stakeholders: [
       "Instructional content creators selecting teaching images.",
@@ -651,7 +686,7 @@ async function buildPublicCalendarPayload(studioSlug, language) {
     safeguards: [
       "Frame candidates are suggestions for human review.",
       "The public demo does not imply pose correctness or automatic coaching judgment.",
-      "No private instructional footage is included."
+      "Only the supplied instructional stills are shown; source video and private processing material are not included."
     ],
     testing: [
       "Compared saved candidate sets for obvious repeated frames.",
@@ -693,6 +728,75 @@ function shouldSaveCandidate(previousEmbedding, currentEmbedding, threshold) {
   }
 ];
 
+const publicProjects = projects.filter((project) => !project.supportingModuleFor);
+const fileLinkingModule = projects.find((project) => project.slug === "file-linking-search");
+
+const employment = [
+  {
+    company: "Crunchyroll",
+    role: "Media Operations",
+    dates: "April 2024 - January 2026",
+    bullets: [
+      "Coordinated release-critical video, audio, timed-text, localization, metadata and partner-distribution assets across simulcast, catalog and home-video workflows.",
+      "Tracked ingest status, missing deliverables, version changes and release blockers across Airtable, Jira, Aspera, cloud storage and internal media systems.",
+      "Built operator-facing browser tools and documented workflows for inventory review, file linking and readiness reconciliation."
+    ]
+  },
+  {
+    company: "The Mill",
+    role: "VFX Coordinator",
+    dates: "November 2021 - March 2023",
+    bullets: [
+      "Coordinated artists, vendors, reviews, approvals and final assets for campaigns spanning broadcast, social and digital delivery.",
+      "Tracked capacity, schedules, budgets, purchase orders, invoices and blockers while supporting producers and cross-functional creative teams.",
+      "Helped establish a company-wide legal-clearance workflow for production assets."
+    ]
+  },
+  {
+    company: "The Third Floor",
+    role: "VFX Production Coordinator",
+    dates: "January 2021 - August 2021",
+    bullets: [
+      "Coordinated previs and postvis workflows for film and game projects across remote VFX teams.",
+      "Managed artist onboarding, task assignments, shot status, review notes, 3D assets and file integrity in ShotGrid.",
+      "Built custom tracking views that improved daily production visibility and review preparation."
+    ]
+  },
+  {
+    company: "Deluxe",
+    role: "Account Coordinator, Localization & Distribution",
+    dates: "July 2016 - July 2017",
+    bullets: [
+      "Managed catalog delivery workflows for theatrical, streaming, digital-purchase, console and channel distribution.",
+      "Coordinated video, audio, subtitle and dub deliverables across external vendors and international release deadlines.",
+      "Validated foreign-language audio and delivery data, resolving mismatches with dubbing and distribution partners."
+    ]
+  }
+];
+
+const resumeTools = [
+  "ShotGrid",
+  "Ftrack",
+  "Airtable",
+  "Jira",
+  "Asana",
+  "Google Workspace",
+  "Microsoft Office",
+  "Aspera",
+  "AWS/S3",
+  "Google Cloud",
+  "JavaScript",
+  "Puppeteer",
+  "Python",
+  "FFmpeg",
+  "OpenCV",
+  "Adobe Creative Cloud",
+  "Gemini",
+  "Codex"
+];
+
+const resumeLanguages = ["English", "Urdu", "Punjabi", "Hindi"];
+
 const capabilities = [
   "Production operations and asset readiness",
   "Animation, VFX and episodic delivery coordination",
@@ -726,6 +830,12 @@ function nav(prefix, active) {
       </button>
       <div class="nav-links" id="primary-navigation">
         ${links.map(([key, label, href]) => `<a href="${prefix}${href}" data-nav="${key}"${key === active ? ' aria-current="page"' : ""}>${label}</a>`).join("")}
+        <span class="nav-contact-actions" aria-label="Professional links">
+          <a class="nav-action" href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="nav-action" href="${contact.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="nav-action" href="mailto:${contact.email}">Email</a>
+          <a class="nav-action nav-download" href="${prefix}${contact.resume}" download>Download Resume</a>
+        </span>
       </div>
     </nav>
   </header>`;
@@ -738,7 +848,12 @@ function footer(prefix) {
         <p class="footer-title">Ali Aslam</p>
         <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
       </div>
-      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+      <nav class="footer-links" aria-label="Professional links">
+        <a href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="${contact.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:${contact.email}">${contact.email}</a>
+        <a href="${prefix}${contact.resume}" download>Download Resume</a>
+      </nav>
     </div>
     <div class="shell footer-bottom">
       <span>&copy; <span data-current-year></span> Ali Aslam.</span>
@@ -782,7 +897,9 @@ function projectCard(project, prefix = "") {
     ? `<span class="project-visual project-visual-image"><img src="${prefix}assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized media inventory overlay interface"></span>`
     : project.demo === "calendar"
       ? `<span class="project-visual project-visual-image project-visual-calendar-image"><img src="${prefix}assets/images/ktaekwondo-calendar-august-2026.png" alt="Published multi-studio calendar artwork"></span>`
-      : `<span class="project-visual project-visual-${project.demo}" aria-hidden="true"></span>`;
+      : project.demo === "keyframes"
+        ? `<span class="project-visual project-visual-image project-visual-keyframe-image"><img src="${prefix}assets/images/ktaekwondo-keyframe-03.jpg" alt="Annotated Taekwondo instructional keyframe"></span>`
+        : `<span class="project-visual project-visual-${project.demo}" aria-hidden="true"></span>`;
 
   return `<article class="project-card">
     <a class="project-card-link" href="${prefix}projects/${project.slug}/">
@@ -802,6 +919,53 @@ function sectionBlock(title, items) {
   return `<section class="case-section">
     <h2>${escapeHtml(title)}</h2>
     ${Array.isArray(items) ? `<ul class="clean-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : items}
+  </section>`;
+}
+
+function subsectionList(title, items) {
+  return `<div class="case-subsection"><h3>${escapeHtml(title)}</h3><ul class="clean-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`;
+}
+
+function disclosureBlock(title, items, id = "") {
+  return `<section class="case-section disclosure-section"${id ? ` id="${id}"` : ""}>
+    <details class="case-disclosure">
+      <summary>${escapeHtml(title)}</summary>
+      <div class="disclosure-body"><ul class="clean-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>
+    </details>
+  </section>`;
+}
+
+function supportingModuleBlock() {
+  const module = fileLinkingModule;
+  if (!module) return "";
+
+  return `<section class="case-section supporting-module" id="file-linking-module">
+    <details class="case-disclosure module-disclosure">
+      <summary>Earlier iteration: ${escapeHtml(module.title)}</summary>
+      <div class="disclosure-body">
+        <p class="module-purpose">${escapeHtml(module.purpose)}</p>
+        ${linkingDemo()}
+        <dl class="metadata-grid module-metadata">
+          <div><dt>Status</dt><dd>${escapeHtml(module.status)}</dd></div>
+          <div><dt>Role</dt><dd>${escapeHtml(module.role)}</dd></div>
+          <div><dt>Scale</dt><dd>${escapeHtml(module.scale)}</dd></div>
+          <div><dt>Tools</dt><dd>${escapeHtml(module.technologies.join(", "))}</dd></div>
+        </dl>
+        ${subsectionList("Problem", module.problem)}
+        ${subsectionList("Constraints", module.constraints)}
+        ${subsectionList("My contribution", module.approach)}
+        <div class="case-subsection"><h3>Architecture</h3>${architectureFlow(module)}</div>
+        <div class="case-subsection"><h3>Workflow</h3>${workflowSteps(module)}</div>
+        ${subsectionList("Implementation notes", module.details)}
+        ${subsectionList("Safeguards", module.safeguards)}
+        ${subsectionList("Testing", module.testing)}
+        ${subsectionList("Results", module.results)}
+        ${subsectionList("Limitations", module.limitations)}
+        ${subsectionList("Learnings", module.learned)}
+        ${subsectionList("Next iteration", module.next)}
+        <div class="case-subsection"><h3>${escapeHtml(module.codeLabel)}</h3><pre><code>${escapeHtml(module.code)}</code></pre></div>
+      </div>
+    </details>
   </section>`;
 }
 
@@ -850,6 +1014,7 @@ function linkingDemo() {
       </div>
       <a class="button button-secondary" href="../../demos/file-linking-search/" target="_blank" rel="noopener">Open full-screen demo</a>
     </div>
+    <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="standalone-demo-frame linking-demo-frame">
       <iframe src="../../demos/file-linking-search/" title="Sanitized interactive file linking search" loading="eager"></iframe>
     </div>
@@ -870,6 +1035,7 @@ function inventoryDemo() {
       </div>
       <a class="button button-secondary" href="../../demos/media-inventory-console/" target="_blank" rel="noopener">Open full-screen demo</a>
     </div>
+    <p class="demo-values-note">Fictional demonstration values apply to the reconstructed interface; reported workflow impact is labeled separately below.</p>
     <div class="inventory-demo-frame">
       <iframe src="../../demos/media-inventory-console/" title="Sanitized interactive media inventory console" loading="eager"></iframe>
     </div>
@@ -890,6 +1056,7 @@ function reconciliationDemo() {
       </div>
       <a class="button button-secondary" href="../../demos/asset-status-reconciliation/" target="_blank" rel="noopener">Open full-screen demo</a>
     </div>
+    <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="standalone-demo-frame reconciliation-demo-frame">
       <iframe src="../../demos/asset-status-reconciliation/" title="Sanitized interactive ingest status reconciliation" loading="eager"></iframe>
     </div>
@@ -910,6 +1077,7 @@ function videoDemo() {
       </div>
       <button class="button button-primary" type="button" data-report-export>Export review report</button>
     </div>
+    <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="vmaf-summary">
       <div><span>VMAF mean</span><strong>91.8</strong></div>
       <div><span>Duration delta</span><strong>00:00:51</strong></div>
@@ -948,6 +1116,7 @@ function opedDemo() {
       </div>
       <button class="button button-primary" type="button" data-oped-approve>Approve selected candidates</button>
     </div>
+    <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="oped-layout">
       <aside class="episode-list">
         <h3>Season episodes</h3>
@@ -1020,12 +1189,13 @@ function keyframesDemo() {
       </div>
       <span class="status-badge">Human annotation required</span>
     </div>
-    <div class="filmstrip" aria-label="Illustrative sampled frames">
-      <span class="frame selected">01<br><small>0.82</small></span>
-      <span class="frame rejected">02<br><small>0.08</small></span>
-      <span class="frame selected">03<br><small>0.71</small></span>
-      <span class="frame rejected">04<br><small>0.12</small></span>
-      <span class="frame selected">05<br><small>0.89</small></span>
+    <p class="demo-values-note">Fictional demonstration values apply only to the prototype narrative. The instructional images are supplied real annotated frames.</p>
+    <div class="keyframe-gallery" aria-label="Supplied annotated instructional keyframes">
+      <figure><img src="../../assets/images/ktaekwondo-keyframe-01.jpg" alt="Annotated ready-stance instructional frame"><figcaption>Ready stance reference</figcaption></figure>
+      <figure><img src="../../assets/images/ktaekwondo-keyframe-02.jpg" alt="Annotated low-block instructional frame"><figcaption>Low block candidate</figcaption></figure>
+      <figure><img src="../../assets/images/ktaekwondo-keyframe-03.jpg" alt="Annotated right-middle-block instructional frame"><figcaption>Middle block candidate</figcaption></figure>
+      <figure><img src="../../assets/images/ktaekwondo-keyframe-04.jpg" alt="Annotated middle-punch instructional frame"><figcaption>Middle punch candidate</figcaption></figure>
+      <figure><img src="../../assets/images/ktaekwondo-keyframe-05.jpg" alt="Annotated return-to-ready instructional frame"><figcaption>Sequence close</figcaption></figure>
     </div>
     <div class="comparison-grid">
       <div><h3>Baseline</h3><p>OpenCV grayscale absolute difference and changed-pixel threshold.</p></div>
@@ -1082,33 +1252,55 @@ function renderProjectPage(project) {
     <div class="shell case-layout">
       <aside class="case-aside">
         <nav aria-label="Case study sections">
-          <a href="#problem">Context</a>
+          <a href="#summary">Summary</a>
+          <a href="#problem">Problem</a>
           <a href="#approach">Contribution</a>
-          <a href="#architecture">Workflow</a>
-          <a href="#validation">Review + safeguards</a>
-          <a href="#results">Outcome</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#results">Results</a>
+          <a href="#supporting-details">Supporting details</a>
         </nav>
       </aside>
       <article class="case-content">
-        <div id="problem">${sectionBlock("Operational problem", project.problem)}</div>
-        ${sectionBlock("Constraints", project.constraints)}
-        <div id="approach">${sectionBlock("My contribution", project.approach)}</div>
-        ${sectionBlock("Production supervision lens", productionLens(project))}
-        <section class="case-section" id="architecture"><h2>System architecture</h2>${architectureFlow(project)}</section>
-        <section class="case-section"><h2>Workflow</h2>${workflowSteps(project)}</section>
-        ${sectionBlock("Implementation notes", project.details)}
-        ${sectionBlock("Human review and safeguards", project.safeguards)}
-        <div id="validation">${sectionBlock("Testing and validation", project.testing)}</div>
-        <div id="results">${sectionBlock("Outcome", project.results)}</div>
-        ${sectionBlock("Limitations", project.limitations)}
-        ${sectionBlock("Next iteration", project.next)}
-        <section class="case-section code-section">
-          <details class="code-disclosure">
-            <summary>View sanitized illustrative code</summary>
-            <h2>${escapeHtml(project.codeLabel)}</h2>
-            <pre><code>${escapeHtml(project.code)}</code></pre>
-          </details>
+        <section class="case-section" id="summary">
+          <h2>Summary</h2>
+          <p class="case-lead">${escapeHtml(project.purpose)}</p>
+          ${subsectionList("Output", [project.output])}
+          ${subsectionList("Users and stakeholders", project.stakeholders)}
         </section>
+        <section class="case-section" id="problem">
+          <h2>Problem</h2>
+          <ul class="clean-list">${project.problem.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          ${subsectionList("Constraints", project.constraints)}
+        </section>
+        <section class="case-section" id="approach">
+          <h2>My contribution</h2>
+          <ul class="clean-list">${project.approach.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          ${subsectionList("Production supervision lens", productionLens(project))}
+          ${subsectionList("Implementation notes", project.details)}
+        </section>
+        <section class="case-section" id="architecture">
+          <h2>Architecture</h2>
+          ${architectureFlow(project)}
+          <div class="case-subsection"><h3>Workflow</h3>${workflowSteps(project)}</div>
+        </section>
+        ${project.slug === "media-inventory-console" ? supportingModuleBlock() : ""}
+        <section class="case-section" id="results">
+          <h2>Results</h2>
+          <ul class="clean-list">${project.results.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          ${subsectionList("Learnings", project.learned)}
+        </section>
+        <div id="supporting-details">
+          ${disclosureBlock("Testing", project.testing)}
+          ${disclosureBlock("Safeguards", project.safeguards)}
+          ${disclosureBlock("Limitations", project.limitations)}
+          ${disclosureBlock("Next iteration", project.next)}
+          <section class="case-section disclosure-section code-section">
+            <details class="case-disclosure code-disclosure">
+              <summary>Code</summary>
+              <div class="disclosure-body"><h3>${escapeHtml(project.codeLabel)}</h3><pre><code>${escapeHtml(project.code)}</code></pre></div>
+            </details>
+          </section>
+        </div>
       </article>
     </div>
   </section>`;
@@ -1123,7 +1315,7 @@ function renderProjectPage(project) {
 }
 
 function homePage() {
-  const featured = projects.slice(0, 4).map((project) => projectCard(project)).join("");
+  const featured = publicProjects.slice(0, 4).map((project) => projectCard(project)).join("");
   const impactItems = [
     ["4-7 min -> under 1 min", "Reported per-asset locate, verify and delete/replace workflow."],
     ["1,000+ assets", "Season inventories supported by the browser-based operations console."],
@@ -1141,16 +1333,27 @@ function homePage() {
   const body = `<section class="hero">
     <div class="shell home-hero">
       <div class="hero-copy">
-        <p class="eyebrow">Production operations / Creative technology / AI-assisted workflow design</p>
-        <h1>Ali Aslam</h1>
-        <p class="hero-title">Production systems for evolving creative and GenAI workflows.</p>
-        <p class="hero-text">I connect creative teams, production data, media assets and technical tools. My work focuses on clear tracking, organized reviews, workflow documentation, visible blockers and human approval inside fast-changing pipelines.</p>
+        <p class="eyebrow">Ali Aslam / Production operations / Creative technology</p>
+        <h1>Production systems for evolving creative workflows.</h1>
+        <p class="hero-title">Production-facing tools, media operations and AI-assisted prototyping.</p>
+        <p class="hero-text">I connect creative teams, production data, media assets and technical tools. My work brings clear tracking, organized reviews, visible blockers and human-in-the-loop approval to fast-changing traditional and GenAI pipelines.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="projects.html">View selected work</a>
-          <a class="button button-secondary" href="resume.html">Resume</a>
-          <a class="button button-ghost" href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-secondary" href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="button button-secondary" href="${contact.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-secondary" href="mailto:${contact.email}">Email</a>
+          <a class="button button-ghost" href="${contact.resume}" download>Download Resume</a>
         </div>
       </div>
+      <aside class="glance-block" aria-labelledby="glance-title">
+        <p class="section-kicker" id="glance-title">At a glance</p>
+        <ul>
+          <li>10 years across media, VFX, localization and distribution</li>
+          <li>Production-facing workflow tools</li>
+          <li>Animation and episodic operations</li>
+          <li>AI-assisted prototyping with human review</li>
+        </ul>
+      </aside>
       <figure class="hero-work-sample">
         <img src="assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized season-level media inventory overlay showing fictional filenames and statuses">
         <figcaption><span>Production-facing inventory workflow</span><strong>Sanitized reconstruction</strong></figcaption>
@@ -1176,7 +1379,7 @@ function homePage() {
         <h2>Systems for assets, reviews and production visibility.</h2>
       </div>
       <div class="card-grid two-up">${featured}</div>
-      <div class="section-action"><a class="text-link" href="projects.html">View all seven case studies</a></div>
+      <div class="section-action"><a class="text-link" href="projects.html">View all six case studies</a></div>
     </div>
   </section>
   <section class="section">
@@ -1219,8 +1422,8 @@ function homePage() {
 }
 
 function projectsPage() {
-  const core = projects.slice(0, 4).map((project) => projectCard(project)).join("");
-  const additional = projects.slice(4).map((project) => projectCard(project)).join("");
+  const core = publicProjects.slice(0, 4).map((project) => projectCard(project)).join("");
+  const additional = publicProjects.slice(4).map((project) => projectCard(project)).join("");
   const body = `<section class="page-hero">
     <div class="shell">
       <p class="eyebrow">Selected systems</p>
@@ -1309,27 +1512,36 @@ function resumePage() {
   const body = `<section class="page-hero">
     <div class="shell">
       <p class="eyebrow">Resume</p>
-      <h1>Production operations + emerging workflow systems.</h1>
-      <p>A simple web resume focused on production tracking, creative operations, media pipelines and human-in-the-loop AI workflows.</p>
-      <div class="hero-actions"><a class="button button-primary" href="docs/resume.txt">Plain-text resume</a><a class="button button-secondary" href="projects.html">Selected work</a></div>
+      <h1>Media operations, VFX production and localization.</h1>
+      <p>Employment timeline and working toolkit across episodic media, creative production, global distribution and production-facing workflow systems.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="${contact.resume}" download>Download Resume PDF</a>
+        <a class="button button-secondary" href="docs/resume.txt">Plain-text resume</a>
+        <a class="button button-ghost" href="mailto:${contact.email}">Professional contact</a>
+      </div>
     </div>
   </section>
   <section class="section">
     <div class="shell resume-sheet">
-      <section class="resume-section"><h2>Summary</h2><ul class="clean-list">
-        <li>Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production.</li>
-        <li>Coordinates creative stakeholders, vendors and technical teams through delivery schedules, review cycles, asset tracking and release-critical workflows.</li>
-        <li>Creates workflow documents, trackers and status reports that make due work, blockers, approvals and escalation needs visible.</li>
-        <li>Comfortable supporting experimental GenAI/traditional hybrid environments where tools and operating requirements change quickly.</li>
-      </ul></section>
-      <section class="resume-section"><h2>Selected projects</h2><ul class="clean-list">${projects.slice(0, 4).map((project) => `<li><strong>${escapeHtml(project.shortTitle)}:</strong> ${escapeHtml(project.result)}</li>`).join("")}</ul></section>
-      <section class="resume-section"><h2>Relevant experience</h2><ul class="clean-list">
-        <li><strong>Media operations:</strong> asset readiness, ingest, localization, delivery tracking, timed text, metadata, partner distribution and release support.</li>
-        <li><strong>VFX production coordination:</strong> artist assignments, ShotGrid tracking, review preparation, notes, assets, vendor coordination and delivery escalation.</li>
-        <li><strong>Creative operations:</strong> schedules, budgets, campaign assets, approvals, documentation and cross-functional production support.</li>
-        <li><strong>Workflow development:</strong> browser automation, Airtable systems, media-analysis prototypes and operator-facing tools.</li>
-      </ul></section>
-      <section class="resume-section"><h2>Tools</h2><p>ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, DAM/MAM systems, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Gemini and Codex.</p></section>
+      <section class="resume-section">
+        <h2>Summary</h2>
+        <p>Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production. Builds clear trackers, review systems, status reporting and lightweight tools for evolving creative workflows.</p>
+      </section>
+      <section class="resume-section">
+        <h2>Employment</h2>
+        <div class="resume-timeline">
+          ${employment.map((job) => `<article>
+            <div class="resume-job-heading"><div><h3>${escapeHtml(job.company)}</h3><p>${escapeHtml(job.role)}</p></div><time>${escapeHtml(job.dates)}</time></div>
+            <ul class="clean-list">${job.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
+          </article>`).join("")}
+        </div>
+      </section>
+      <section class="resume-section">
+        <h2>Education</h2>
+        <div class="resume-job-heading"><div><h3>Santa Clara University</h3><p>BA in Communication</p></div><time>2013</time></div>
+      </section>
+      <section class="resume-section"><h2>Tools</h2>${tagList(resumeTools)}</section>
+      <section class="resume-section"><h2>Languages</h2><p>${escapeHtml(resumeLanguages.join(", "))}</p></section>
     </div>
   </section>`;
 
@@ -1418,6 +1630,10 @@ pre code { display: block; padding: 0; border-radius: 0; background: transparent
 .nav-links { display: flex; align-items: center; gap: 0.25rem; }
 .nav-links a { padding: 0.5rem 0.75rem; border-radius: var(--radius-small); color: var(--muted); font-weight: 750; text-decoration: none; }
 .nav-links a:hover, .nav-links a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-dark); }
+.nav-contact-actions { display: flex; align-items: center; gap: 0.15rem; margin-left: 0.35rem; padding-left: 0.5rem; border-left: 1px solid var(--line); }
+.nav-links .nav-action { padding-inline: 0.55rem; font-size: 0.8rem; }
+.nav-links .nav-download { background: var(--accent); color: white; }
+.nav-links .nav-download:hover { background: var(--accent-dark); color: white; }
 .nav-toggle { display: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); }
 .nav-toggle span:not(.sr-only) { display: block; width: 18px; height: 2px; margin: 4px auto; border-radius: 999px; background: currentColor; }
 .hero, .page-hero { border-bottom: 1px solid var(--line); background: #fbfcf9; }
@@ -1493,6 +1709,7 @@ h3 { margin: 0 0 0.5rem; line-height: 1.2; }
 .demo-panel .demo-panel-header { border-color: rgba(255,255,255,0.12); }
 .demo-panel h2, .demo-panel h3 { color: #f7fffb; }
 .demo-panel p, .demo-panel li, .demo-panel label, .demo-panel small { color: #c9d4d1; }
+.demo-values-note { margin: 0; padding: 0.6rem 1rem; border-bottom: 1px solid #343738; background: #1a2020; color: #f0c987 !important; font-family: var(--mono); font-size: 0.75rem; font-weight: 800; }
 .inventory-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; margin: 1rem 0; }
 .inventory-stats div { background: var(--dark-2); border-color: #2f4143; }
 .inventory-stats span { display: block; color: white; font-size: 1.3rem; font-weight: 850; }
@@ -1560,6 +1777,10 @@ td { color: #273638; }
 .frame { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--radius); border: 2px solid #314345; background: #1b2b2d; color: white; font-weight: 850; }
 .frame.selected { border-color: var(--accent); background: #123a38; }
 .frame.rejected { border-color: var(--rust); opacity: 0.72; }
+.keyframe-gallery { display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 0.75rem; margin: 1rem 0; overflow-x: auto; }
+.keyframe-gallery figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #314345; border-radius: var(--radius); background: var(--dark-2); }
+.keyframe-gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center; background: #f4f4f1; }
+.keyframe-gallery figcaption { padding: 0.65rem 0.7rem; color: #d8e5e1; font-size: 0.78rem; font-weight: 800; }
 .impact-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
 .impact-strip div { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 1rem; }
 .impact-strip strong { display: block; margin-top: 0.25rem; }
@@ -1569,6 +1790,20 @@ td { color: #273638; }
 .case-aside a { color: var(--muted); text-decoration: none; font-weight: 800; }
 .case-section { padding: 2rem 0; border-bottom: 1px solid var(--line); }
 .case-section:first-child { padding-top: 0; }
+.case-lead { margin: 1rem 0 0; color: var(--muted); font-size: 1.08rem; }
+.case-subsection { margin-top: 1.5rem; }
+.case-subsection h3 { font-size: 1.05rem; }
+.disclosure-section { padding: 0.65rem 0; }
+.case-disclosure { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.case-disclosure summary { padding: 0.9rem 1rem; color: var(--accent-dark); font-weight: 850; cursor: pointer; }
+.case-disclosure summary::marker { color: var(--rust); }
+.disclosure-body { padding: 0 1rem 1rem; }
+.disclosure-body .clean-list { margin-top: 0.25rem; }
+.supporting-module { padding: 1rem 0; }
+.module-disclosure > summary { font-size: 1.05rem; }
+.module-purpose { margin: 0.5rem 0 1rem; color: var(--muted); }
+.module-metadata { margin: 1.25rem 0; }
+.supporting-module .demo-panel { margin-top: 1rem; }
 .clean-list { margin: 1rem 0 0; padding-left: 1.2rem; color: var(--muted); }
 .clean-list li + li { margin-top: 0.55rem; }
 .workflow-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; margin: 1rem 0 0; padding: 0; list-style: none; counter-reset: steps; }
@@ -1602,6 +1837,7 @@ td { color: #273638; }
 .project-visual-image img { width: 100%; height: 100%; object-fit: cover; }
 .project-visual-image::before, .project-visual-image::after { display: none; }
 .project-visual-calendar-image img { object-position: top; background: white; }
+.project-visual-keyframe-image img { object-position: center 28%; }
 .practice-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
 .practice-list article { display: grid; grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 1.25rem 1rem 1.25rem 0; border-bottom: 1px solid var(--line); }
 .practice-list article:nth-child(odd) { border-right: 1px solid var(--line); }
@@ -1690,18 +1926,37 @@ td { color: #273638; }
 .screenshot-strip .sample-three { background: linear-gradient(90deg, #172021 0 40%, #8a5b3a 40% 48%, #1f292a 48%); }
 .code-disclosure { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .code-disclosure summary { padding: 0.9rem 1rem; color: var(--accent-dark); font-weight: 850; cursor: pointer; }
-.code-disclosure h2 { padding: 1rem 1rem 0; font-size: 1.35rem; }
-.code-disclosure pre { margin: 1rem; }
+.code-disclosure h3 { margin-top: 0.5rem; font-size: 1.1rem; }
+.code-disclosure pre { margin-top: 1rem; }
 .resume-sheet { max-width: 900px; }
 .resume-section { padding: 2rem 0; border-bottom: 1px solid var(--line); }
 .resume-section:first-child { padding-top: 0; }
 .resume-section h2 { font-size: 1.75rem; }
 .resume-section p { color: var(--muted); }
+.resume-timeline { display: grid; gap: 0; }
+.resume-timeline article { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.resume-timeline article:last-child { border-bottom: 0; padding-bottom: 0; }
+.resume-job-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.resume-job-heading h3 { margin: 0; font-size: 1.2rem; }
+.resume-job-heading p { margin: 0.15rem 0 0; }
+.resume-job-heading time { color: var(--accent-dark); font-family: var(--mono); font-size: 0.82rem; font-weight: 800; white-space: nowrap; }
 .footer-main { display: flex; justify-content: space-between; gap: 2rem; align-items: flex-start; }
 .footer-main p { max-width: 600px; margin: 0; color: #aebbbb; }
 .footer-main a { margin: 0; font-weight: 800; }
+.footer-links { display: grid; grid-template-columns: repeat(2, minmax(110px, 1fr)); gap: 0.35rem 1rem; min-width: min(100%, 340px); }
+.glance-block { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 1rem; align-items: start; padding: 1rem 0; border-block: 1px solid var(--line); }
+.glance-block .section-kicker { margin: 0; }
+.glance-block ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; }
+.glance-block li { min-width: 0; padding: 0 1rem; border-left: 1px solid var(--line); color: #364143; font-size: 0.9rem; font-weight: 760; }
 .reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms ease, transform 420ms ease; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (max-width: 1120px) {
+  .nav-toggle { display: block; }
+  .nav-links { position: absolute; top: 74px; left: 1rem; right: 1rem; display: none; flex-direction: column; align-items: stretch; padding: 0.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+  .nav-links.is-open { display: flex; }
+  .nav-contact-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0.35rem 0 0; padding: 0.5rem 0 0; border-top: 1px solid var(--line); border-left: 0; }
+  .nav-links .nav-action { text-align: center; }
+}
 @media (max-width: 980px) {
   .hero-grid, .split-section, .case-layout, .oped-layout, .calendar-layout, .resume-layout { grid-template-columns: 1fr; }
   .three-up, .project-index-grid, .capability-grid, .process-grid, .metadata-grid, .workflow-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1715,11 +1970,11 @@ td { color: #273638; }
   .vmaf-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .vmaf-summary div:nth-child(2) { border-right: 0; }
   .vmaf-summary div:nth-child(-n + 2) { border-bottom: 1px solid #343a3b; }
+  .glance-block { grid-template-columns: 1fr; }
+  .glance-block ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .glance-block li { padding: 0.65rem 1rem; border-bottom: 1px solid var(--line); }
 }
 @media (max-width: 720px) {
-  .nav-toggle { display: block; }
-  .nav-links { position: absolute; top: 74px; left: 1rem; right: 1rem; display: none; flex-direction: column; align-items: stretch; padding: 0.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
-  .nav-links.is-open { display: flex; }
   .brand-copy small { display: none; }
   .shell { width: min(100% - 2rem, 1200px); }
   .hero h1 { font-size: 3rem; }
@@ -1753,6 +2008,10 @@ td { color: #273638; }
   .vmaf-summary { grid-template-columns: 1fr 1fr; }
   .video-pane figcaption { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
   .code-disclosure pre { margin: 0.75rem; }
+  .glance-block ul, .footer-links, .nav-contact-actions { grid-template-columns: 1fr; }
+  .glance-block li { padding-inline: 0; border-left: 0; }
+  .resume-job-heading { flex-direction: column; gap: 0.35rem; }
+  .resume-job-heading time { white-space: normal; }
   table { min-width: 0; table-layout: fixed; }
   th, td { padding: 0.55rem; overflow-wrap: anywhere; word-break: break-word; }
 }
@@ -1958,18 +2217,42 @@ if (motionAllowed && "IntersectionObserver" in window) {
   });
 }`;
 
+const resumeText = `RESUME
+
+PROFESSIONAL CONTACT
+${contact.email}
+${contact.linkedin}
+${contact.github}
+
+SUMMARY
+Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production. Builds clear trackers, review systems, status reporting and lightweight tools for evolving creative workflows.
+
+EMPLOYMENT
+${employment.map((job) => `${job.company} - ${job.role}
+${job.dates}
+${job.bullets.map((bullet) => `- ${bullet}`).join("\n")}`).join("\n\n")}
+
+EDUCATION
+Santa Clara University - BA in Communication, 2013
+
+TOOLS
+${resumeTools.join(", ")}
+
+LANGUAGES
+${resumeLanguages.join(", ")}
+`;
+
 const readme = `# Ali Aslam Portfolio
 
 Static GitHub Pages portfolio for Ali Aslam, focused on media operations systems, creative production, production workflow design, browser automation, media asset management and AI-assisted workflow experimentation.
 
-The portfolio uses plain HTML, CSS and vanilla JavaScript. There is no framework, backend, package install or required build step. The optional generator in \`scripts/generate-portfolio.mjs\` rebuilds the static pages from shared project data.
+The portfolio uses plain HTML, CSS and vanilla JavaScript. There is no framework, backend or package install. The generator in \`scripts/generate-portfolio.mjs\` rebuilds the pages, copies every required public demo and image, validates local references and fails when an asset is missing.
 
 Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 
 ## Project List
 
 - Season-Level Media Inventory Operations Console
-- Browser-Side File Linking Search and Inventory Hydration
 - Ingest Status Reconciliation and Airtable Readiness Automation
 - Automated Video Version Comparison and Difference Reporter
 - Dataset-Assisted Opening and Ending Timestamp Detection
@@ -1988,7 +2271,6 @@ Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 ├── script.js
 ├── projects/
 │   ├── media-inventory-console/
-│   ├── file-linking-search/
 │   ├── asset-reconciliation/
 │   ├── video-version-comparison/
 │   ├── op-ed-detection/
@@ -2018,7 +2300,7 @@ Then open <http://localhost:8000>.
 
 ## Mock Demos
 
-The interactive demos are public reconstructions with fictional internal-tool data. They demonstrate UI behavior, workflow logic, safeguards and review states without exposing private systems.
+The interactive demos are public reconstructions with fictional internal-tool data. The Browser-Side File Linking Search iteration is preserved inside the Media Inventory Console case study. Demonstration metrics and timecodes are labeled as fictional values.
 
 - Inventory demo data is embedded in \`script.js\` and mirrored in \`assets/data/demo-inventory.json\`.
 - Reconciliation fixture rows are mirrored in \`assets/data/reconciliation-fixtures.json\`.
@@ -2034,7 +2316,7 @@ The interactive demos are public reconstructions with fictional internal-tool da
 
 ## Public Links
 
-The portfolio intentionally includes no public email address, LinkedIn link or PDF resume. The simple web and plain-text resume versions contain no contact details.
+The portfolio includes Ali's professional email, LinkedIn, GitHub and a generated public resume PDF. No phone number or private contact data is included.
 
 ## Deployment
 
@@ -2182,6 +2464,86 @@ Standalone demos are self-contained and GitHub Pages compatible.
 
 All titles, filenames, paths, IDs, people and workflow records are fictional. No private selectors, credentials, cookies, tokens or session identifiers are included.`;
 
+function mergedFileLinkingPage() {
+  const body = `<section class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Case study merged</p>
+      <h1>File Linking Search is now part of the Media Inventory Console case study.</h1>
+      <p>The earlier browser-side search and inventory-hydration iteration, its demo, safeguards, testing notes and sanitized code are preserved in the combined case study.</p>
+      <div class="hero-actions"><a class="button button-primary" href="../media-inventory-console/#file-linking-module">Open the merged case study</a></div>
+    </div>
+  </section>`;
+
+  return layout({
+    title: "File Linking Search | Merged Case Study",
+    description: "The browser-side file linking search module is preserved inside the Media Inventory Console case study.",
+    active: "projects",
+    prefix: "../../",
+    body
+  });
+}
+
+function validateGeneratedReferences() {
+  const broken = [];
+  const attributePattern = /\b(?:href|src)\s*=\s*(["'])(.*?)\1/gi;
+  const ignored = /^(?:#|https?:|mailto:|tel:|data:|javascript:)/i;
+
+  for (const htmlPath of [...GENERATED_HTML].sort()) {
+    const html = readFileSync(htmlPath, "utf8");
+    let match;
+
+    while ((match = attributePattern.exec(html)) !== null) {
+      const reference = match[2].trim();
+      if (!reference || ignored.test(reference)) continue;
+
+      const pathOnly = reference.split(/[?#]/, 1)[0];
+      let decoded;
+      try {
+        decoded = decodeURIComponent(pathOnly);
+      } catch {
+        broken.push({ htmlPath, reference, reason: "invalid URL encoding" });
+        continue;
+      }
+
+      const target = decoded.startsWith("/")
+        ? resolve(ROOT, `.${decoded}`)
+        : resolve(dirname(htmlPath), decoded);
+
+      if (!target.startsWith(ROOT)) {
+        broken.push({ htmlPath, reference, reason: "path leaves the public site root" });
+        continue;
+      }
+
+      if (!existsSync(target)) {
+        broken.push({ htmlPath, reference, reason: "missing target" });
+        continue;
+      }
+
+      if (statSync(target).isDirectory() && !existsSync(join(target, "index.html"))) {
+        broken.push({ htmlPath, reference, reason: "directory is missing index.html" });
+      }
+    }
+  }
+
+  return broken;
+}
+
+const requiredCopies = [
+  ["scripts/templates/demos/media-inventory-console/index.html", "demos/media-inventory-console/index.html"],
+  ["scripts/templates/demos/file-linking-search/index.html", "demos/file-linking-search/index.html"],
+  ["scripts/templates/demos/asset-status-reconciliation/index.html", "demos/asset-status-reconciliation/index.html"],
+  ["scripts/source-assets/images/media-inventory-overlay-sanitized.jpeg", "assets/images/media-inventory-overlay-sanitized.jpeg"],
+  ["scripts/source-assets/images/ktaekwondo-calendar-august-2026.png", "assets/images/ktaekwondo-calendar-august-2026.png"],
+  ["scripts/source-assets/images/ktaekwondo-keyframe-01.jpg", "assets/images/ktaekwondo-keyframe-01.jpg"],
+  ["scripts/source-assets/images/ktaekwondo-keyframe-02.jpg", "assets/images/ktaekwondo-keyframe-02.jpg"],
+  ["scripts/source-assets/images/ktaekwondo-keyframe-03.jpg", "assets/images/ktaekwondo-keyframe-03.jpg"],
+  ["scripts/source-assets/images/ktaekwondo-keyframe-04.jpg", "assets/images/ktaekwondo-keyframe-04.jpg"],
+  ["scripts/source-assets/images/ktaekwondo-keyframe-05.jpg", "assets/images/ktaekwondo-keyframe-05.jpg"],
+  ["scripts/source-assets/resume.pdf", contact.resume]
+];
+
+for (const [source, output] of requiredCopies) copyRequired(source, output);
+
 write("index.html", homePage());
 write("projects.html", projectsPage());
 write("about.html", aboutPage());
@@ -2193,13 +2555,26 @@ write(".gitignore", gitignore);
 write(".env.example", envExample);
 write("SECURITY.md", security);
 write("docs/privacy-and-sanitization.md", privacyDoc);
+write("docs/resume.txt", resumeText);
 write("demos/README.md", demosReadme);
 write("assets/data/demo-inventory.json", JSON.stringify(inventoryFixture, null, 2));
 write("assets/data/reconciliation-fixtures.json", JSON.stringify(reconFixture, null, 2));
 write("assets/code/sanitized-excerpts.md", excerpts);
 
-for (const project of projects) {
+for (const project of publicProjects) {
   write(`projects/${project.slug}/index.html`, renderProjectPage(project));
 }
+write("projects/file-linking-search/index.html", mergedFileLinkingPage());
 
-console.log(`Generated ${projects.length} project case studies and shared site files.`);
+const brokenReferences = validateGeneratedReferences();
+
+if (brokenReferences.length) {
+  for (const item of brokenReferences) {
+    console.error(`BROKEN ${item.htmlPath.replace(`${ROOT}`, "")} -> ${item.reference} (${item.reason})`);
+  }
+  console.error(`Broken references: ${brokenReferences.length}`);
+  process.exit(1);
+}
+
+console.log(`Generated ${publicProjects.length} project case studies, 3 standalone demos and shared site files.`);
+console.log("Broken references: 0");

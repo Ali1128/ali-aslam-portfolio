@@ -24,6 +24,12 @@
       </button>
       <div class="nav-links" id="primary-navigation">
         <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+        <span class="nav-contact-actions" aria-label="Professional links">
+          <a class="nav-action" href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="nav-action" href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="nav-action" href="mailto:ali.aslam1128@gmail.com">Email</a>
+          <a class="nav-action nav-download" href="../../docs/resume.pdf" download>Download Resume</a>
+        </span>
       </div>
     </nav>
   </header>
@@ -52,6 +58,7 @@
       </div>
       <button class="button button-primary" type="button" data-oped-approve>Approve selected candidates</button>
     </div>
+    <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="oped-layout">
       <aside class="episode-list">
         <h3>Season episodes</h3>
@@ -89,65 +96,76 @@
     <div class="shell case-layout">
       <aside class="case-aside">
         <nav aria-label="Case study sections">
-          <a href="#problem">Context</a>
+          <a href="#summary">Summary</a>
+          <a href="#problem">Problem</a>
           <a href="#approach">Contribution</a>
-          <a href="#architecture">Workflow</a>
-          <a href="#validation">Review + safeguards</a>
-          <a href="#results">Outcome</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#results">Results</a>
+          <a href="#supporting-details">Supporting details</a>
         </nav>
       </aside>
       <article class="case-content">
-        <div id="problem"><section class="case-section">
-    <h2>Operational problem</h2>
-    <ul class="clean-list"><li>Season-level timestamp work can be repetitive, especially when openings and endings recur with small episode-level variations.</li><li>A tool could suggest likely ranges, but final values still needed human validation.</li><li>The system needed to present supporting signals clearly instead of pretending to know narrative structure.</li></ul>
-  </section></div>
-        <section class="case-section">
-    <h2>Constraints</h2>
-    <ul class="clean-list"><li>No remembered accuracy number should be claimed.</li><li>Whisper-derived speech or non-speech information is only a supporting signal.</li><li>The Airtable timestamp collection is described as a human-validated reference dataset, not training data.</li><li>The prototype was experimental.</li></ul>
-  </section>
-        <div id="approach"><section class="case-section">
-    <h2>My contribution</h2>
-    <ul class="clean-list"><li>Use reference timestamps to compare repeated audio patterns across a season.</li><li>Extract audio features and inspect recurring regions with supporting visual and speech-derived signals.</li><li>Generate editable Excel output so humans could approve or correct candidates.</li></ul>
-  </section></div>
-        <section class="case-section">
-    <h2>Production supervision lens</h2>
-    <ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Introduce an experimental media-analysis workflow without presenting candidate outputs as final approvals.</li></ul>
-  </section>
-        <section class="case-section" id="architecture"><h2>System architecture</h2><div class="flow-diagram" aria-label="Dataset-Assisted Opening and Ending Timestamp Detection architecture flow">
+        <section class="case-section" id="summary">
+          <h2>Summary</h2>
+          <p class="case-lead">Used human-validated OP/ED reference timestamps, audio features and speech-recognition output to estimate opening and ending boundaries.</p>
+          <div class="case-subsection"><h3>Output</h3><ul class="clean-list"><li>Excel table with candidate OP and ED boundaries for review</li></ul></div>
+          <div class="case-subsection"><h3>Users and stakeholders</h3><ul class="clean-list"><li>Operators preparing timestamp tables.</li><li>Reviewers validating candidate OP and ED ranges.</li><li>Teams needing repeatable spreadsheet output.</li></ul></div>
+        </section>
+        <section class="case-section" id="problem">
+          <h2>Problem</h2>
+          <ul class="clean-list"><li>Season-level timestamp work can be repetitive, especially when openings and endings recur with small episode-level variations.</li><li>A tool could suggest likely ranges, but final values still needed human validation.</li><li>The system needed to present supporting signals clearly instead of pretending to know narrative structure.</li></ul>
+          <div class="case-subsection"><h3>Constraints</h3><ul class="clean-list"><li>No remembered accuracy number should be claimed.</li><li>Whisper-derived speech or non-speech information is only a supporting signal.</li><li>The Airtable timestamp collection is described as a human-validated reference dataset, not training data.</li><li>The prototype was experimental.</li></ul></div>
+        </section>
+        <section class="case-section" id="approach">
+          <h2>My contribution</h2>
+          <ul class="clean-list"><li>Use reference timestamps to compare repeated audio patterns across a season.</li><li>Extract audio features and inspect recurring regions with supporting visual and speech-derived signals.</li><li>Generate editable Excel output so humans could approve or correct candidates.</li></ul>
+          <div class="case-subsection"><h3>Production supervision lens</h3><ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Introduce an experimental media-analysis workflow without presenting candidate outputs as final approvals.</li></ul></div>
+          <div class="case-subsection"><h3>Implementation notes</h3><ul class="clean-list"><li>The prototype focused on candidate generation, not autonomous final timing.</li><li>Repeated musical-pattern regions were a stronger OP/ED signal than transcript text alone.</li><li>Excel output kept the result accessible to non-developer review workflows.</li></ul></div>
+        </section>
+        <section class="case-section" id="architecture">
+          <h2>Architecture</h2>
+          <div class="flow-diagram" aria-label="Dataset-Assisted Opening and Ending Timestamp Detection architecture flow">
     <div class="flow-node"><span>01</span>Episode media</div><div class="flow-node"><span>02</span>FFmpeg extraction</div><div class="flow-node"><span>03</span>Audio feature analysis</div><div class="flow-node"><span>04</span>Reference timestamp dataset</div><div class="flow-node"><span>05</span>Speech/non-speech signal</div><div class="flow-node"><span>06</span>Candidate ranges</div><div class="flow-node"><span>07</span>Excel output</div><div class="flow-node"><span>08</span>Human validation</div>
-  </div></section>
-        <section class="case-section"><h2>Workflow</h2><ol class="workflow-steps">
+  </div>
+          <div class="case-subsection"><h3>Workflow</h3><ol class="workflow-steps">
     <li>Load episode list</li><li>Extract audio</li><li>Compare against references</li><li>Identify repeated musical regions</li><li>Add supporting signals</li><li>Write candidate ranges</li><li>Approve or edit</li><li>Export reviewed table</li>
-  </ol></section>
-        <section class="case-section">
-    <h2>Implementation notes</h2>
-    <ul class="clean-list"><li>The prototype focused on candidate generation, not autonomous final timing.</li><li>Repeated musical-pattern regions were a stronger OP/ED signal than transcript text alone.</li><li>Excel output kept the result accessible to non-developer review workflows.</li></ul>
+  </ol></div>
+        </section>
+
+        <section class="case-section" id="results">
+          <h2>Results</h2>
+          <ul class="clean-list"><li>Demonstrated a practical path for accelerating repetitive timestamp review.</li><li>Combined media-analysis signals with human approval controls.</li><li>Clarified which signals were useful and which needed caution.</li></ul>
+          <div class="case-subsection"><h3>Learnings</h3><ul class="clean-list"><li>Human-validated references are valuable even without model fine-tuning.</li><li>The best output was an editable review table, not a hidden automated decision.</li></ul></div>
+        </section>
+        <div id="supporting-details">
+          <section class="case-section disclosure-section">
+    <details class="case-disclosure">
+      <summary>Testing</summary>
+      <div class="disclosure-body"><ul class="clean-list"><li>Compared candidate ranges against human-validated reference examples.</li><li>Reviewed false starts and endings manually.</li><li>Checked spreadsheet output structure for downstream editing.</li></ul></div>
+    </details>
   </section>
-        <section class="case-section">
-    <h2>Human review and safeguards</h2>
-    <ul class="clean-list"><li>Final timestamps required human validation.</li><li>Confidence labels are framed as supporting evidence, not certainty.</li><li>The public demo uses fictional filenames and simulated waveform regions.</li></ul>
+          <section class="case-section disclosure-section">
+    <details class="case-disclosure">
+      <summary>Safeguards</summary>
+      <div class="disclosure-body"><ul class="clean-list"><li>Final timestamps required human validation.</li><li>Confidence labels are framed as supporting evidence, not certainty.</li><li>The public demo uses fictional filenames and simulated waveform regions.</li></ul></div>
+    </details>
   </section>
-        <div id="validation"><section class="case-section">
-    <h2>Testing and validation</h2>
-    <ul class="clean-list"><li>Compared candidate ranges against human-validated reference examples.</li><li>Reviewed false starts and endings manually.</li><li>Checked spreadsheet output structure for downstream editing.</li></ul>
-  </section></div>
-        <div id="results"><section class="case-section">
-    <h2>Outcome</h2>
-    <ul class="clean-list"><li>Demonstrated a practical path for accelerating repetitive timestamp review.</li><li>Combined media-analysis signals with human approval controls.</li><li>Clarified which signals were useful and which needed caution.</li></ul>
-  </section></div>
-        <section class="case-section">
-    <h2>Limitations</h2>
-    <ul class="clean-list"><li>Experimental prototype only.</li><li>No final accuracy claim is made.</li><li>Recurring audio can be ambiguous when previews, recaps or music cues overlap.</li></ul>
+          <section class="case-section disclosure-section">
+    <details class="case-disclosure">
+      <summary>Limitations</summary>
+      <div class="disclosure-body"><ul class="clean-list"><li>Experimental prototype only.</li><li>No final accuracy claim is made.</li><li>Recurring audio can be ambiguous when previews, recaps or music cues overlap.</li></ul></div>
+    </details>
   </section>
-        <section class="case-section">
-    <h2>Next iteration</h2>
-    <ul class="clean-list"><li>Add stronger visualization for repeated audio motifs.</li><li>Compare candidates against all retained season references.</li><li>Add reviewer notes and confidence rationale to the Excel export.</li></ul>
+          <section class="case-section disclosure-section">
+    <details class="case-disclosure">
+      <summary>Next iteration</summary>
+      <div class="disclosure-body"><ul class="clean-list"><li>Add stronger visualization for repeated audio motifs.</li><li>Compare candidates against all retained season references.</li><li>Add reviewer notes and confidence rationale to the Excel export.</li></ul></div>
+    </details>
   </section>
-        <section class="case-section code-section">
-          <details class="code-disclosure">
-            <summary>View sanitized illustrative code</summary>
-            <h2>Candidate range scoring with human review output</h2>
-            <pre><code>// Sanitized illustrative excerpt
+          <section class="case-section disclosure-section code-section">
+            <details class="case-disclosure code-disclosure">
+              <summary>Code</summary>
+              <div class="disclosure-body"><h3>Candidate range scoring with human review output</h3><pre><code>// Sanitized illustrative excerpt
 function scoreCandidateRange(range, signals) {
   const support = [
     signals.musicRepeat ? 0.45 : 0,
@@ -162,9 +180,10 @@ function scoreCandidateRange(range, signals) {
     supportScore: support.reduce((sum, value) =&gt; sum + value, 0),
     validationStatus: &quot;Needs human review&quot;
   };
-}</code></pre>
-          </details>
-        </section>
+}</code></pre></div>
+            </details>
+          </section>
+        </div>
       </article>
     </div>
   </section>
@@ -175,7 +194,12 @@ function scoreCandidateRange(range, signals) {
         <p class="footer-title">Ali Aslam</p>
         <p>Production operations, creative technology and human-in-the-loop workflow design.</p>
       </div>
-      <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a>
+      <nav class="footer-links" aria-label="Professional links">
+        <a href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:ali.aslam1128@gmail.com">ali.aslam1128@gmail.com</a>
+        <a href="../../docs/resume.pdf" download>Download Resume</a>
+      </nav>
     </div>
     <div class="shell footer-bottom">
       <span>&copy; <span data-current-year></span> Ali Aslam.</span>

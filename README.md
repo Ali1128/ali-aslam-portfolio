@@ -2,14 +2,13 @@
 
 Static GitHub Pages portfolio for Ali Aslam, focused on media operations systems, creative production, production workflow design, browser automation, media asset management and AI-assisted workflow experimentation.
 
-The portfolio uses plain HTML, CSS and vanilla JavaScript. There is no framework, backend, package install or required build step. The optional generator in `scripts/generate-portfolio.mjs` rebuilds the static pages from shared project data.
+The portfolio uses plain HTML, CSS and vanilla JavaScript. There is no framework, backend or package install. The generator in `scripts/generate-portfolio.mjs` rebuilds the pages, copies every required public demo and image, validates local references and fails when an asset is missing.
 
 Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 
 ## Project List
 
 - Season-Level Media Inventory Operations Console
-- Browser-Side File Linking Search and Inventory Hydration
 - Ingest Status Reconciliation and Airtable Readiness Automation
 - Automated Video Version Comparison and Difference Reporter
 - Dataset-Assisted Opening and Ending Timestamp Detection
@@ -28,7 +27,6 @@ Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 ├── script.js
 ├── projects/
 │   ├── media-inventory-console/
-│   ├── file-linking-search/
 │   ├── asset-reconciliation/
 │   ├── video-version-comparison/
 │   ├── op-ed-detection/
@@ -58,7 +56,7 @@ Then open <http://localhost:8000>.
 
 ## Mock Demos
 
-The interactive demos are public reconstructions with fictional internal-tool data. They demonstrate UI behavior, workflow logic, safeguards and review states without exposing private systems.
+The interactive demos are public reconstructions with fictional internal-tool data. The Browser-Side File Linking Search iteration is preserved inside the Media Inventory Console case study. Demonstration metrics and timecodes are labeled as fictional values.
 
 - Inventory demo data is embedded in `script.js` and mirrored in `assets/data/demo-inventory.json`.
 - Reconciliation fixture rows are mirrored in `assets/data/reconciliation-fixtures.json`.
@@ -74,7 +72,7 @@ The interactive demos are public reconstructions with fictional internal-tool da
 
 ## Public Links
 
-The portfolio intentionally includes no public email address, LinkedIn link or PDF resume. The simple web and plain-text resume versions contain no contact details.
+The portfolio includes Ali's professional email, LinkedIn, GitHub and a generated public resume PDF. No phone number or private contact data is included.
 
 ## Deployment
 

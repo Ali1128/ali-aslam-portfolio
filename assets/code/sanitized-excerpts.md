@@ -36,4 +36,3 @@ if (!requirement.readinessChecked && matches.length === 1) {
 const distance = cosineDistance(previousEmbedding, currentEmbedding);
 const shouldSave = distance > threshold;
 ```
-
