@@ -1,0 +1,37 @@
+RESUME
+
+SUMMARY
+Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production. Builds clear trackers, review systems, status reporting and lightweight tools for evolving creative workflows.
+
+EMPLOYMENT
+Crunchyroll - Media Operations
+April 2024 - January 2026
+- Coordinated release-critical video, audio, timed-text, localization, metadata and partner-distribution assets across simulcast, catalog and home-video workflows.
+- Tracked ingest status, missing deliverables, version changes and release blockers across Airtable, Jira, Aspera, cloud storage and internal media systems.
+- Built operator-facing browser tools and documented workflows for inventory review, file linking and readiness reconciliation.
+
+The Mill - VFX Coordinator
+November 2021 - March 2023
+- Coordinated artists, vendors, reviews, approvals and final assets for campaigns spanning broadcast, social and digital delivery.
+- Tracked capacity, schedules, budgets, purchase orders, invoices and blockers while supporting producers and cross-functional creative teams.
+- Helped establish a company-wide legal-clearance workflow for production assets.
+
+The Third Floor - VFX Production Coordinator
+January 2021 - August 2021
+- Coordinated previs and postvis workflows for film and game projects across remote VFX teams.
+- Managed artist onboarding, task assignments, shot status, review notes, 3D assets and file integrity in ShotGrid.
+- Built custom tracking views that improved daily production visibility and review preparation.
+
+JK Moodo - Video Creative & Editor
+March 2017 - November 2021
+- Produced and edited branded video for film and athletic studio divisions across web, YouTube and social platforms, managing briefs, shoots, schedules, approvals and delivery.
+- Built and coordinated a freelance network of cinematographers, editors and animators while tracking feedback, budgets and deliverables across concurrent projects.
+
+EDUCATION
+Santa Clara University - BA in Communication
+
+TOOLS
+ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Adobe Creative Cloud, Gemini, Codex, Claude Code
+
+LANGUAGES
+English, Urdu, Punjabi, Hindi

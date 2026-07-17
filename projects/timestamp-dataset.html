@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Opening and Ending Timestamp Dataset case study by Ali Aslam.">
+    <title>Opening and Ending Timestamp Dataset | Ali Aslam</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="../index.html" aria-label="Ali Aslam home"><span>Ali Aslam</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+        <div class="nav-links" id="primary-navigation">
+          <a href="../index.html" data-nav="home">Home</a>
+          <a href="../projects.html" data-nav="projects">Projects</a>
+          <a href="../about.html" data-nav="about">About</a>
+          <a href="../resume.html" data-nav="resume">Resume</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="case-hero">
+        <div class="shell case-hero-grid">
+          <div>
+            <p class="eyebrow">Case study 05</p>
+            <h1>Opening and Ending Timestamp Dataset</h1>
+            <p>
+              A structured dataset concept for tracking opening credits, ending credits, recaps, previews,
+              related timecodes, runtime notes, and validation status.
+            </p>
+            <div class="case-tags" aria-label="Project tags">
+              <span>Timecodes</span>
+              <span>Metadata prep</span>
+              <span>Playback support</span>
+            </div>
+          </div>
+          <aside class="case-summary" aria-label="Project summary">
+            <dl>
+              <div><dt>Role focus</dt><dd>Dataset design and validation workflow</dd></div>
+              <div><dt>Use cases</dt><dd>Skip-credit features, editorial review, metadata preparation, QC</dd></div>
+              <div><dt>Data policy</dt><dd>Fictional episode data</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell case-layout">
+          <div class="case-content">
+            <section class="case-section">
+              <h2>The Problem</h2>
+              <p>
+                Timecode data for openings, endings, recaps, and previews can be useful across playback,
+                editorial, metadata, and quality-control workflows. If the data is tracked inconsistently,
+                teams may spend extra time reconfirming the same timestamps or correcting avoidable mistakes.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>My Approach</h2>
+              <p>
+                The concept defines a structured dataset with consistent fields, validation status, notes, and
+                episode-level context. The goal is to make timecode data easier to review, reuse, and hand off.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Process or Workflow</h2>
+              <ol>
+                <li>Log episode number and runtime.</li>
+                <li>Capture opening, ending, recap, and preview start and end timecodes.</li>
+                <li>Mark unavailable segments clearly instead of leaving ambiguous blanks.</li>
+                <li>Validate timestamp order and runtime boundaries.</li>
+                <li>Record reviewer notes and final validation status.</li>
+              </ol>
+            </section>
+
+            <section class="case-section">
+              <h2>Tools and Technologies</h2>
+              <ul>
+                <li>Spreadsheet, CSV, or database-ready table structure</li>
+                <li>Timecode validation formulas or scripts</li>
+                <li>Controlled values for validation status</li>
+                <li>Export formats for playback, metadata, editorial, or QC teams</li>
+              </ul>
+            </section>
+
+            <section class="case-section">
+              <h2>Sample Interface or Diagram</h2>
+              <div class="mock-window" aria-label="Fictional timestamp dataset mockup">
+                <div class="mock-titlebar">
+                  <span>Series timestamp dataset</span>
+                  <span>Fictional season sample</span>
+                </div>
+                <div class="mock-body table-wrap">
+                  <div class="timestamp-row header">
+                    <span>Episode</span>
+                    <span>Opening</span>
+                    <span>Ending</span>
+                    <span>Recap</span>
+                    <span>Preview</span>
+                    <span>Runtime</span>
+                    <span>Status</span>
+                  </div>
+                  <div class="timestamp-row">
+                    <span>01</span>
+                    <span>00:01:12-00:02:42</span>
+                    <span>00:22:10-00:23:40</span>
+                    <span>N/A</span>
+                    <span>00:23:40-00:24:05</span>
+                    <span>00:24:05</span>
+                    <span>Validated</span>
+                  </div>
+                  <div class="timestamp-row">
+                    <span>02</span>
+                    <span>00:00:48-00:02:18</span>
+                    <span>00:21:55-00:23:25</span>
+                    <span>00:00:00-00:00:47</span>
+                    <span>N/A</span>
+                    <span>00:23:25</span>
+                    <span>Review</span>
+                  </div>
+                  <div class="timestamp-row">
+                    <span>03</span>
+                    <span>00:01:05-00:02:35</span>
+                    <span>00:22:44-00:24:14</span>
+                    <span>00:00:00-00:01:04</span>
+                    <span>00:24:14-00:24:40</span>
+                    <span>00:24:40</span>
+                    <span>Validated</span>
+                  </div>
+                </div>
+              </div>
+              <p>
+                Additional fields could include notes, reviewer, source version, validation date, and reason for
+                any exception.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Results or Expected Impact</h2>
+              <p>
+                A clean dataset could support streaming playback features such as skip credits, editorial review,
+                metadata preparation, and quality-control checks. It can also reduce duplicate timestamp work
+                when multiple teams need the same information.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Key Lessons</h2>
+              <p>
+                Timecode data is most useful when every exception is explicit. Clear controlled values like
+                "N/A," "Review," and "Validated" are better than blank cells that force teams to guess.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Next Steps</h2>
+              <p>
+                Next improvements could include timecode format validation, runtime boundary checks, reviewer
+                assignments, version history, and export profiles for different downstream teams.
+              </p>
+            </section>
+          </div>
+
+          <aside class="case-aside">
+            <div class="note-box"><h2>Core fields</h2><p>Episode number, opening start and end, ending start and end, recap, preview, runtime, notes, and validation status.</p></div>
+            <div class="note-box"><h2>Possible applications</h2><p>Streaming playback, skip-credit features, editorial review, metadata preparation, and quality control.</p></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-main"><p>Archived draft case study.</p><a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a></div>
+      <div class="shell footer-bottom"><p>&copy; <span data-current-year>2026</span> Ali Aslam. Portfolio content uses sanitized examples and fictional data.</p></div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

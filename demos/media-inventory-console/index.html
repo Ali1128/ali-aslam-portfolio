@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sanitized interactive reconstruction of a media inventory operations overlay using fictional data.">
+  <title>Media Inventory Console | Sanitized Demo</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101211;
+      --surface: #1a1c1b;
+      --surface-2: #202321;
+      --surface-3: #292c2a;
+      --line: #343936;
+      --line-strong: #4b514d;
+      --text: #f1f4f1;
+      --muted: #9ca39e;
+      --green: #38d978;
+      --green-dark: #247b3d;
+      --teal: #11aab8;
+      --blue: #338ce1;
+      --red: #e35e66;
+      --orange: #ed641f;
+      --gold: #d3a634;
+      --purple: #966dd6;
+      --focus: #75e7a0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--bg); }
+    body { min-height: 100vh; margin: 0; background: #151716; color: var(--text); }
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    [hidden] { display: none !important; }
+
+    .demo-shell { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 100vh; }
+    .demo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 64px;
+      padding: 0.75rem clamp(0.85rem, 2vw, 1.5rem);
+      border-bottom: 1px solid var(--line);
+      background: #111312;
+    }
+    .demo-title { min-width: 0; }
+    .demo-title strong { display: block; font-size: 0.88rem; letter-spacing: 0; }
+    .demo-title span { display: block; margin-top: 0.16rem; color: var(--muted); font-size: 0.7rem; }
+    .view-switch { display: inline-grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line-strong); }
+    .view-switch button { min-height: 34px; padding: 0.4rem 0.75rem; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+    .view-switch button + button { border-left: 1px solid var(--line-strong); }
+    .view-switch button[aria-pressed="true"] { background: #edf0ed; color: #171917; }
+
+    .workspace { position: relative; min-height: 690px; overflow: hidden; background: #171918; }
+    .cms-context { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(190px, 25vw) minmax(0, 1fr); }
+    .poster {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      min-width: 0;
+      padding: 1.5rem;
+      overflow: hidden;
+      border-right: 1px solid #3a3d3b;
+      background: #282b29;
+    }
+    .poster::before,
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      background: repeating-linear-gradient(28deg, transparent 0 76px, rgba(222, 104, 42, 0.28) 77px, transparent 78px 132px);
+      transform: rotate(-8deg);
+    }
+    .poster::after {
+      background: repeating-linear-gradient(112deg, transparent 0 92px, rgba(222, 104, 42, 0.2) 93px, transparent 94px 158px);
+      transform: rotate(7deg);
+    }
+    .poster strong { position: relative; z-index: 1; font-size: clamp(1.6rem, 3vw, 2.7rem); line-height: 0.95; }
+    .cms-main { min-width: 0; padding: clamp(1.25rem, 3vw, 2.4rem); color: #c9ceca; }
+    .cms-main h1 { margin: 0; color: #f2f4f2; font-size: clamp(1.7rem, 3vw, 2.8rem); font-weight: 400; }
+    .episode-tag { display: inline-block; margin-top: 0.7rem; padding: 0.3rem 0.75rem; background: var(--teal); color: #041516; font-size: 0.68rem; font-weight: 800; }
+    .season-row { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.8rem; padding: 0.85rem 1rem; border: 1px solid #594235; background: #252725; }
+    .episode-stack { display: grid; gap: 0.55rem; width: min(48%, 520px); margin: 0.9rem 0 0 auto; }
+    .episode-stack span { padding: 0.8rem; border: 1px solid #333735; background: #222523; color: #979e99; }
+    .episode-stack .active { border-color: #c2612d; background: #462a1e; color: #f0c3aa; }
+    .cms-tabs { display: flex; gap: 1.3rem; margin-top: 3rem; border-bottom: 1px solid #373b38; color: #7e8580; font-size: 0.7rem; text-transform: uppercase; }
+    .cms-tabs span { padding: 0.65rem 0.1rem; }
+    .cms-tabs .active { border-bottom: 3px solid #e66a2b; color: #ef9f75; }
+
+    .inventory-console {
+      position: absolute;
+      z-index: 2;
+      top: 3rem;
+      right: 2rem;
+      display: grid;
+      grid-template-rows: auto auto auto auto minmax(0, 1fr) auto auto;
+      width: min(650px, 52vw);
+      height: 590px;
+      overflow: hidden;
+      border: 1px solid var(--green);
+      background: var(--surface);
+      box-shadow: 0 22px 54px rgba(0, 0, 0, 0.48);
+      transition: inset 180ms ease, width 180ms ease, height 180ms ease;
+    }
+    .inventory-console > * { min-width: 0; }
+    .workspace[data-view="expanded"] .cms-context { opacity: 0.22; pointer-events: none; }
+    .workspace[data-view="expanded"] .inventory-console { inset: 0; width: 100%; height: 100%; border-inline: 0; box-shadow: none; }
+
+    .console-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 48px;
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      background: #171917;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+    }
+    .console-head strong { color: #67e493; }
+    .console-head span { color: #c9ceca; }
+    .count { color: white; font-weight: 800; }
+    .status-dot { display: inline-block; width: 7px; height: 7px; margin-right: 0.35rem; background: var(--green); box-shadow: 0 0 0 3px rgba(56, 217, 120, 0.12); }
+
+    .season-toolbar { display: grid; grid-template-columns: minmax(150px, 0.8fr) auto minmax(170px, 1fr); gap: 0.55rem; align-items: end; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--line); background: #181a19; }
+    .season-toolbar label { display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; }
+    .season-toolbar select { min-width: 0; min-height: 34px; border: 1px solid #444945; border-radius: 0; background: #232623; color: #edf0ed; padding: 0.35rem 0.5rem; }
+    .hydrate-button { min-height: 34px; padding: 0.4rem 0.7rem; border: 1px solid #2e9b59; background: #225f39; color: white; font-size: 0.69rem; font-weight: 850; cursor: pointer; }
+    .hydration-status { align-self: center; color: #a5ada8; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.66rem; }
+    .hydration-status strong { color: var(--green); }
+
+    .preset-row { display: flex; align-items: center; gap: 0.4rem; padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--line); background: #202220; overflow-x: auto; }
+    .preset-row > span { flex: 0 0 auto; margin-right: 0.25rem; color: var(--muted); font-size: 0.67rem; text-transform: uppercase; }
+    .preset-row button { flex: 0 0 auto; min-height: 30px; padding: 0.35rem 0.65rem; border: 1px solid #474c48; background: #171917; color: #b8bdb9; font-size: 0.69rem; cursor: pointer; }
+    .preset-row button[aria-pressed="true"] { border-color: #8b918c; background: #edf0ed; color: #171917; }
+    .reset-button { margin-left: auto; }
+
+    .filter-area { border-bottom: 1px solid var(--line); background: var(--surface-2); }
+    .filter-row { display: flex; align-items: center; gap: 0; width: 100%; min-width: 0; padding: 0.55rem 0.7rem; overflow-x: auto; scrollbar-width: none; }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-row + .filter-row { border-top: 1px solid #303431; }
+    .filter-group { display: flex; align-items: center; gap: 0; }
+    .filter-group + .filter-group { margin-left: 0.55rem; }
+    .filter-button { min-width: 43px; min-height: 34px; padding: 0.35rem 0.55rem; border: 1px solid #444945; background: #242724; color: #929994; cursor: pointer; }
+    .filter-button + .filter-button { border-left: 0; }
+    .filter-button[aria-pressed="true"] { background: #f0f1ef; color: #181a18; }
+    .locale-button { min-width: 54px; min-height: 29px; padding: 0.25rem 0.4rem; font-size: 0.69rem; }
+    .alpha-search { width: 150px; min-height: 34px; margin-left: 0.6rem; padding: 0.35rem 0.55rem; border: 1px solid #444945; border-radius: 0; background: #181a19; color: white; }
+    .alpha-search::placeholder { color: #757b77; }
+
+    .file-pane { width: 100%; min-width: 0; min-height: 0; overflow: auto; scrollbar-color: #4b514d #1a1c1b; }
+    .empty-state { display: grid; min-height: 220px; place-items: center; padding: 2rem; color: #868d88; text-align: center; }
+    .file-row {
+      display: grid;
+      grid-template-columns: 30px 56px 64px 134px minmax(250px, 1fr) 76px;
+      align-items: center;
+      min-width: 700px;
+      min-height: 45px;
+      border-bottom: 1px solid #343835;
+      color: #acb2ae;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+    }
+    .file-row:hover { background: #222522; }
+    .file-row.is-selected { background: #1d2921; }
+    .file-row > * { margin-inline: 0.45rem; }
+    .file-check { width: 18px; height: 18px; margin: 0; accent-color: #2c8ce9; }
+    .version { font-weight: 800; }
+    .version.sim { color: var(--red); }
+    .version.unc { color: #4ba6e8; }
+    .asset-id { padding: 0.25rem 0.38rem; background: #f0f1ef; color: #151715; font-weight: 800; text-align: center; }
+    .asset-badge { width: fit-content; max-width: 125px; padding: 0.26rem 0.48rem; color: white; font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.68rem; font-weight: 850; text-align: center; }
+    .asset-badge.audio { background: var(--orange); }
+    .asset-badge.video { background: #287dd0; }
+    .asset-badge.caption { background: var(--teal); }
+    .asset-badge.subtitle { background: #2aa964; }
+    .asset-badge.stem { background: var(--gold); color: #161711; }
+    .asset-badge.ad { background: var(--purple); }
+    .asset-badge.other { background: #67706a; }
+    .file-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .locale { color: #858c87; text-align: right; }
+
+    .activity-log { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; align-items: center; min-height: 38px; padding: 0.45rem 0.75rem; border-top: 1px solid var(--line); background: #0e100f; font-size: 0.64rem; }
+    .activity-log span { color: #737b76; font-weight: 850; text-transform: uppercase; }
+    .activity-log code { min-width: 0; overflow: hidden; color: #99c5a8; text-overflow: ellipsis; white-space: nowrap; }
+
+    .console-foot { display: grid; grid-template-columns: minmax(0, 1fr) 110px auto auto; gap: 0.6rem; align-items: center; width: 100%; min-width: 0; min-height: 62px; padding: 0.65rem 0.75rem; border-top: 1px solid var(--line); background: #181a18; }
+    .selection-summary { min-width: 0; color: var(--muted); font-size: 0.7rem; }
+    .selection-summary strong { color: white; }
+    .selection-summary span { display: block; margin-top: 0.18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .action-choice { display: grid; gap: 0.2rem; color: var(--muted); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; }
+    .action-choice select { min-height: 34px; border: 1px solid #4a504b; border-radius: 0; background: #222522; color: white; padding: 0.35rem; font-size: 0.68rem; }
+    .action-button { min-height: 36px; padding: 0.45rem 0.8rem; border: 0; background: #277d36; color: white; font-size: 0.7rem; font-weight: 850; cursor: pointer; }
+    .action-button:disabled { background: #303530; color: #777d78; cursor: not-allowed; }
+    .action-button.secondary { border: 1px solid #4a504b; background: transparent; color: #c2c7c3; }
+
+    .privacy-note { margin: 0; padding: 0.65rem 1rem; border-top: 1px solid var(--line); background: #111312; color: #8f9691; font-size: 0.68rem; text-align: center; }
+    .privacy-note strong { color: #c6cbc7; }
+
+    .modal-backdrop { position: fixed; z-index: 10; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgba(4, 6, 5, 0.78); }
+    .dialog { width: min(460px, 100%); border: 1px solid #59605a; background: #1c1f1d; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+    .dialog h2 { margin: 0; padding: 1rem; border-bottom: 1px solid var(--line); font-size: 1rem; }
+    .dialog p { margin: 0; padding: 1rem; color: #b1b7b2; font-size: 0.82rem; line-height: 1.55; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 0.5rem; padding: 0 1rem 1rem; }
+
+    @media (max-width: 900px) {
+      .workspace { min-height: 760px; }
+      .inventory-console { top: 1.25rem; right: 1.25rem; width: calc(100% - 2.5rem); height: 700px; }
+      .workspace[data-view="expanded"] .inventory-console { height: 100%; }
+      .cms-context { grid-template-columns: 170px minmax(0, 1fr); }
+      .episode-stack { width: 70%; }
+    }
+
+    @media (max-width: 620px) {
+      .demo-bar { align-items: flex-start; flex-direction: column; }
+      .view-switch { width: 100%; }
+      .workspace { min-height: 760px; }
+      .cms-context { grid-template-columns: 1fr; }
+      .poster { min-height: 240px; }
+      .cms-main { display: none; }
+      .inventory-console { inset: 0; width: 100%; height: 100%; border-inline: 0; box-shadow: none; }
+      .preset-row { padding-inline: 0.55rem; }
+      .filter-row { padding-inline: 0.5rem; }
+      .season-toolbar { grid-template-columns: 1fr 1fr; }
+      .hydration-status { grid-column: 1 / -1; }
+      .console-foot { grid-template-columns: 1fr 1fr; }
+      .selection-summary { grid-column: 1 / -1; }
+      .action-choice { grid-column: 1 / -1; }
+      .action-button { width: 100%; }
+      .activity-log { grid-template-columns: 1fr; gap: 0.15rem; }
+      .privacy-note { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-bar">
+      <div class="demo-title">
+        <strong>Media Inventory Console</strong>
+        <span>Sanitized public reconstruction. Fictional demonstration values.</span>
+      </div>
+      <div class="view-switch" role="group" aria-label="Demo view">
+        <button type="button" data-view-button="overlay" aria-pressed="false">Overlay</button>
+        <button type="button" data-view-button="expanded" aria-pressed="true">Expanded</button>
+      </div>
+    </header>
+
+    <main class="workspace" data-workspace data-view="expanded">
+      <section class="cms-context" aria-label="Fictional content management context">
+        <aside class="poster"><strong>Signal<br>House</strong></aside>
+        <div class="cms-main">
+          <h1>Episode 02</h1>
+          <span class="episode-tag">EPISODE</span>
+          <div class="season-row"><span>S1.0: Signal House Season 1</span><small>12 episodes</small></div>
+          <div class="episode-stack" aria-label="Episode list">
+            <span>E1.0: Episode 01</span>
+            <span class="active">E2.0: Episode 02</span>
+            <span>E3.0: Episode 03</span>
+            <span>E4.0: Episode 04</span>
+          </div>
+          <div class="cms-tabs"><span>Metadata</span><span class="active">Inventory</span><span>Related jobs</span></div>
+        </div>
+      </section>
+
+      <section class="inventory-console" aria-label="Interactive fictional media inventory">
+        <header class="console-head">
+          <strong><span class="status-dot" aria-hidden="true"></span>INVENTORY CONSOLE</strong>
+          <span><b class="count" data-visible-count>0</b> files</span>
+        </header>
+
+        <div class="season-toolbar">
+          <label>Season
+            <select data-season>
+              <option value="signal-s01">Signal House / Season 01</option>
+              <option value="northstar-s02">Northstar Kitchen / Season 02</option>
+            </select>
+          </label>
+          <button class="hydrate-button" type="button" data-hydrate>Hydrate season</button>
+          <span class="hydration-status" data-hydration-status><strong>7</strong> of 19 browser rows indexed</span>
+        </div>
+
+        <div class="preset-row" role="group" aria-label="Filter presets">
+          <span>View</span>
+          <button type="button" data-preset="all" aria-pressed="true">All inventory</button>
+          <button type="button" data-preset="captions" aria-pressed="false">Caption review</button>
+          <button type="button" data-preset="package" aria-pressed="false">Media package</button>
+          <button class="reset-button" type="button" data-reset>Reset</button>
+        </div>
+
+        <div class="filter-area" aria-label="Inventory filters">
+          <div class="filter-row">
+            <div class="filter-group" role="group" aria-label="Version">
+              <button class="filter-button" type="button" data-filter-group="version" data-filter-value="SIM" aria-pressed="false">SIM</button>
+              <button class="filter-button" type="button" data-filter-group="version" data-filter-value="UNC" aria-pressed="false">UNC</button>
+            </div>
+            <div class="filter-group" role="group" aria-label="Asset type">
+              <button class="filter-button" type="button" data-filter-group="type" data-filter-value="VID" aria-pressed="false">VID</button>
+              <button class="filter-button" type="button" data-filter-group="type" data-filter-value="AUD" aria-pressed="false">AUD</button>
+              <button class="filter-button" type="button" data-filter-group="type" data-filter-value="STEM" aria-pressed="false">STEM</button>
+              <button class="filter-button" type="button" data-filter-group="type" data-filter-value="AD" aria-pressed="false">AD</button>
+              <button class="filter-button" type="button" data-filter-group="type" data-filter-value="CAP" aria-pressed="false">CAP</button>
+              <button class="filter-button" type="button" data-filter-group="type" data-filter-value="SUB" aria-pressed="false">SUB</button>
+            </div>
+            <div class="filter-group" role="group" aria-label="Scope">
+              <button class="filter-button" type="button" data-filter-group="scope" data-filter-value="FULL" aria-pressed="false">FULL</button>
+              <button class="filter-button" type="button" data-filter-group="scope" data-filter-value="FN" aria-pressed="false">FN</button>
+            </div>
+            <button class="filter-button" type="button" data-filter-group="type" data-filter-value="OTHER" aria-pressed="false">OTHER</button>
+            <label>
+              <span hidden>Filter filenames</span>
+              <input class="alpha-search" type="search" data-search placeholder="Filter alpha..." autocomplete="off">
+            </label>
+          </div>
+          <div class="filter-row" role="group" aria-label="Locale">
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="DE-DE" aria-pressed="false">DE-DE</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="EN-US" aria-pressed="false">EN-US</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="ES-ES" aria-pressed="false">ES-ES</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="ES-LA" aria-pressed="false">ES-LA</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="FR-FR" aria-pressed="false">FR-FR</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="HI-IN" aria-pressed="false">HI-IN</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="ID-ID" aria-pressed="false">ID-ID</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="IT-IT" aria-pressed="false">IT-IT</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="MS-MY" aria-pressed="false">MS-MY</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="PT-BR" aria-pressed="false">PT-BR</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="TH-TH" aria-pressed="false">TH-TH</button>
+            <button class="filter-button locale-button" type="button" data-filter-group="locale" data-filter-value="VI-VN" aria-pressed="false">VI-VN</button>
+          </div>
+        </div>
+
+        <div class="file-pane" data-file-pane aria-live="polite"></div>
+
+        <div class="activity-log" aria-live="polite"><span>Action log</span><code data-action-log>Ready. Hydrate the season or work with the visible rows.</code></div>
+
+        <footer class="console-foot">
+          <div class="selection-summary">
+            <strong><span data-selected-count>0</span> selected</strong>
+            <span data-selection-label>Choose files to prepare an operator review.</span>
+          </div>
+          <label class="action-choice">Action
+            <select data-action>
+              <option value="replace">Replace</option>
+              <option value="delete">Delete</option>
+            </select>
+          </label>
+          <button class="action-button secondary" type="button" data-review disabled>Review selected</button>
+          <button class="action-button" type="button" data-export>Export CSV</button>
+        </footer>
+      </section>
+    </main>
+
+    <p class="privacy-note"><strong>Portfolio-safe demo:</strong> no employer branding, private domains, production titles, selectors, account data, or real asset identifiers.</p>
+  </div>
+
+  <div class="modal-backdrop" data-modal hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="review-title">
+      <h2 id="review-title">Confirm simulated action</h2>
+      <p data-review-copy></p>
+      <div class="dialog-actions">
+        <button class="action-button secondary" type="button" data-close-modal>Cancel</button>
+        <button class="action-button" type="button" data-confirm-review>Confirm review</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const records = [
+      { id: "441201", version: "SIM", type: "VID", label: "VIDEO", scope: "FULL", locale: "JA-JP", file: "signal_s01e02_master_1080p_2398.mov" },
+      { id: "441202", version: "UNC", type: "VID", label: "VIDEO", scope: "FULL", locale: "JA-JP", file: "signal_s01e02_review_proxy_1080p.mp4" },
+      { id: "441203", version: "SIM", type: "AUD", label: "AUDIO", scope: "FULL", locale: "DE-DE", file: "signal_s01e02_audio_de-de_20.wav" },
+      { id: "441204", version: "UNC", type: "AUD", label: "AUDIO", scope: "FULL", locale: "EN-US", file: "signal_s01e02_audio_en-us_20.wav" },
+      { id: "441205", version: "SIM", type: "AUD", label: "AUDIO", scope: "FULL", locale: "EN-US", file: "signal_s01e02_audio_en-us_51.wav" },
+      { id: "441206", version: "SIM", type: "AUD", label: "AUDIO", scope: "FULL", locale: "ES-ES", file: "signal_s01e02_audio_es-es_20.wav" },
+      { id: "441207", version: "UNC", type: "AUD", label: "AUDIO", scope: "FULL", locale: "ES-LA", file: "signal_s01e02_audio_es-la_20.wav" },
+      { id: "441208", version: "SIM", type: "AUD", label: "AUDIO", scope: "FULL", locale: "FR-FR", file: "signal_s01e02_audio_fr-fr_20.wav" },
+      { id: "441209", version: "SIM", type: "AUD", label: "AUDIO", scope: "FULL", locale: "HI-IN", file: "signal_s01e02_audio_hi-in_20.wav" },
+      { id: "441210", version: "SIM", type: "AUD", label: "AUDIO", scope: "FULL", locale: "IT-IT", file: "signal_s01e02_audio_it-it_20.wav" },
+      { id: "441211", version: "UNC", type: "AUD", label: "AUDIO", scope: "FULL", locale: "PT-BR", file: "signal_s01e02_audio_pt-br_20.wav" },
+      { id: "441212", version: "SIM", type: "STEM", label: "STEM", scope: "FULL", locale: "EN-US", file: "signal_s01e02_music_effects_stem.wav" },
+      { id: "441213", version: "UNC", type: "AD", label: "AUDIO DESC", scope: "FULL", locale: "EN-US", file: "signal_s01e02_audio_description_en-us.wav" },
+      { id: "441214", version: "UNC", type: "CAP", label: "CAPTION (FULL)", scope: "FULL", locale: "EN-US", file: "signal_s01e02_caption_en-us_full.scc" },
+      { id: "441215", version: "SIM", type: "CAP", label: "CAPTION (FULL)", scope: "FULL", locale: "EN-US", file: "signal_s01e02_caption_en-us_full_alt.scc" },
+      { id: "441216", version: "SIM", type: "SUB", label: "SUBTITLE (FULL)", scope: "FULL", locale: "ES-LA", file: "signal_s01e02_subtitle_es-la_full.dfxp" },
+      { id: "441217", version: "UNC", type: "SUB", label: "SUBTITLE (FN)", scope: "FN", locale: "EN-US", file: "signal_s01e02_subtitle_en-us_forced.dfxp" },
+      { id: "441218", version: "SIM", type: "SUB", label: "SUBTITLE (FN)", scope: "FN", locale: "PT-BR", file: "signal_s01e02_subtitle_pt-br_forced.dfxp" },
+      { id: "441219", version: "UNC", type: "OTHER", label: "OTHER", scope: "FULL", locale: "EN-US", file: "signal_s01e02_delivery_manifest.xml" }
+    ];
+
+    const active = {
+      version: new Set(),
+      type: new Set(),
+      scope: new Set(),
+      locale: new Set()
+    };
+    const selected = new Set();
+    let hydratedCount = 7;
+    let lastFocus = null;
+
+    const workspace = document.querySelector("[data-workspace]");
+    const pane = document.querySelector("[data-file-pane]");
+    const search = document.querySelector("[data-search]");
+    const visibleCount = document.querySelector("[data-visible-count]");
+    const selectedCount = document.querySelector("[data-selected-count]");
+    const selectionLabel = document.querySelector("[data-selection-label]");
+    const reviewButton = document.querySelector("[data-review]");
+    const modal = document.querySelector("[data-modal]");
+    const reviewCopy = document.querySelector("[data-review-copy]");
+    const seasonSelect = document.querySelector("[data-season]");
+    const hydrateButton = document.querySelector("[data-hydrate]");
+    const hydrationStatus = document.querySelector("[data-hydration-status]");
+    const actionSelect = document.querySelector("[data-action]");
+    const actionLog = document.querySelector("[data-action-log]");
+    const confirmButton = document.querySelector("[data-confirm-review]");
+
+    function badgeClass(type) {
+      return ({ AUD: "audio", VID: "video", CAP: "caption", SUB: "subtitle", STEM: "stem", AD: "ad" })[type] || "other";
+    }
+
+    function matchesGroup(record, group) {
+      if (active[group].size === 0) return true;
+      return active[group].has(record[group]);
+    }
+
+    function visibleRecords() {
+      const term = search.value.trim().toLowerCase();
+      return records.slice(0, hydratedCount).filter((record) => {
+        const searchText = `${record.id} ${record.version} ${record.type} ${record.label} ${record.scope} ${record.locale} ${record.file}`.toLowerCase();
+        return matchesGroup(record, "version")
+          && matchesGroup(record, "type")
+          && matchesGroup(record, "scope")
+          && matchesGroup(record, "locale")
+          && (!term || searchText.includes(term));
+      });
+    }
+
+    function updatePresetState(name = "custom") {
+      document.querySelectorAll("[data-preset]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.preset === name));
+      });
+    }
+
+    function updateFilterButtons() {
+      document.querySelectorAll("[data-filter-group]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(active[button.dataset.filterGroup].has(button.dataset.filterValue)));
+      });
+    }
+
+    function updateSelectionSummary() {
+      selectedCount.textContent = String(selected.size);
+      reviewButton.disabled = selected.size === 0;
+      if (selected.size === 0) {
+        selectionLabel.textContent = "Choose files to prepare an operator review.";
+        return;
+      }
+      const names = records.filter((record) => selected.has(record.id)).map((record) => record.file);
+      selectionLabel.textContent = names.join(", ");
+    }
+
+    function render() {
+      const rows = visibleRecords();
+      visibleCount.textContent = String(rows.length);
+      hydrationStatus.innerHTML = `<strong>${hydratedCount}</strong> of ${records.length} browser rows indexed`;
+      if (rows.length === 0) {
+        pane.innerHTML = '<div class="empty-state">No fictional records match the active filters.</div>';
+        updateSelectionSummary();
+        return;
+      }
+
+      pane.innerHTML = rows.map((record) => `
+        <label class="file-row${selected.has(record.id) ? " is-selected" : ""}">
+          <input class="file-check" type="checkbox" value="${record.id}" ${selected.has(record.id) ? "checked" : ""} aria-label="Select ${record.file}">
+          <span class="version ${record.version.toLowerCase()}">[${record.version}]</span>
+          <span class="asset-id">${record.id}</span>
+          <span class="asset-badge ${badgeClass(record.type)}">${record.label}</span>
+          <span class="file-name" title="${record.file}">${record.file}</span>
+          <span class="locale">${record.locale}</span>
+        </label>
+      `).join("");
+      updateSelectionSummary();
+    }
+
+    function clearFilters() {
+      Object.values(active).forEach((set) => set.clear());
+      search.value = "";
+      updateFilterButtons();
+    }
+
+    function applyPreset(name) {
+      clearFilters();
+      if (name === "captions") {
+        active.type.add("CAP");
+        active.scope.add("FULL");
+        selected.clear();
+        records.filter((record) => record.type === "CAP").forEach((record) => selected.add(record.id));
+      }
+      if (name === "package") {
+        ["VID", "AUD", "STEM", "AD", "CAP", "SUB"].forEach((value) => active.type.add(value));
+        ["FULL", "FN"].forEach((value) => active.scope.add(value));
+        selected.clear();
+        ["441214", "441215"].forEach((id) => selected.add(id));
+      }
+      if (name === "all") selected.clear();
+      updateFilterButtons();
+      updatePresetState(name);
+      render();
+    }
+
+    document.querySelectorAll("[data-view-button]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const view = button.dataset.viewButton;
+        workspace.dataset.view = view;
+        document.querySelectorAll("[data-view-button]").forEach((control) => {
+          control.setAttribute("aria-pressed", String(control === button));
+        });
+      });
+    });
+
+    document.querySelectorAll("[data-filter-group]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const set = active[button.dataset.filterGroup];
+        const value = button.dataset.filterValue;
+        set.has(value) ? set.delete(value) : set.add(value);
+        updatePresetState();
+        updateFilterButtons();
+        render();
+      });
+    });
+
+    document.querySelectorAll("[data-preset]").forEach((button) => {
+      button.addEventListener("click", () => applyPreset(button.dataset.preset));
+    });
+
+    document.querySelector("[data-reset]").addEventListener("click", () => applyPreset("all"));
+    search.addEventListener("input", () => { updatePresetState(); render(); });
+
+    hydrateButton.addEventListener("click", () => {
+      hydratedCount = records.length;
+      hydrateButton.textContent = "Season hydrated";
+      actionLog.textContent = `Hydration complete. ${records.length} fictional rows indexed after the count stabilized.`;
+      render();
+    });
+
+    seasonSelect.addEventListener("change", () => {
+      hydratedCount = 7;
+      selected.clear();
+      hydrateButton.textContent = "Hydrate season";
+      actionLog.textContent = `Season changed to ${seasonSelect.options[seasonSelect.selectedIndex].text}. Visible rows reset.`;
+      applyPreset("all");
+    });
+
+    pane.addEventListener("change", (event) => {
+      if (!event.target.matches(".file-check")) return;
+      event.target.checked ? selected.add(event.target.value) : selected.delete(event.target.value);
+      render();
+    });
+
+    reviewButton.addEventListener("click", () => {
+      lastFocus = reviewButton;
+      const action = actionSelect.value;
+      reviewCopy.textContent = `${selected.size} fictional asset${selected.size === 1 ? "" : "s"} selected for ${action}. Confirming records the review in this demo only; no production data can be modified.`;
+      confirmButton.textContent = `Confirm ${action} review`;
+      modal.hidden = false;
+      document.querySelector("[data-close-modal]").focus();
+    });
+
+    function closeModal() {
+      modal.hidden = true;
+      lastFocus?.focus();
+    }
+
+    document.querySelector("[data-close-modal]").addEventListener("click", closeModal);
+    confirmButton.addEventListener("click", () => {
+      const reviewedCount = selected.size;
+      const action = actionSelect.value;
+      selected.clear();
+      closeModal();
+      render();
+      actionLog.textContent = `Human confirmation recorded for ${reviewedCount} simulated ${action} request${reviewedCount === 1 ? "" : "s"}. No files changed.`;
+    });
+    modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !modal.hidden) closeModal(); });
+
+    document.querySelector("[data-export]").addEventListener("click", () => {
+      const rows = visibleRecords();
+      const csv = [
+        ["asset_id", "version", "type", "scope", "locale", "filename"],
+        ...rows.map((record) => [record.id, record.version, record.type, record.scope, record.locale, record.file])
+      ].map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\n");
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+      link.download = "sanitized-media-inventory.csv";
+      link.click();
+      URL.revokeObjectURL(link.href);
+      actionLog.textContent = `CSV export prepared for ${rows.length} visible fictional records.`;
+    });
+
+    applyPreset("all");
+  </script>
+</body>
+</html>

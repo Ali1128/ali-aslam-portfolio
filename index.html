@@ -1,0 +1,1598 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive media operations engineering portfolio systems dashboard.">
+    <title>Media Operations Systems</title>
+    <link rel="icon" href="data:,">
+    <style>
+      :root {
+        --surface-base: #0a0b0d;
+        --surface-card: rgba(255, 255, 255, 0.02);
+        --border-subtle: rgba(255, 255, 255, 0.08);
+        --border-active: rgba(255, 255, 255, 0.25);
+        --text-primary: #f3f4f6;
+        --text-muted: #9ca3af;
+        --accent-ai: #a855f7;
+        --accent-vision: #06b6d4;
+        --accent-vmaf: #10b981;
+        --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --radius: 8px;
+        --transition: 180ms ease;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: dark;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        background: var(--surface-base);
+        color: var(--text-primary);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent-vision);
+        outline-offset: 3px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 100;
+        transform: translateY(-180%);
+        padding: 9px 12px;
+        border: 1px solid var(--border-active);
+        border-radius: 4px;
+        background: #17191d;
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .shell {
+        width: min(1480px, calc(100% - 40px));
+        margin-inline: auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        border-bottom: 1px solid var(--border-subtle);
+        background: rgba(10, 11, 13, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      .topbar-inner {
+        display: flex;
+        min-height: 62px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        text-decoration: none;
+      }
+
+      .brand-copy {
+        display: grid;
+        line-height: 1.2;
+      }
+
+      .brand-copy strong {
+        font-family: var(--mono);
+        font-size: 14px;
+      }
+
+      .brand-copy small {
+        color: var(--text-muted);
+        font-size: 11px;
+      }
+
+      .top-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .top-links a {
+        padding: 7px 9px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 12px;
+        text-decoration: none;
+        transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+      }
+
+      .top-links a:hover {
+        border-color: var(--border-subtle);
+        background: var(--surface-card);
+        color: var(--text-primary);
+      }
+
+      .intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 28px;
+        align-items: end;
+        padding: 44px 0 28px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .eyebrow,
+      .console-label,
+      .system-id,
+      .category-label,
+      .terminal-kicker,
+      dt,
+      .status-value,
+      .system-counter,
+      .system-link,
+      .footer-note {
+        font-family: var(--mono);
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent-vision);
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        overflow-wrap: anywhere;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: 48px;
+        line-height: 1.04;
+        font-weight: 720;
+      }
+
+      .intro-copy > p:last-child {
+        max-width: 760px;
+        margin: 14px 0 0;
+        color: var(--text-muted);
+        font-size: 17px;
+      }
+
+      .runtime-status {
+        display: grid;
+        min-width: 220px;
+        grid-template-columns: auto 1fr;
+        gap: 5px 10px;
+        padding: 12px 14px;
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        background: var(--surface-card);
+      }
+
+      .runtime-status span {
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      .runtime-status strong {
+        font-family: var(--mono);
+        font-size: 11px;
+        text-align: right;
+      }
+
+      .runtime-status strong:first-of-type {
+        color: var(--accent-vmaf);
+      }
+
+      .control-station {
+        display: grid;
+        grid-template-columns: minmax(320px, 1fr) auto;
+        gap: 14px 22px;
+        align-items: end;
+        margin: 24px 0;
+        padding: 16px;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius);
+        background: var(--surface-card);
+        box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
+      }
+
+      .search-field {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        min-width: 0;
+        border: 1px solid var(--border-subtle);
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.018);
+        transition: border-color var(--transition), background-color var(--transition);
+      }
+
+      .search-field:focus-within {
+        border-color: var(--border-active);
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .search-icon {
+        padding-left: 13px;
+        color: var(--accent-vision);
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      #system-search {
+        width: 100%;
+        min-height: 45px;
+        padding: 10px 13px 10px 10px;
+        border: 0;
+        background: transparent;
+        color: var(--text-primary);
+        font-family: var(--mono);
+        font-size: 13px;
+        outline: none;
+      }
+
+      #system-search::placeholder {
+        color: #6b7280;
+        opacity: 1;
+      }
+
+      .system-counter {
+        display: inline-flex;
+        min-height: 45px;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border: 1px solid var(--border-subtle);
+        border-radius: 5px;
+        color: var(--text-muted);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .filter-row {
+        display: flex;
+        grid-column: 1 / -1;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .filter-btn {
+        min-height: 34px;
+        padding: 7px 11px;
+        border: 1px solid var(--border-subtle);
+        border-radius: 4px;
+        background: transparent;
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+      }
+
+      .filter-btn:hover {
+        border-color: var(--border-active);
+        color: var(--text-primary);
+      }
+
+      .filter-btn.active {
+        border-color: rgba(6, 182, 212, 0.55);
+        background: rgba(6, 182, 212, 0.1);
+        color: #a5f3fc;
+      }
+
+      #systems-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 16px;
+        align-items: stretch;
+        padding-bottom: 48px;
+      }
+
+      .featured-system {
+        --system-accent: var(--accent-vision);
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--border-subtle);
+        border-top-color: color-mix(in srgb, var(--system-accent) 70%, transparent);
+        border-radius: var(--radius);
+        background: var(--surface-card);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.18);
+        transition: border-color var(--transition), background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+      }
+
+      .featured-system:hover {
+        border-color: var(--border-active);
+        border-top-color: var(--system-accent);
+        background: rgba(255, 255, 255, 0.032);
+        box-shadow: 0 28px 72px rgba(0, 0, 0, 0.28);
+        transform: translateY(-3px);
+      }
+
+      .system-ai {
+        --system-accent: var(--accent-ai);
+      }
+
+      .system-vision {
+        --system-accent: var(--accent-vision);
+      }
+
+      .system-vmaf {
+        --system-accent: var(--accent-vmaf);
+      }
+
+      .system-header {
+        min-height: 244px;
+        padding: 18px 18px 16px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .system-signature {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .system-id {
+        color: var(--system-accent);
+        font-size: 11px;
+        font-weight: 900;
+      }
+
+      .category-label {
+        color: var(--text-muted);
+        font-size: 10px;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .system-header h2 {
+        margin: 0;
+        font-size: 23px;
+        line-height: 1.14;
+        font-weight: 720;
+      }
+
+      .system-function {
+        margin: 12px 0 0;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .system-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+        flex: 1;
+        min-height: 0;
+      }
+
+      .terminal-simulator {
+        min-width: 0;
+        min-height: 410px;
+        padding: 14px;
+        border-right: 1px solid var(--border-subtle);
+        background: #07080a;
+        font-family: var(--mono);
+      }
+
+      .terminal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .terminal-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .demo-run {
+        min-height: 26px;
+        padding: 4px 7px;
+        border: 1px solid color-mix(in srgb, var(--system-accent) 45%, transparent);
+        border-radius: 3px;
+        background: color-mix(in srgb, var(--system-accent) 10%, transparent);
+        color: var(--system-accent);
+        font-family: var(--mono);
+        font-size: 8px;
+        font-weight: 900;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .demo-run:disabled {
+        cursor: progress;
+        opacity: 0.62;
+      }
+
+      .terminal-kicker {
+        color: var(--text-primary);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .demo-note {
+        color: #6b7280;
+        font-size: 8px;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .terminal-state {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 12px 0;
+        color: var(--text-muted);
+        font-size: 9px;
+      }
+
+      .terminal-media {
+        margin: 0 0 12px;
+        overflow: hidden;
+        border: 1px solid var(--border-subtle);
+        background: #0c0e10;
+      }
+
+      .terminal-media img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 6;
+        object-fit: cover;
+      }
+
+      .terminal-media-keyframe img {
+        object-position: center 30%;
+      }
+
+      .state-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--system-accent);
+        box-shadow: 0 0 12px color-mix(in srgb, var(--system-accent) 65%, transparent);
+      }
+
+      .timeline-shell {
+        display: grid;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .timeline-scale {
+        display: flex;
+        justify-content: space-between;
+        color: #6b7280;
+        font-size: 8px;
+      }
+
+      .timeline-track {
+        position: relative;
+        display: grid;
+        grid-template-columns: 16fr 12fr 56fr 16fr;
+        min-height: 62px;
+        overflow: hidden;
+        border: 1px solid var(--border-subtle);
+      }
+
+      .timeline-track::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 1px;
+        background: #f3f4f6;
+        opacity: 0;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.55);
+      }
+
+      .timeline-track span {
+        display: flex;
+        min-width: 0;
+        align-items: flex-end;
+        padding: 6px;
+        border-right: 1px solid var(--border-subtle);
+        color: #b4b8c0;
+        font-size: 8px;
+        line-height: 1.2;
+      }
+
+      .timeline-track span:last-child {
+        border-right: 0;
+      }
+
+      .segment-recap {
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .segment-opening {
+        background: rgba(168, 85, 247, 0.22);
+        box-shadow: inset 0 3px 0 var(--accent-ai);
+      }
+
+      .segment-body {
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      .segment-ending {
+        background: rgba(168, 85, 247, 0.15);
+        box-shadow: inset 0 3px 0 rgba(168, 85, 247, 0.72);
+      }
+
+      .timeline-ticks {
+        height: 22px;
+        border-block: 1px solid var(--border-subtle);
+        background-image: repeating-linear-gradient(90deg, transparent 0 12px, rgba(255, 255, 255, 0.09) 12px 13px);
+      }
+
+      .time-readout {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .time-readout div {
+        padding: 9px;
+        border: 1px solid var(--border-subtle);
+      }
+
+      .time-readout span,
+      .time-readout strong {
+        display: block;
+      }
+
+      .time-readout span {
+        color: var(--text-muted);
+        font-size: 8px;
+        text-transform: uppercase;
+      }
+
+      .time-readout strong {
+        margin-top: 4px;
+        color: #d8b4fe;
+        font-size: 12px;
+      }
+
+      .terminal-log {
+        margin: 16px 0 0;
+        padding-top: 10px;
+        border-top: 1px solid var(--border-subtle);
+        color: #787f8a;
+        font-size: 8px;
+        line-height: 1.7;
+      }
+
+      .motion-grid {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 3px;
+        margin-top: 18px;
+        padding: 9px;
+        border: 1px solid var(--border-subtle);
+      }
+
+      .motion-grid span {
+        aspect-ratio: 1;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .motion-grid .delta-low {
+        background: rgba(6, 182, 212, 0.18);
+      }
+
+      .motion-grid .delta-mid {
+        background: rgba(6, 182, 212, 0.42);
+      }
+
+      .motion-grid .delta-high {
+        background: var(--accent-vision);
+        box-shadow: 0 0 9px rgba(6, 182, 212, 0.3);
+      }
+
+      .frame-queue {
+        display: grid;
+        gap: 7px;
+        margin-top: 16px;
+      }
+
+      .queue-row {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) 34px;
+        gap: 7px;
+        align-items: center;
+        color: var(--text-muted);
+        font-size: 8px;
+      }
+
+      .delta-bar {
+        height: 5px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .delta-bar i {
+        display: block;
+        width: var(--delta);
+        height: 100%;
+        background: var(--accent-vision);
+      }
+
+      .queue-row b {
+        color: #a5f3fc;
+        font-size: 8px;
+        text-align: right;
+      }
+
+      .metric-matrix {
+        display: grid;
+        margin-top: 17px;
+        border: 1px solid var(--border-subtle);
+      }
+
+      .matrix-row {
+        display: grid;
+        grid-template-columns: 42px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid var(--border-subtle);
+        font-size: 8px;
+      }
+
+      .matrix-row:last-child {
+        border-bottom: 0;
+      }
+
+      .matrix-row span {
+        color: var(--text-muted);
+      }
+
+      .matrix-row strong {
+        color: var(--text-primary);
+        font-size: 11px;
+      }
+
+      .matrix-row b {
+        color: var(--accent-vmaf);
+        font-size: 8px;
+      }
+
+      .quality-chart {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+        padding: 12px 9px;
+        border: 1px solid var(--border-subtle);
+      }
+
+      .chart-row {
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 8px;
+        align-items: center;
+        color: var(--text-muted);
+        font-size: 8px;
+      }
+
+      .chart-track {
+        position: relative;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      .chart-track::after {
+        content: "";
+        position: absolute;
+        top: -3px;
+        bottom: -3px;
+        left: 82%;
+        width: 1px;
+        background: rgba(243, 244, 246, 0.6);
+      }
+
+      .chart-track i {
+        display: block;
+        width: var(--score);
+        height: 100%;
+        background: var(--accent-vmaf);
+      }
+
+      .featured-system.is-running .state-dot {
+        animation: status-pulse 520ms ease-in-out infinite alternate;
+      }
+
+      .system-ai.is-running .timeline-track::after {
+        opacity: 1;
+        animation: timeline-scan 900ms linear;
+      }
+
+      .system-vision.is-running .motion-grid span {
+        animation: matrix-scan 620ms ease-in-out both;
+      }
+
+      .system-vision.is-running .motion-grid span:nth-child(3n) {
+        animation-delay: 90ms;
+      }
+
+      .system-vmaf.is-running .chart-track i {
+        animation: score-scan 900ms ease-out;
+      }
+
+      @keyframes status-pulse {
+        to { transform: scale(1.65); opacity: 0.45; }
+      }
+
+      @keyframes timeline-scan {
+        from { transform: translateX(0); }
+        to { transform: translateX(325px); }
+      }
+
+      @keyframes matrix-scan {
+        50% { filter: brightness(2.2); transform: scale(0.9); }
+      }
+
+      @keyframes score-scan {
+        from { width: 0; }
+      }
+
+      .system-details {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        padding: 14px;
+      }
+
+      .system-details dl {
+        display: grid;
+        gap: 0;
+        margin: 0;
+      }
+
+      .system-details dl > div {
+        padding: 9px 0;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      dt {
+        color: var(--text-muted);
+        font-size: 8px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      dd {
+        margin: 4px 0 0;
+        color: #d1d5db;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .status-value {
+        color: var(--system-accent);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .transformation,
+      .pipeline-map {
+        display: grid;
+        gap: 7px;
+        margin-top: 14px;
+        padding: 10px;
+        border: 1px solid var(--border-subtle);
+        background: rgba(255, 255, 255, 0.018);
+      }
+
+      .transformation span,
+      .pipeline-map span {
+        padding: 7px;
+        border-left: 2px solid var(--system-accent);
+        background: rgba(255, 255, 255, 0.025);
+        color: #d1d5db;
+        font-family: var(--mono);
+        font-size: 9px;
+        line-height: 1.35;
+      }
+
+      .transformation b,
+      .pipeline-map b {
+        color: var(--system-accent);
+        font-family: var(--mono);
+        font-size: 11px;
+        line-height: 1;
+      }
+
+      .system-link {
+        display: inline-flex;
+        min-height: 36px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: auto;
+        padding: 12px 0 0;
+        color: var(--text-primary);
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .system-link span {
+        color: var(--system-accent);
+      }
+
+      .system-link:hover {
+        color: var(--system-accent);
+      }
+
+      .empty-state {
+        grid-column: 1 / -1;
+        padding: 42px 20px;
+        border: 1px dashed var(--border-active);
+        border-radius: var(--radius);
+        color: var(--text-muted);
+        font-family: var(--mono);
+        text-align: center;
+      }
+
+      .project-library {
+        scroll-margin-top: 130px;
+        padding: 38px 0 56px;
+        border-top: 1px solid var(--border-subtle);
+      }
+
+      .library-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 18px;
+      }
+
+      .library-heading h2 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.1;
+      }
+
+      .library-heading p {
+        max-width: 580px;
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .library-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .library-card {
+        display: flex;
+        min-width: 0;
+        min-height: 330px;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius);
+        background: var(--surface-card);
+        transition: border-color var(--transition), transform var(--transition), background-color var(--transition);
+      }
+
+      .library-card:hover {
+        border-color: var(--border-active);
+        background: rgba(255, 255, 255, 0.032);
+        transform: translateY(-2px);
+      }
+
+      .library-visual {
+        position: relative;
+        min-height: 150px;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border-subtle);
+        background: #07080a;
+      }
+
+      .library-visual img {
+        display: block;
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      .library-visual-calendar img {
+        object-position: top;
+      }
+
+      .library-visual-keyframe img {
+        object-position: center 27%;
+      }
+
+      .library-reconciliation {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 7px;
+        align-items: stretch;
+        padding: 12px;
+      }
+
+      .library-reconciliation div {
+        display: grid;
+        align-content: start;
+        gap: 7px;
+        padding: 9px;
+        border: 1px solid var(--border-subtle);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 8px;
+      }
+
+      .library-reconciliation b {
+        color: var(--text-primary);
+        font-size: 9px;
+      }
+
+      .library-reconciliation i {
+        height: 5px;
+        background: rgba(6, 182, 212, 0.22);
+      }
+
+      .library-reconciliation div:last-child i {
+        background: rgba(16, 185, 129, 0.4);
+      }
+
+      .library-copy {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        padding: 14px;
+      }
+
+      .library-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 9px;
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 8px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .library-meta span:last-child {
+        color: var(--accent-vision);
+      }
+
+      .library-copy h3 {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.2;
+      }
+
+      .library-copy p {
+        margin: 8px 0 14px;
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      .library-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: auto;
+      }
+
+      .library-actions a {
+        display: flex;
+        width: 100%;
+        min-height: 42px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 11px;
+        border: 1px solid var(--border-subtle);
+        border-radius: 3px;
+        color: var(--text-primary);
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .library-actions a:hover {
+        border-color: var(--border-active);
+        color: var(--accent-vision);
+      }
+
+      .footer {
+        border-top: 1px solid var(--border-subtle);
+      }
+
+      .footer-inner {
+        display: flex;
+        min-height: 70px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .footer-note {
+        color: var(--text-muted);
+        font-size: 10px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 14px;
+      }
+
+      .footer-links a {
+        color: var(--text-muted);
+        font-family: var(--mono);
+        font-size: 10px;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--text-primary);
+      }
+
+      @media (max-width: 1280px) {
+        #systems-grid {
+          grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        }
+
+        .system-header {
+          min-height: 210px;
+        }
+      }
+
+      @media (max-width: 920px) {
+        .intro,
+        .control-station {
+          grid-template-columns: 1fr;
+        }
+
+        .runtime-status,
+        .system-counter {
+          width: 100%;
+        }
+
+        .system-counter {
+          justify-content: flex-start;
+        }
+
+        .filter-row {
+          grid-column: auto;
+        }
+
+        #systems-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .system-header {
+          min-height: 0;
+        }
+
+        .system-panel {
+          grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.9fr);
+        }
+
+        .library-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 680px) {
+        .shell {
+          width: min(100% - 28px, 1480px);
+        }
+
+        .topbar-inner,
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .topbar-inner {
+          padding: 12px 0;
+        }
+
+        .top-links {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .top-links a {
+          border-color: var(--border-subtle);
+        }
+
+        .brand-copy small {
+          display: none;
+        }
+
+        .intro {
+          padding-top: 32px;
+        }
+
+        h1 {
+          font-size: 38px;
+        }
+
+        .control-station {
+          min-width: 0;
+          padding: 12px;
+        }
+
+        .filter-row {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .filter-btn {
+          min-width: 0;
+          white-space: normal;
+        }
+
+        #systems-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .system-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .terminal-simulator {
+          min-height: 360px;
+          border-right: 0;
+          border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .terminal-head,
+        .library-heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .terminal-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .library-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-inner {
+          padding: 18px 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to systems</a>
+
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <a class="brand" href="index.html" aria-label="Media Operations Systems home">
+          <span class="brand-copy"><strong>OPS//SYSTEMS</strong><small>LLM / AI</small></span>
+        </a>
+        <nav class="top-links" aria-label="Portfolio links">
+          <a href="#projects">Projects</a>
+          <a href="docs/resume.txt">Resume</a>
+          <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow">Media operations / vision systems / verification</p>
+          <h1 id="page-title">Intelligence workflows.</h1>
+          <p>Interactive media operations, computer-vision, and verification projects. Built with Codex, Gemini, Claude Code, and human review where those tools improved the workflow.</p>
+        </div>
+        <aside class="runtime-status" aria-label="Dashboard runtime status">
+          <span>Interface</span><strong>ONLINE</strong>
+          <span>Dataset</span><strong>SANITIZED</strong>
+          <span>Review</span><strong>HUMAN-IN-LOOP</strong>
+        </aside>
+      </section>
+
+      <section class="control-station" id="system-controls" aria-labelledby="controls-title">
+        <h2 class="sr-only" id="controls-title">System filtering controls</h2>
+        <label class="search-field" for="system-search">
+          <span class="search-icon" aria-hidden="true">&lt;/&gt;</span>
+          <span class="sr-only">Filter systems</span>
+          <input type="search" id="system-search" placeholder="Filter systems by keyword, tech stack, or metric..." autocomplete="off">
+        </label>
+        <output class="system-counter" id="system-counter" role="status" aria-live="polite">Showing 3 of 3 active systems</output>
+        <div class="filter-row" role="group" aria-label="System categories">
+          <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All Systems</button>
+          <button type="button" class="filter-btn" data-filter="ai-linear-packaging" aria-pressed="false">AI &amp; Linear Packaging</button>
+          <button type="button" class="filter-btn" data-filter="vision-automation" aria-pressed="false">Vision &amp; Automation</button>
+          <button type="button" class="filter-btn" data-filter="video-metrics-verification" aria-pressed="false">Video Metrics &amp; Verification</button>
+        </div>
+      </section>
+
+      <div id="systems-grid" aria-label="Featured media operations systems">
+        <article class="featured-system system-ai" data-category="ai-linear-packaging" data-keywords="python pytorch computer vision temporal anchoring anime opening ending timecode intro outro linear packaging timeline">
+          <header class="system-header">
+            <div class="system-signature">
+              <span class="system-id">SYS-03</span>
+              <span class="category-label">AI &amp; Linear Packaging</span>
+            </div>
+            <h2>Anime OP/ED Timecodes</h2>
+            <p class="system-function">Finds likely opening and ending boundaries across episodic video, then presents candidates for human review.</p>
+          </header>
+          <div class="system-panel">
+            <section class="terminal-simulator" aria-label="Timeline extraction terminal simulation">
+              <div class="terminal-head"><span class="terminal-kicker">TIMELINE_ANALYZER.LOG</span><span class="terminal-actions"><button class="demo-run" type="button" data-run-demo="timeline">Run scan</button><span class="demo-note">Fictional demonstration values</span></span></div>
+              <div class="terminal-state"><span class="state-dot"></span><span data-demo-status>Ready to scan one sanitized episode</span></div>
+              <figure class="terminal-media"><img src="assets/images/op-ed-anime-sequence.png" alt="Original anime-style recap, opening and ending production frames"></figure>
+              <div class="timeline-shell">
+                <div class="timeline-scale"><span>00:00:00</span><span>00:12:00</span><span>00:24:00</span></div>
+                <div class="timeline-track" aria-label="Episode timeline segmentation">
+                  <span class="segment-recap">Intro<br>(Recap)</span>
+                  <span class="segment-opening">Opening<br>Sequence</span>
+                  <span class="segment-body">Episodic<br>Body</span>
+                  <span class="segment-ending">Ending<br>Theme</span>
+                </div>
+                <div class="timeline-ticks" aria-hidden="true"></div>
+              </div>
+              <div class="time-readout">
+                <div><span>Opening range</span><strong>00:01:38:12</strong></div>
+                <div><span>Ending range</span><strong>00:22:04:08</strong></div>
+              </div>
+              <p class="terminal-log">[PASS] continuity window stabilized<br>[FLAG] OP boundary confidence 0.94<br>[FLAG] ED boundary confidence 0.91</p>
+            </section>
+            <section class="system-details" aria-label="System metadata">
+              <dl>
+                <div><dt>Status</dt><dd><span class="status-value">Experimental prototype</span></dd></div>
+                <div><dt>Role</dt><dd>Workflow designer, dataset preparation, and pipeline testing</dd></div>
+                <div><dt>Core Technologies</dt><dd>Python, PyTorch, Computer Vision, Temporal Anchoring</dd></div>
+                <div><dt>Scale</dt><dd>Season-level episodic timeline analysis</dd></div>
+              </dl>
+              <div class="transformation" aria-label="Workflow transformation">
+                <span>Manual Video Scrubbing</span><b aria-hidden="true">&rarr;</b><span>Automated Timeline Flag Generation</span>
+              </div>
+              <a class="system-link" href="projects/op-ed-detection/index.html">Open interactive case study <span aria-hidden="true">SYS-03 &rarr;</span></a>
+            </section>
+          </div>
+        </article>
+
+        <article class="featured-system system-vision" data-category="vision-automation" data-keywords="python opencv keyframe motion ffmpeg dynamic delta extraction raw video frame queues spatial compression vectors">
+          <header class="system-header">
+            <div class="system-signature">
+              <span class="system-id">SYS-04</span>
+              <span class="category-label">Vision &amp; Automation</span>
+            </div>
+            <h2>Motion Keyframes</h2>
+            <p class="system-function">Uses motion change to keep representative instructional frames and drop visually redundant candidates.</p>
+          </header>
+          <div class="system-panel">
+            <section class="terminal-simulator" aria-label="Motion-aware frame extraction terminal simulation">
+              <div class="terminal-head"><span class="terminal-kicker">MOTION_DELTA.QUEUE</span><span class="terminal-actions"><button class="demo-run" type="button" data-run-demo="motion">Sample frames</button><span class="demo-note">Fictional demonstration values</span></span></div>
+              <div class="terminal-state"><span class="state-dot"></span><span data-demo-status>Ready to sample instructional footage</span></div>
+              <figure class="terminal-media terminal-media-keyframe"><img src="assets/images/ktaekwondo-keyframe-03.jpg" alt="Supplied annotated Taekwondo instructional keyframe"></figure>
+              <div class="motion-grid" aria-label="Motion delta matrix">
+                <span></span><span class="delta-low"></span><span></span><span class="delta-mid"></span><span></span><span></span><span class="delta-low"></span><span></span>
+                <span class="delta-low"></span><span class="delta-mid"></span><span class="delta-high"></span><span class="delta-mid"></span><span></span><span class="delta-low"></span><span></span><span></span>
+                <span></span><span class="delta-low"></span><span class="delta-mid"></span><span class="delta-high"></span><span class="delta-mid"></span><span></span><span></span><span class="delta-low"></span>
+                <span></span><span></span><span class="delta-low"></span><span class="delta-mid"></span><span class="delta-high"></span><span class="delta-mid"></span><span class="delta-low"></span><span></span>
+                <span class="delta-low"></span><span></span><span></span><span class="delta-low"></span><span class="delta-mid"></span><span class="delta-high"></span><span class="delta-mid"></span><span></span>
+              </div>
+              <div class="frame-queue" aria-label="Frame extraction queue">
+                <div class="queue-row"><span>F-0119</span><span class="delta-bar"><i style="--delta: 22%"></i></span><b>DROP</b></div>
+                <div class="queue-row"><span>F-0184</span><span class="delta-bar"><i style="--delta: 78%"></i></span><b>KEEP</b></div>
+                <div class="queue-row"><span>F-0261</span><span class="delta-bar"><i style="--delta: 41%"></i></span><b>REVIEW</b></div>
+                <div class="queue-row"><span>F-0342</span><span class="delta-bar"><i style="--delta: 87%"></i></span><b>KEEP</b></div>
+              </div>
+              <p class="terminal-log">[INDEX] 1,248 sampled frames<br>[DROP] 863 near-duplicate candidates<br>[QUEUE] 27 representative frames</p>
+            </section>
+            <section class="system-details" aria-label="System metadata">
+              <dl>
+                <div><dt>Status</dt><dd><span class="status-value">Computer-vision experiment</span></dd></div>
+                <div><dt>Role</dt><dd>Experiment design, frame evaluation, and workflow analysis</dd></div>
+                <div><dt>Core Technologies</dt><dd>Python, OpenCV, Dynamic Delta Extraction</dd></div>
+                <div><dt>Scale</dt><dd>Frame-level analysis across instructional video sources</dd></div>
+              </dl>
+              <div class="pipeline-map" aria-label="Extraction pipeline">
+                <span>Raw Video Ingestion</span><b aria-hidden="true">&rarr;</b><span>Motion Vectors Analysis</span><b aria-hidden="true">&rarr;</b><span>Dynamic Delta Filter Pass</span>
+              </div>
+              <a class="system-link" href="projects/ktaekwondo-keyframes/index.html">Open case study <span aria-hidden="true">SYS-04 &rarr;</span></a>
+            </section>
+          </div>
+        </article>
+
+        <article class="featured-system system-vmaf" data-category="video-metrics-verification" data-keywords="ffmpeg vmaf model framework automated bash scripting video metrics verification psnr ssim quality comparator mezzanine transcode">
+          <header class="system-header">
+            <div class="system-signature">
+              <span class="system-id">SYS-05</span>
+              <span class="category-label">Video Metrics &amp; Verification</span>
+            </div>
+            <h2>VMAF Quality Check</h2>
+            <p class="system-function">Compares a transcode with its source, flags quality and sync differences, and organizes ranges for human review.</p>
+          </header>
+          <div class="system-panel">
+            <section class="terminal-simulator" aria-label="Objective video quality terminal simulation">
+              <div class="terminal-head"><span class="terminal-kicker">QUALITY_MATRIX.OUT</span><span class="terminal-actions"><button class="demo-run" type="button" data-run-demo="vmaf">Run check</button><span class="demo-note">Fictional demonstration values</span></span></div>
+              <div class="terminal-state"><span class="state-dot"></span><span data-demo-status>Reference and transcode ready</span></div>
+              <figure class="terminal-media"><img src="assets/images/vmaf-anime-comparison.png" alt="Original anime-style source and intentionally compressed comparison frames"></figure>
+              <div class="metric-matrix" aria-label="Quality comparison metrics">
+                <div class="matrix-row"><span>VMAF</span><strong>96.4</strong><b>PASS</b></div>
+                <div class="matrix-row"><span>PSNR</span><strong>42.1</strong><b>PASS</b></div>
+                <div class="matrix-row"><span>SSIM</span><strong>0.985</strong><b>PASS</b></div>
+                <div class="matrix-row"><span>SYNC</span><strong>+0.00</strong><b>PASS</b></div>
+              </div>
+              <div class="quality-chart" aria-label="Metric scores and target boundary">
+                <div class="chart-row"><span>VMAF</span><span class="chart-track"><i style="--score: 96%"></i></span></div>
+                <div class="chart-row"><span>PSNR</span><span class="chart-track"><i style="--score: 88%"></i></span></div>
+                <div class="chart-row"><span>SSIM</span><span class="chart-track"><i style="--score: 98%"></i></span></div>
+              </div>
+              <p class="terminal-log">[REF] mezzanine_source_01.mov<br>[TEST] transcode_output_01.mp4<br>[REPORT] verification matrix exported</p>
+            </section>
+            <section class="system-details" aria-label="System metadata">
+              <dl>
+                <div><dt>Status</dt><dd><span class="status-value">Working comparison prototype</span></dd></div>
+                <div><dt>Role</dt><dd>Workflow design, media analysis, and report validation</dd></div>
+                <div><dt>Core Technologies</dt><dd>FFmpeg, VMAF Model Framework, Automated Bash Scripting</dd></div>
+                <div><dt>Scale</dt><dd>Version-level objective quality and sync verification</dd></div>
+              </dl>
+              <div class="transformation" aria-label="Verification workflow transformation">
+                <span>Subjective Visual Watch Quality Checks</span><b aria-hidden="true">&rarr;</b><span>Objective VMAF Quality Verification</span>
+              </div>
+              <a class="system-link" href="projects/video-version-comparison/index.html">Open interactive case study <span aria-hidden="true">SYS-05 &rarr;</span></a>
+            </section>
+          </div>
+        </article>
+
+        <p class="empty-state hidden" id="empty-state">No active systems match the current category and search token.</p>
+      </div>
+
+      <section class="project-library" id="projects" aria-labelledby="projects-title">
+        <div class="library-heading">
+          <div>
+            <p class="eyebrow">Complete portfolio</p>
+            <h2 id="projects-title">All projects</h2>
+          </div>
+          <p>Six case studies, three full-screen HTML demos, two interactive analysis examples, and supplied or publish-safe visual evidence.</p>
+        </div>
+        <div class="library-grid">
+          <article class="library-card">
+            <div class="library-visual"><img src="assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized media inventory operations console"></div>
+            <div class="library-copy">
+              <div class="library-meta"><span>Operations</span><span>Interactive HTML</span></div>
+              <h3>Media Inventory Console</h3>
+              <p>Season inventory search, hydration, export, queues, and confirmed asset actions. Includes the earlier file-linking search module.</p>
+              <div class="library-actions"><a href="projects/media-inventory-console/index.html">Case study</a><a href="demos/media-inventory-console/index.html">Live demo</a></div>
+            </div>
+          </article>
+
+          <article class="library-card">
+            <div class="library-visual library-reconciliation" role="img" aria-label="Airtable, browser verification and guarded tracker update flow">
+              <div><b>Airtable</b><span>Requirement</span><i></i><span>Unchecked</span></div>
+              <div><b>Browser</b><span>Hydrate</span><i></i><span>DONE</span></div>
+              <div><b>Tracker</b><span>Guard</span><i></i><span>Updated</span></div>
+            </div>
+            <div class="library-copy">
+              <div class="library-meta"><span>Automation</span><span>Interactive HTML</span></div>
+              <h3>Asset Status Reconciliation</h3>
+              <p>Checks completed ingest state against Airtable requirements and updates only exact, verified matches.</p>
+              <div class="library-actions"><a href="projects/asset-reconciliation/index.html">Case study</a><a href="demos/asset-status-reconciliation/index.html">Live demo</a></div>
+            </div>
+          </article>
+
+          <article class="library-card">
+            <div class="library-visual"><img src="assets/images/vmaf-anime-comparison.png" alt="Original anime-style source and compressed frame comparison"></div>
+            <div class="library-copy">
+              <div class="library-meta"><span>Video QA</span><span>Interactive review</span></div>
+              <h3>VMAF Quality Check</h3>
+              <p>Objective source-versus-transcode comparison with review ranges, sync checks, and report output.</p>
+              <div class="library-actions"><a href="projects/video-version-comparison/index.html">Open project</a></div>
+            </div>
+          </article>
+
+          <article class="library-card">
+            <div class="library-visual"><img src="assets/images/op-ed-anime-sequence.png" alt="Original anime-style recap, opening and ending frames"></div>
+            <div class="library-copy">
+              <div class="library-meta"><span>AI media analysis</span><span>Interactive review</span></div>
+              <h3>Anime OP/ED Timecodes</h3>
+              <p>Candidate opening and ending boundaries across episodes, with explicit human approval before final timestamps.</p>
+              <div class="library-actions"><a href="projects/op-ed-detection/index.html">Open project</a></div>
+            </div>
+          </article>
+
+          <article class="library-card">
+            <div class="library-visual library-visual-calendar"><img src="assets/images/ktaekwondo-calendar-dashboard.png" alt="Sanitized Softr-style calendar operations dashboard and public preview"></div>
+            <div class="library-copy">
+              <div class="library-meta"><span>Publishing</span><span>Live public system</span></div>
+              <h3>K-Taekwondo Calendar</h3>
+              <p>Multi-studio schedule publishing from Airtable through a controlled public calendar workflow.</p>
+              <div class="library-actions"><a href="projects/ktaekwondo-calendar/index.html">Case study</a><a href="https://www.k-taekwondo.com/test" target="_blank" rel="noopener noreferrer">Live site</a></div>
+            </div>
+          </article>
+
+          <article class="library-card">
+            <div class="library-visual library-visual-keyframe"><img src="assets/images/ktaekwondo-keyframe-03.jpg" alt="Supplied annotated Taekwondo instructional keyframe"></div>
+            <div class="library-copy">
+              <div class="library-meta"><span>Computer vision</span><span>Real annotated frames</span></div>
+              <h3>Instructional Keyframes</h3>
+              <p>Motion-aware frame selection for instructional content, with human annotation retained as the final authority.</p>
+              <div class="library-actions"><a href="projects/ktaekwondo-keyframes/index.html">Case study</a></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-inner">
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      const controls = document.querySelector("#system-controls");
+      const searchInput = document.querySelector("#system-search");
+      const filterButtons = [...document.querySelectorAll(".filter-btn")];
+      const systemCards = [...document.querySelectorAll(".featured-system")];
+      const counter = document.querySelector("#system-counter");
+      const emptyState = document.querySelector("#empty-state");
+      let activeFilter = "all";
+
+      function updateSystems() {
+        const terms = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        let visibleCount = 0;
+
+        systemCards.forEach((card) => {
+          const categoryMatches = activeFilter === "all" || card.dataset.category === activeFilter;
+          const searchableText = (card.dataset.keywords + " " + card.textContent).toLowerCase();
+          const searchMatches = terms.length === 0 || terms.every((term) => searchableText.includes(term));
+          const isVisible = categoryMatches && searchMatches;
+
+          card.classList.toggle("hidden", !isVisible);
+          card.setAttribute("aria-hidden", String(!isVisible));
+          if (isVisible) visibleCount += 1;
+        });
+
+        counter.textContent = `Showing ${visibleCount} of ${systemCards.length} active systems`;
+        emptyState.classList.toggle("hidden", visibleCount !== 0);
+      }
+
+      function handleControlEvent(event) {
+        const filterButton = event.target.closest(".filter-btn");
+
+        if (filterButton) {
+          activeFilter = filterButton.dataset.filter;
+          filterButtons.forEach((button) => {
+            const isActive = button === filterButton;
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+        }
+
+        updateSystems();
+      }
+
+      searchInput.addEventListener("input", handleControlEvent);
+      controls.addEventListener("click", (event) => {
+        if (event.target.closest(".filter-btn")) handleControlEvent(event);
+      });
+
+      const demoStates = {
+        timeline: ["Scanning temporal windows...", "Candidate OP/ED boundaries ready for human review"],
+        motion: ["Sampling motion deltas...", "Representative frame queue ready for annotation"],
+        vmaf: ["Comparing reference and transcode...", "Quality matrix ready for human review"]
+      };
+
+      document.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-run-demo]");
+        if (!button) return;
+
+        const card = button.closest(".featured-system");
+        const status = card.querySelector("[data-demo-status]");
+        const [runningText, completeText] = demoStates[button.dataset.runDemo];
+
+        card.classList.add("is-running");
+        button.disabled = true;
+        button.textContent = "Running";
+        status.textContent = runningText;
+
+        window.setTimeout(() => {
+          card.classList.remove("is-running");
+          button.disabled = false;
+          button.textContent = "Run again";
+          status.textContent = completeText;
+        }, 950);
+      });
+
+      updateSystems();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Video Version Comparison Workflow case study by Ali Aslam.">
+    <title>Video Version Comparison Workflow | Ali Aslam</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header" data-site-header>
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="../index.html" aria-label="Ali Aslam home"><span>Ali Aslam</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+        <div class="nav-links" id="primary-navigation">
+          <a href="../index.html" data-nav="home">Home</a>
+          <a href="../projects.html" data-nav="projects">Projects</a>
+          <a href="../about.html" data-nav="about">About</a>
+          <a href="../resume.html" data-nav="resume">Resume</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="case-hero">
+        <div class="shell case-hero-grid">
+          <div>
+            <p class="eyebrow">Case study 03</p>
+            <h1>Video Version Comparison Workflow</h1>
+            <p>
+              A media quality-control workflow that compares two video versions and helps identify frame differences,
+              duration mismatches, missing frames, audio alignment issues, edited content, and encoding differences.
+            </p>
+            <div class="case-tags" aria-label="Project tags">
+              <span>Video QC</span>
+              <span>FFmpeg</span>
+              <span>Automated reports</span>
+            </div>
+          </div>
+          <aside class="case-summary" aria-label="Project summary">
+            <dl>
+              <div><dt>Role focus</dt><dd>QC workflow design and comparison logic</dd></div>
+              <div><dt>Status</dt><dd>Concept and prototype direction, not production-ready unless implemented in repo</dd></div>
+              <div><dt>Review model</dt><dd>Automated flags with human QC confirmation</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell case-layout">
+          <div class="case-content">
+            <section class="case-section">
+              <h2>The Problem</h2>
+              <p>
+                Media teams may receive revised video files that need to be compared against a prior version.
+                Manual review can be slow when teams need to confirm whether a runtime changed, frames are missing,
+                an edit was introduced, or audio is no longer aligned.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>My Approach</h2>
+              <p>
+                The workflow breaks comparison into measurable checks. It would capture metadata, compare durations,
+                sample frames, inspect audio alignment, and generate a report that points human reviewers to the
+                moments most likely to need attention.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Process or Workflow</h2>
+              <ol>
+                <li>Load a reference file and a candidate file.</li>
+                <li>Extract technical metadata such as duration, frame rate, resolution, codec, and audio streams.</li>
+                <li>Sample frames at consistent intervals and compare visual differences.</li>
+                <li>Check audio duration and alignment markers.</li>
+                <li>Create a report with timestamps, severity labels, and reviewer notes.</li>
+              </ol>
+            </section>
+
+            <section class="case-section">
+              <h2>Tools and Technologies</h2>
+              <ul>
+                <li>FFmpeg and FFprobe for metadata extraction and frame sampling</li>
+                <li>Python for comparison scripts and report generation</li>
+                <li>VMAF or similar quality metrics where appropriate</li>
+                <li>CSV, HTML, or PDF reports for review handoff</li>
+              </ul>
+              <p>
+                This page describes a workflow concept. It does not claim the prototype is fully production-ready
+                unless working functionality is added to the repository.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Sample Interface or Diagram</h2>
+              <div class="mock-window" aria-label="Fictional video comparison report mockup">
+                <div class="mock-titlebar">
+                  <span>Version comparison report</span>
+                  <span>Ref v01 vs candidate v02</span>
+                </div>
+                <div class="mock-body">
+                  <div class="comparison-grid">
+                    <div class="metric-card">
+                      <span>Duration delta</span>
+                      <strong>+00:00:02</strong>
+                    </div>
+                    <div class="metric-card">
+                      <span>Audio offset</span>
+                      <strong>120 ms</strong>
+                    </div>
+                  </div>
+                  <div class="video-strip" aria-label="Sample frame comparison strip">
+                    <span class="frame-box"></span>
+                    <span class="frame-box"></span>
+                    <span class="frame-box diff"></span>
+                    <span class="frame-box"></span>
+                    <span class="frame-box diff"></span>
+                    <span class="frame-box"></span>
+                  </div>
+                  <div class="timeline-table">
+                    <div class="timeline-row">
+                      <span>00:11:24:12 - frame difference above threshold</span>
+                      <span class="status-pill">Review</span>
+                    </div>
+                    <div class="timeline-row">
+                      <span>00:24:08:03 - candidate audio leads reference</span>
+                      <span class="status-pill">Check audio</span>
+                    </div>
+                    <div class="timeline-row">
+                      <span>00:37:44:18 - encoding bitrate changed</span>
+                      <span class="status-pill">Informational</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="case-section">
+              <h2>Results or Expected Impact</h2>
+              <p>
+                The expected impact is a faster first-pass review and a more precise handoff to QC specialists.
+                Automated checks would direct attention to suspicious timestamps, while final review would remain
+                with a trained human reviewer.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Key Lessons</h2>
+              <p>
+                A comparison report should not overwhelm reviewers with every technical difference. The most useful
+                report separates launch-impacting issues from informational changes and keeps evidence tied to
+                exact timestamps.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Next Steps</h2>
+              <p>
+                Next steps could include a small command-line proof of concept, sample file fixtures, report
+                templates, and documented thresholds for frame difference and audio offset review.
+              </p>
+            </section>
+          </div>
+
+          <aside class="case-aside">
+            <div class="note-box"><h2>Potential signals</h2><p>Frame differences, duration mismatches, missing frames, audio alignment issues, edited content, and encoding changes.</p></div>
+            <div class="note-box"><h2>Human review</h2><p>The workflow supports QC reviewers. It does not replace editorial or technical approval.</p></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-main"><p>Archived draft case study.</p><a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a></div>
+      <div class="shell footer-bottom"><p>&copy; <span data-current-year>2026</span> Ali Aslam. Portfolio content uses sanitized examples and fictional data.</p></div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

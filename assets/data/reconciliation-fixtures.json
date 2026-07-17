@@ -1,0 +1,26 @@
+[
+  {
+    "alphaId": "ALP-204",
+    "episode": "E02",
+    "locale": "en-US",
+    "assetClass": "subtitle",
+    "expectedExtension": ".vtt",
+    "result": "accepted"
+  },
+  {
+    "alphaId": "ALP-204",
+    "episode": "E02",
+    "locale": "ja-JP",
+    "assetClass": "dub",
+    "expectedExtension": ".wav",
+    "result": "accepted"
+  },
+  {
+    "alphaId": "ALP-204",
+    "episode": "E02",
+    "locale": "pt-BR",
+    "assetClass": "forced narrative",
+    "expectedExtension": ".vtt",
+    "result": "manual-review"
+  }
+]

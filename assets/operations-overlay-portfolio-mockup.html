@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Overlay Portfolio Mockup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 13px;
+    background: #1e1e1e;
+    color: #e0e0e0;
+    width: 1512px;
+    height: 720px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── CHROME BROWSER SHELL ─────────────────────────────────────── */
+  .chrome-shell {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 68px;
+    background: #dee1e6;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  .chrome-tabs {
+    height: 38px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 8px;
+    background: #dee1e6;
+    gap: 0;
+  }
+
+  .chrome-tab {
+    height: 32px;
+    padding: 0 16px;
+    background: #f0f0f0;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    white-space: nowrap;
+    min-width: 180px;
+    max-width: 240px;
+  }
+
+  .tab-favicon {
+    width: 14px; height: 14px;
+    background: #4a90d9;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .tab-title { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+  .tab-close {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #666;
+    cursor: pointer;
+  }
+  .tab-close:hover { background: #ddd; }
+
+  .chrome-toolbar {
+    height: 30px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 6px;
+    border-top: 1px solid #ccc;
+  }
+
+  .chrome-nav-btn {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: none;
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: #555;
+    font-size: 12px;
+  }
+  .chrome-nav-btn:hover { background: rgba(0,0,0,0.08); }
+
+  .chrome-url-bar {
+    flex: 1;
+    height: 22px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #333;
+    gap: 4px;
+  }
+
+  .url-lock { color: #1a73e8; font-size: 11px; }
+  .url-text { color: #444; font-size: 12px; }
+  .url-highlight { color: #000; }
+
+  .chrome-bookmarks {
+    height: 22px;
+    background: #f0f0f0;
+    border-top: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 10px;
+    font-size: 11px;
+    color: #444;
+    filter: blur(5px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .bookmark-item {
+    display: flex; align-items: center; gap: 3px;
+    white-space: nowrap;
+  }
+
+  .bm-icon {
+    width: 12px; height: 12px;
+    background: currentColor;
+    border-radius: 2px;
+    opacity: 0.4;
+  }
+
+  /* ── CMS BACKGROUND ───────────────────────────────────────────── */
+  .cms-bg {
+    position: absolute;
+    top: 68px; left: 0; right: 0; bottom: 0;
+    background: #1c1c1c;
+    display: flex;
+  }
+
+  /* Left panel — show art */
+  .cms-left {
+    width: 390px;
+    flex-shrink: 0;
+    background: #252525;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .show-art {
+    width: 100%;
+    height: 100%;
+    background: #2a2a2a;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  /* Geometric pattern background */
+  .geo-canvas {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+  }
+
+  .show-title {
+    position: relative;
+    z-index: 2;
+    padding: 18px 20px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #f0f0f0;
+    line-height: 1.1;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  }
+
+  /* Right panel */
+  .cms-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Episode header */
+  .ep-header {
+    padding: 22px 28px 12px;
+    background: #1c1c1c;
+  }
+
+  .ep-title {
+    font-size: 26px;
+    font-weight: 400;
+    color: #e8e8e8;
+    margin-bottom: 10px;
+  }
+
+  .ep-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #1976d2;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 3px;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .season-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 3px;
+    padding: 8px 14px;
+    margin-bottom: 6px;
+  }
+
+  .season-label { color: #ccc; font-size: 13px; }
+  .season-count { color: #888; font-size: 12px; }
+
+  /* Episode list */
+  .ep-list {
+    flex: 1;
+    display: flex;
+  }
+
+  .ep-list-left {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 28px 12px;
+  }
+
+  .ep-item {
+    padding: 9px 14px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    color: #bbb;
+    font-size: 13px;
+    background: #222;
+  }
+
+  .ep-item.active {
+    background: #3a2a1a;
+    border-color: #c77a30;
+    color: #e8c99a;
+  }
+
+  /* Tabs */
+  .cms-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 28px;
+    border-bottom: 1px solid #333;
+    background: #1c1c1c;
+    margin-bottom: 0;
+  }
+
+  .cms-tab {
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cms-tab.active {
+    color: #e8a040;
+    border-bottom-color: #e8a040;
+  }
+
+  /* Inventory section */
+  .inv-section {
+    padding: 12px 28px 6px;
+    background: #1c1c1c;
+  }
+
+  .inv-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #bbb;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .inv-icon { color: #e8a040; }
+
+  .inv-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .inv-filter-btn {
+    padding: 4px 14px;
+    border-radius: 3px;
+    border: 1px solid #444;
+    background: #e8a040;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+
+  .inv-filter-btn.inactive {
+    background: #2a2a2a;
+    color: #888;
+  }
+
+  .inv-search {
+    margin-left: auto;
+    background: #252525;
+    border: 1px solid #3a3a3a;
+    border-radius: 3px;
+    padding: 4px 10px;
+    color: #888;
+    font-size: 12px;
+    width: 160px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── OPERATIONS OVERLAY ─────────────────────────────────────────────── */
+  .ops-overlay {
+    position: absolute;
+    top: 98px; right: 20px;
+    width: 380px;
+    background: #1e1e1e;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    z-index: 100;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    max-height: 590px;
+    overflow: hidden;
+  }
+
+  .ops-header {
+    padding: 7px 10px;
+    background: #2d2d2d;
+    border-bottom: 1px solid #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ops-title {
+    font-weight: 700;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+  }
+
+  .ops-file-count {
+    color: #888;
+    font-size: 11px;
+  }
+
+  /* Done banner */
+  .ops-done-banner {
+    padding: 9px 12px;
+    background: #1b5e3b;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  /* Log area */
+  .ops-log {
+    padding: 6px 8px;
+    background: #111;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10px;
+    color: #aaa;
+    line-height: 1.6;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .log-line { display: flex; gap: 6px; }
+  .log-icon { width: 14px; text-align: center; }
+  .log-warn { color: #f9a825; }
+  .log-ok { color: #66bb6a; }
+  .log-info { color: #42a5f5; }
+
+  /* File list */
+  .ops-filelist {
+    flex: 1;
+    overflow-y: auto;
+    background: #141414;
+  }
+
+  .file-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 6px;
+    border-bottom: 1px solid #1e1e1e;
+    gap: 5px;
+    font-size: 10.5px;
+    color: #ccc;
+  }
+
+  .file-row:hover { background: #1f2a1f; }
+
+  .file-id {
+    color: #6688aa;
+    font-size: 10px;
+    width: 40px;
+    flex-shrink: 0;
+    text-align: right;
+    font-family: 'Consolas', monospace;
+  }
+
+  .file-cat {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    width: 34px;
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+
+  .cat-audio { background: #e65100; color: #fff; }
+  .cat-sub   { background: #2e7d32; color: #fff; }
+  .cat-video { background: #1565c0; color: #fff; }
+
+  .file-ver {
+    font-size: 9px;
+    color: #666;
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .file-name {
+    flex: 1;
+    font-family: 'Consolas', monospace;
+    font-size: 10px;
+    color: #b0c8b0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Export button */
+  .ops-export-btn {
+    padding: 8px 12px;
+    background: #2e7d32;
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+  }
+
+  .ops-export-btn:hover { background: #388e3c; }
+
+  /* scrollbar styling */
+  .ops-filelist::-webkit-scrollbar { width: 4px; }
+  .ops-filelist::-webkit-scrollbar-track { background: #111; }
+  .ops-filelist::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ── CHROME BROWSER SHELL ──────────────────────────────────────── -->
+<div class="chrome-shell">
+  <div class="chrome-tabs">
+    <div class="chrome-tab">
+      <div class="tab-favicon"></div>
+      <span class="tab-title">Anime Series - Inventory - Overlay</span>
+      <div class="tab-close">✕</div>
+    </div>
+  </div>
+  <div class="chrome-toolbar">
+    <button class="chrome-nav-btn" type="button">←</button>
+    <button class="chrome-nav-btn" type="button">→</button>
+    <button class="chrome-nav-btn" type="button">↻</button>
+    <div class="chrome-url-bar">
+      <span class="url-lock">🔒</span>
+      <span class="url-text">
+        <span>portfolio.example/titles/</span><span class="url-highlight">0000001/0000002/0000003</span><span>?tab=inventory&version_id=0000004</span>
+      </span>
+    </div>
+  </div>
+  <!-- Bookmarks bar — blurred -->
+  <div class="chrome-bookmarks">
+    <div class="bookmark-item"><div class="bm-icon" style="color:#e44"></div> Reference</div>
+    <div class="bookmark-item"><div class="bm-icon" style="color:#46b"></div> Delivery Queue</div>
+    <div class="bookmark-item"><div class="bm-icon" style="color:#4a4"></div> Vendor Portal</div>
+    <div class="bookmark-item"><div class="bm-icon" style="color:#f90"></div> Publishing Tracker</div>
+    <div class="bookmark-item"><div class="bm-icon" style="color:#29a"></div> Metadata</div>
+    <div class="bookmark-item"><div class="bm-icon" style="color:#fa0"></div> Reports</div>
+  </div>
+</div>
+
+<!-- CMS BACKGROUND ────────────────────────────────────────────── -->
+<div class="cms-bg">
+
+  <!-- Left art panel -->
+  <div class="cms-left">
+    <div class="show-art">
+      <!-- SVG geometric pattern -->
+      <svg class="geo-canvas" viewBox="0 0 390 652" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="652" fill="#2a2a2a"/>
+        <g stroke="#c77a30" stroke-width="0.8" fill="none" opacity="0.6">
+          <line x1="195" y1="0" x2="0" y2="326"/><line x1="195" y1="0" x2="390" y2="326"/>
+          <line x1="195" y1="0" x2="80" y2="200"/><line x1="195" y1="0" x2="310" y2="200"/>
+          <line x1="195" y1="0" x2="40" y2="130"/><line x1="195" y1="0" x2="350" y2="130"/>
+          <line x1="0" y1="326" x2="390" y2="326"/>
+          <line x1="0" y1="326" x2="195" y2="652"/><line x1="390" y1="326" x2="195" y2="652"/>
+          <line x1="80" y1="200" x2="310" y2="200"/>
+          <line x1="40" y1="130" x2="350" y2="130"/>
+          <line x1="80" y1="200" x2="0" y2="326"/><line x1="310" y1="200" x2="390" y2="326"/>
+          <line x1="40" y1="130" x2="0" y2="326"/><line x1="350" y1="130" x2="390" y2="326"/>
+          <circle cx="195" cy="0" r="3" fill="#c77a30"/>
+          <circle cx="0" cy="326" r="3" fill="#c77a30"/>
+          <circle cx="390" cy="326" r="3" fill="#c77a30"/>
+          <circle cx="195" cy="652" r="3" fill="#c77a30"/>
+          <circle cx="80" cy="200" r="2.5" fill="#c77a30"/>
+          <circle cx="310" cy="200" r="2.5" fill="#c77a30"/>
+          <circle cx="40" cy="130" r="2" fill="#c77a30"/>
+          <circle cx="350" cy="130" r="2" fill="#c77a30"/>
+        </g>
+      </svg>
+      <div class="show-title">Anime Series</div>
+    </div>
+  </div>
+
+  <!-- Right content -->
+  <div class="cms-right">
+    <div class="ep-header">
+      <div class="ep-title">Episode 02</div>
+      <div class="ep-badge">EPISODE</div>
+      <div class="season-row">
+        <span class="season-label">S1.0:&nbsp; Anime Series Season 1</span>
+        <span class="season-count">49 episodes</span>
+      </div>
+    </div>
+
+    <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+      <div class="ep-list" style="flex:1; overflow:hidden; padding: 0 28px 0 0;">
+        <div class="ep-list-left">
+          <div class="ep-item">E1.0: Episode 01</div>
+          <div class="ep-item active">E2.0: Episode 02</div>
+          <div class="ep-item">E3.0: Episode 03</div>
+          <div class="ep-item">E4.0: Episode 04</div>
+          <div class="ep-item">E5.0: Episode 05</div>
+          <div class="ep-item">E6.0: Episode 06</div>
+        </div>
+      </div>
+
+      <div class="cms-tabs">
+        <div class="cms-tab">Metadata</div>
+        <div class="cms-tab active">Inventory</div>
+        <div class="cms-tab">Related Jobs</div>
+      </div>
+
+      <div class="inv-section">
+        <div class="inv-label">
+          <span class="inv-icon">📦</span>
+          <span>Inventory</span>
+        </div>
+        <div class="inv-filters">
+          <button class="inv-filter-btn" type="button">ALL</button>
+          <button class="inv-filter-btn inactive" type="button">VIDEO</button>
+          <button class="inv-filter-btn inactive" type="button">AUDIO</button>
+          <button class="inv-filter-btn inactive" type="button">SUBTITLE</button>
+          <button class="inv-filter-btn inactive" type="button">IMAGE</button>
+          <button class="inv-filter-btn inactive" type="button">OTHER</button>
+          <div class="inv-search">
+            <span>🔍</span><span style="color:#555;">Search</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── OPERATIONS OVERLAY ───────────────────────────────────────────────── -->
+<div class="ops-overlay">
+  <div class="ops-header">
+    <span class="ops-title">OPS V44: ANIME SERIES</span>
+    <span class="ops-file-count">36 Files</span>
+  </div>
+
+  <div class="ops-done-banner">DONE</div>
+
+  <div class="ops-log">
+    <div class="log-line"><span class="log-icon log-ok">✔</span><span>DONE. Click Export.</span></div>
+    <div class="log-line"><span class="log-icon log-info">↓</span><span>Scanning 1 items...</span></div>
+    <div class="log-line"><span class="log-icon log-warn">⚠</span><span>Hierarchy check failed. Scanning single page only.</span></div>
+    <div class="log-line"><span class="log-icon log-info">◉</span><span>Listing Episodes...</span></div>
+  </div>
+
+  <div class="ops-filelist">
+    <!-- Version 100001 -->
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-audio">AUDIO</span><span class="file-ver">Unc</span><span class="file-name">audio_v100001_20_eng.mov</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-audio">AUDIO</span><span class="file-ver">Unc</span><span class="file-name">audio_v100001_20_lsp.mov</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-audio">AUDIO</span><span class="file-ver">Unc</span><span class="file-name">audio_v100001_20_bpr.mov</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100001_forced_en-us.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100001_forced_spa.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100001_forced_pt-br.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100001_full_en-us.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100001_full_es-la.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100001_full_pt-br.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-video">VIDEO</span><span class="file-ver">Unc</span><span class="file-name">master_v100001_fhd_20_jpn.mov</span></div>
+    <div class="file-row"><span class="file-id">100001</span><span class="file-cat cat-video">VIDEO</span><span class="file-ver">Unc</span><span class="file-name">master_v100001_fhd_20_jpn_proxy.mp4</span></div>
+    <!-- Version 100002 -->
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-audio">AUDIO</span><span class="file-ver">Unc</span><span class="file-name">audio_v100002_20_eng.mov</span></div>
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-audio">AUDIO</span><span class="file-ver">Unc</span><span class="file-name">audio_v100002_20_lsp.mov</span></div>
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-audio">AUDIO</span><span class="file-ver">Unc</span><span class="file-name">audio_v100002_20_bpr.mov</span></div>
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100002_forced_en-us.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100002_forced_spa.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100002_forced_pt-br.dfxp</span></div>
+    <div class="file-row"><span class="file-id">100002</span><span class="file-cat cat-sub">SUB</span><span class="file-ver">Unc</span><span class="file-name">subtitle_v100002_full_en-us.dfxp</span></div>
+  </div>
+
+  <button class="ops-export-btn" type="button">EXPORT CSV</button>
+</div>
+
+</body>
+</html>

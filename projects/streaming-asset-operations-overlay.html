@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Streaming Asset Operations Overlay case study by Ali Aslam."
+    >
+    <title>Streaming Asset Operations Overlay | Ali Aslam</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" data-site-header>
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="../index.html" aria-label="Ali Aslam home">
+          <span>Ali Aslam</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+        <div class="nav-links" id="primary-navigation">
+          <a href="../index.html" data-nav="home">Home</a>
+          <a href="../projects.html" data-nav="projects">Projects</a>
+          <a href="../about.html" data-nav="about">About</a>
+          <a href="../resume.html" data-nav="resume">Resume</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="case-hero">
+        <div class="shell case-hero-grid">
+          <div>
+            <p class="eyebrow">Case study 01</p>
+            <h1>Streaming Asset Operations Overlay</h1>
+            <p>
+              A browser-based workflow concept that gives operators a clearer view of asset status, required
+              components, missing deliverables, risk flags, and next actions.
+            </p>
+            <div class="case-tags" aria-label="Project tags">
+              <span>Sanitized concept</span>
+              <span>Asset readiness</span>
+              <span>Operator workflow</span>
+            </div>
+          </div>
+          <aside class="case-summary" aria-label="Project summary">
+            <dl>
+              <div>
+                <dt>Role focus</dt>
+                <dd>Workflow concept, information architecture, operational logic</dd>
+              </div>
+              <div>
+                <dt>Data type</dt>
+                <dd>Generalized media asset status data</dd>
+              </div>
+              <div>
+                <dt>Confidentiality</dt>
+                <dd>No internal systems, tool names, credentials, or proprietary interfaces</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell case-layout">
+          <div class="case-content">
+            <section class="case-section">
+              <h2>The Problem</h2>
+              <p>
+                Media operators often need to confirm whether every required component for a title has arrived,
+                passed checks, and is ready for the next downstream step. When information is split across file
+                listings, status trackers, vendor messages, and metadata notes, small delivery gaps can be hard
+                to notice until a release is already at risk.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>My Approach</h2>
+              <p>
+                The concept reframes a title view around operational readiness. Instead of asking an operator
+                to manually inspect each source, the overlay would surface required components, current status,
+                missing items, warnings, and suggested next actions in a compact browser view.
+              </p>
+              <h3>Operational context</h3>
+              <p>
+                This is a sanitized portfolio concept inspired by common media operations challenges. It does
+                not reference confidential systems, company-specific interfaces, internal tool names, access
+                credentials, or proprietary information.
+              </p>
+              <h3>Proposed solution</h3>
+              <p>
+                A browser overlay could sit alongside an existing title, episode, or delivery record and provide
+                a checklist-oriented view of assets, localization status, metadata flags, and next actions.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Process or Workflow</h2>
+              <ol>
+                <li>Load a fictional title record and expected delivery profile.</li>
+                <li>Compare required components against received components.</li>
+                <li>Flag missing, blocked, or inconsistent items.</li>
+                <li>Group issues by severity and owner type.</li>
+                <li>Provide a short next-action list for the operator.</li>
+              </ol>
+            </section>
+
+            <section class="case-section">
+              <h2>Tools and Technologies</h2>
+              <ul>
+                <li>HTML, CSS, and vanilla JavaScript for a browser-based prototype</li>
+                <li>Structured JSON or CSV exports for fictional asset status data</li>
+                <li>Rule-based validation for missing deliverables and inconsistent metadata</li>
+                <li>Accessible interface patterns for keyboard and screen-reader use</li>
+              </ul>
+            </section>
+
+            <section class="case-section">
+              <h2>Sample Interface or Diagram</h2>
+              <div class="mock-window media-frame" aria-label="Fictional streaming asset operations overlay mockup">
+                <div class="mock-titlebar">
+                  <span>Episode 02 readiness overlay</span>
+                  <span>36 files scanned</span>
+                </div>
+                <div class="mock-body">
+                  <div class="status-board">
+                    <div class="status-list">
+                      <div class="status-item">
+                        <span>Video master</span>
+                        <span class="status-pill">Ready</span>
+                      </div>
+                      <div class="status-item">
+                        <span>English captions</span>
+                        <span class="status-pill">Ready</span>
+                      </div>
+                      <div class="status-item">
+                        <span>Spanish subtitles</span>
+                        <span class="status-pill">Review</span>
+                      </div>
+                      <div class="status-item">
+                        <span>Portuguese forced narrative</span>
+                        <span class="status-pill">Missing</span>
+                      </div>
+                    </div>
+                    <div>
+                      <p class="section-kicker">Next actions</p>
+                      <ul>
+                        <li>Confirm missing forced narrative file.</li>
+                        <li>Review language code on Spanish subtitle package.</li>
+                        <li>Escalate if vendor response is not received by 3:00 PM.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figure class="asset-preview">
+                <img src="../assets/streaming-overlay-concept.jpeg" alt="Sanitized overlay concept showing fictional episode asset inventory and export status.">
+                <figcaption>
+                  Existing sanitized visual concept preserved as a portfolio asset. The details are generalized and non-confidential.
+                </figcaption>
+              </figure>
+              <p>
+                A cleaned full-size HTML version of this sanitized mockup is also available for closer review.
+              </p>
+              <a
+                class="button button-secondary"
+                href="../assets/operations-overlay-portfolio-mockup.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open sanitized HTML mockup
+              </a>
+            </section>
+
+            <section class="case-section">
+              <h2>Results or Expected Impact</h2>
+              <p>
+                The expected impact is faster triage, fewer manual cross-checks, clearer escalation language,
+                and better visibility into title readiness before launch deadlines. No production performance
+                claims are made without working repository evidence.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Privacy and Security Considerations</h2>
+              <ul>
+                <li>Use fictional or sanitized data in portfolio materials.</li>
+                <li>Avoid storing access credentials, internal URLs, or proprietary identifiers.</li>
+                <li>Limit browser extension permissions if implemented as an extension.</li>
+                <li>Keep exports free of personally identifiable information unless explicitly required and approved.</li>
+              </ul>
+            </section>
+
+            <section class="case-section">
+              <h2>Key Lessons</h2>
+              <p>
+                Operators need the next useful decision more than a dense wall of raw status data. The strongest
+                workflow view reduces ambiguity by showing what is expected, what arrived, what is missing, and
+                which action should happen next.
+              </p>
+            </section>
+
+            <section class="case-section">
+              <h2>Next Steps</h2>
+              <p>
+                Future improvements could include configurable asset profiles, exportable readiness summaries,
+                status history, role-based filtering, and safer integrations with approved internal data sources.
+              </p>
+            </section>
+          </div>
+
+          <aside class="case-aside">
+            <div class="note-box">
+              <h2>Project note</h2>
+              <p>All examples are fictional or sanitized and are meant to show transferable workflow thinking.</p>
+            </div>
+            <div class="note-box">
+              <h2>Related capability</h2>
+              <p>Asset readiness, operational visibility, risk triage, and launch preparation.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-main"><p>Archived draft case study.</p><a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">View GitHub</a></div>
+      <div class="shell footer-bottom">
+        <p>&copy; <span data-current-year>2026</span> Ali Aslam. Portfolio content uses sanitized examples and fictional data.</p>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
+</html>
