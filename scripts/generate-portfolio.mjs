@@ -788,6 +788,7 @@ const resumeTools = [
   "Python",
   "FFmpeg",
   "OpenCV",
+  "Maya",
   "Adobe Creative Cloud",
   "Gemini",
   "Codex",
