@@ -1,10 +1,5 @@
 RESUME
 
-PROFESSIONAL CONTACT
-ali.aslam1128@gmail.com
-https://www.linkedin.com/in/aliaslam2/
-https://github.com/Ali1128/ali-aslam-portfolio
-
 SUMMARY
 Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production. Builds clear trackers, review systems, status reporting and lightweight tools for evolving creative workflows.
 
@@ -27,17 +22,16 @@ January 2021 - August 2021
 - Managed artist onboarding, task assignments, shot status, review notes, 3D assets and file integrity in ShotGrid.
 - Built custom tracking views that improved daily production visibility and review preparation.
 
-Deluxe - Account Coordinator, Localization & Distribution
-July 2016 - July 2017
-- Managed catalog delivery workflows for theatrical, streaming, digital-purchase, console and channel distribution.
-- Coordinated video, audio, subtitle and dub deliverables across external vendors and international release deadlines.
-- Validated foreign-language audio and delivery data, resolving mismatches with dubbing and distribution partners.
+JK Moodo - Video Creative & Editor
+March 2017 - November 2021
+- Produced and edited branded video for film and athletic studio divisions across web, YouTube and social platforms, managing briefs, shoots, schedules, approvals and delivery.
+- Built and coordinated a freelance network of cinematographers, editors and animators while tracking feedback, budgets and deliverables across concurrent projects.
 
 EDUCATION
-Santa Clara University - BA in Communication, 2013
+Santa Clara University - BA in Communication
 
 TOOLS
-ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Adobe Creative Cloud, Gemini, Codex
+ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Adobe Creative Cloud, Gemini, Codex, Claude Code
 
 LANGUAGES
 English, Urdu, Punjabi, Hindi

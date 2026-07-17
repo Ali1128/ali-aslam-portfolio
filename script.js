@@ -275,20 +275,75 @@ document.querySelectorAll("[data-oped-demo]").forEach((root) => {
   });
 });
 
-const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function setupCalendarDemo(root) {
+  const studio = root.querySelector("[data-calendar-studio]");
+  const syncButton = root.querySelector("[data-calendar-sync]");
+  const status = root.querySelector("[data-calendar-status]");
+  const syncState = root.querySelector("[data-calendar-sync-state]");
+  const log = root.querySelector("[data-calendar-log]");
+  const viewButtons = Array.from(root.querySelectorAll("[data-calendar-view]"));
+  const panels = Array.from(root.querySelectorAll("[data-calendar-view-panel]"));
 
-if (motionAllowed && "IntersectionObserver" in window) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
+  function setStatus(message) {
+    if (status) status.textContent = message;
+  }
+
+  viewButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const view = button.getAttribute("data-calendar-view");
+      viewButtons.forEach((node) => {
+        const active = node === button;
+        node.classList.toggle("is-active", active);
+        node.setAttribute("aria-selected", String(active));
+      });
+      panels.forEach((panel) => {
+        const active = panel.getAttribute("data-calendar-view-panel") === view;
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+      });
+      setStatus((view ? view.charAt(0).toUpperCase() + view.slice(1) : "Calendar") + " view loaded");
     });
-  }, { threshold: 0.14 });
+  });
 
-  document.querySelectorAll(".project-card, .practice-list article, .metric-card, .demo-panel, .case-section").forEach((node) => {
-    node.classList.add("reveal");
-    observer.observe(node);
+  if (studio) {
+    studio.addEventListener("change", () => {
+      setStatus(studio.value + " workspace loaded");
+      if (log) log.textContent = "Studio filter changed; public payload remains scoped to approved fields";
+    });
+  }
+
+  if (syncButton) {
+    syncButton.addEventListener("click", () => {
+      syncButton.disabled = true;
+      syncButton.textContent = "Syncing...";
+      setStatus("Reading Airtable changes...");
+      if (log) log.textContent = "Airtable records read; checking publishing state";
+      window.setTimeout(() => {
+        syncButton.disabled = false;
+        syncButton.textContent = "Sync again";
+        if (syncState) syncState.textContent = "last sync just now";
+        if (log) log.textContent = "Public payload ready for review";
+        setStatus("Sync complete; review queue unchanged");
+      }, 700);
+    });
+  }
+
+  root.querySelectorAll("[data-calendar-edit]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const row = button.closest("[data-calendar-event]");
+      if (!row) return;
+      row.classList.add("is-review-row");
+      const chip = row.querySelector(".calendar-chip");
+      if (chip) {
+        chip.classList.remove("is-published");
+        chip.classList.add("is-review");
+        chip.textContent = "Needs review";
+      }
+      button.textContent = "Queued";
+      setStatus("Change queued for human review");
+      if (log) log.textContent = "Draft change captured; no public fields updated";
+    });
   });
 }
+
+document.querySelectorAll("[data-calendar-demo]").forEach(setupCalendarDemo);

@@ -4,16 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Used human-validated OP/ED reference timestamps, audio features and speech-recognition output to estimate opening and ending boundaries.">
-    <title>Dataset-Assisted Opening and Ending Timestamp Detection | Ali Aslam</title>
-    <link rel="stylesheet" href="../../styles.css">
-    <script src="../../script.js" defer></script>
+    <title>Anime OP/ED Timecodes | Ali Aslam</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="../../styles.css?v=stage2-20260716f">
+    <script src="../../script.js?v=stage2-20260716f" defer></script>
   </head>
   <body data-page="projects">
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header" data-site-header>
     <nav class="nav shell" aria-label="Primary navigation">
       <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
-        <span class="brand-mark" aria-hidden="true">AA</span>
         <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
@@ -23,32 +23,35 @@
         <span aria-hidden="true"></span>
       </button>
       <div class="nav-links" id="primary-navigation">
-        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+        <a href="../../index.html#work" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../docs/resume.txt" data-nav="resume">Resume</a>
         <span class="nav-contact-actions" aria-label="Professional links">
-          <a class="nav-action" href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a class="nav-action" href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="nav-action" href="mailto:ali.aslam1128@gmail.com">Email</a>
-          <a class="nav-action nav-download" href="../../docs/resume.pdf" download>Download Resume</a>
+          <a class="nav-action" href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </span>
       </div>
     </nav>
   </header>
     <main id="main">
-      <section class="page-hero case-hero">
+      <section class="page-hero case-hero editorial-project-hero">
     <div class="shell">
       <p class="eyebrow">Experimental media-analysis workflow</p>
-      <h1>Dataset-Assisted Opening and Ending Timestamp Detection</h1>
-      <p>Used human-validated OP/ED reference timestamps, audio features and speech-recognition output to estimate opening and ending boundaries.</p>
+      <div class="project-hero-heading">
+        <div>
+          <h1>Anime OP/ED Timecodes</h1>
+          <p class="project-function">Used human-validated OP/ED reference timestamps, audio features and speech-recognition output to estimate opening and ending boundaries.</p>
+        </div>
+        <span class="status-badge">Experimental season-level prototype</span>
+      </div>
       <div class="hero-actions">
+        <a class="button button-primary" href="#demonstration">View functional demonstration</a>
         <a class="button button-secondary" href="../../projects.html">All projects</a>
-        <a class="button button-ghost" href="#case-study">Read case study</a>
       </div>
       <dl class="metadata-grid">
-    <div><dt>Status</dt><dd>Experimental season-level prototype</dd></div><div><dt>Role</dt><dd>Prototype designer and media-analysis tester</dd></div><div><dt>Scale</dt><dd>Season-level prototype with human-validated reference timestamps</dd></div><div><dt>Tools</dt><dd>Python, FFmpeg, pandas, openpyxl</dd></div>
+    <div><dt>Status</dt><dd>Experimental season-level prototype</dd></div><div><dt>Role</dt><dd>Prototype designer and media-analysis tester</dd></div><div><dt>Users</dt><dd>Operations users preparing human-reviewed timestamp tables</dd></div><div><dt>Scale</dt><dd>Season-level prototype with human-validated reference timestamps</dd></div><div><dt>Tools</dt><dd>Python, FFmpeg, pandas, openpyxl</dd></div>
   </dl>
     </div>
   </section>
-  <section class="section" id="case-study">
+  <section class="section project-demonstration" id="demonstration">
     <div class="shell">
       <section class="demo-panel oped-demo" data-oped-demo aria-label="OP and ED timestamp detection demo">
     <div class="demo-panel-header">
@@ -59,6 +62,10 @@
       <button class="button button-primary" type="button" data-oped-approve>Approve selected candidates</button>
     </div>
     <p class="demo-values-note">Fictional demonstration values.</p>
+    <figure class="generated-production-visual">
+      <img src="../../assets/images/op-ed-anime-sequence.png" alt="Original anime-style recap, opening and ending sequence frames">
+      <figcaption>Original publish-safe anime-style frames created for timeline analysis: recap, opening sequence and ending sequence.</figcaption>
+    </figure>
     <div class="oped-layout">
       <aside class="episode-list">
         <h3>Season episodes</h3>
@@ -85,59 +92,106 @@
       </table>
     </div>
   </section>
-      <div class="impact-strip">
-        <div><span>Outcome</span><strong>Created candidate timestamp ranges for human review without claiming automatic final accuracy.</strong></div>
-        <div><span>Public status</span><strong>Experimental season-level prototype</strong></div>
-        <div><span>Contribution</span><strong>Prototype designer and media-analysis tester</strong></div>
-      </div>
+      <div class="outcome-strip" aria-label="Project outcome, scale and primary safeguard">
+    <div><span>Outcome</span><strong>Created candidate timestamp ranges for human review without claiming automatic final accuracy.</strong></div>
+    <div><span>Scale</span><strong>Season-level prototype with human-validated reference timestamps</strong></div>
+    <div><span>Primary safeguard</span><strong>Final timestamps required human validation.</strong></div>
+  </div>
     </div>
   </section>
-  <section class="section">
-    <div class="shell case-layout">
-      <aside class="case-aside">
-        <nav aria-label="Case study sections">
-          <a href="#summary">Summary</a>
-          <a href="#problem">Problem</a>
-          <a href="#approach">Contribution</a>
-          <a href="#architecture">Architecture</a>
-          <a href="#results">Results</a>
-          <a href="#supporting-details">Supporting details</a>
-        </nav>
-      </aside>
-      <article class="case-content">
-        <section class="case-section" id="summary">
-          <h2>Summary</h2>
-          <p class="case-lead">Used human-validated OP/ED reference timestamps, audio features and speech-recognition output to estimate opening and ending boundaries.</p>
-          <div class="case-subsection"><h3>Output</h3><ul class="clean-list"><li>Excel table with candidate OP and ED boundaries for review</li></ul></div>
-          <div class="case-subsection"><h3>Users and stakeholders</h3><ul class="clean-list"><li>Operators preparing timestamp tables.</li><li>Reviewers validating candidate OP and ED ranges.</li><li>Teams needing repeatable spreadsheet output.</li></ul></div>
-        </section>
-        <section class="case-section" id="problem">
-          <h2>Problem</h2>
+  <article class="project-story">
+    <section class="section case-section" id="problem">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Operational problem</p><h2>Where the workflow broke down.</h2></header>
+        <div class="story-copy">
           <ul class="clean-list"><li>Season-level timestamp work can be repetitive, especially when openings and endings recur with small episode-level variations.</li><li>A tool could suggest likely ranges, but final values still needed human validation.</li><li>The system needed to present supporting signals clearly instead of pretending to know narrative structure.</li></ul>
           <div class="case-subsection"><h3>Constraints</h3><ul class="clean-list"><li>No remembered accuracy number should be claimed.</li><li>Whisper-derived speech or non-speech information is only a supporting signal.</li><li>The Airtable timestamp collection is described as a human-validated reference dataset, not training data.</li><li>The prototype was experimental.</li></ul></div>
-        </section>
-        <section class="case-section" id="approach">
-          <h2>My contribution</h2>
+        </div>
+      </div>
+    </section>
+    <section class="section case-section section-ruled" id="built">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">What I built</p><h2>A practical production-facing system.</h2><p class="section-summary">Excel table with candidate OP and ED boundaries for review</p></header>
+        <div class="story-copy">
           <ul class="clean-list"><li>Use reference timestamps to compare repeated audio patterns across a season.</li><li>Extract audio features and inspect recurring regions with supporting visual and speech-derived signals.</li><li>Generate editable Excel output so humans could approve or correct candidates.</li></ul>
+          <div class="case-subsection"><h3>Users and stakeholders</h3><ul class="clean-list"><li>Operators preparing timestamp tables.</li><li>Reviewers validating candidate OP and ED ranges.</li><li>Teams needing repeatable spreadsheet output.</li></ul></div>
           <div class="case-subsection"><h3>Production supervision lens</h3><ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Introduce an experimental media-analysis workflow without presenting candidate outputs as final approvals.</li></ul></div>
-          <div class="case-subsection"><h3>Implementation notes</h3><ul class="clean-list"><li>The prototype focused on candidate generation, not autonomous final timing.</li><li>Repeated musical-pattern regions were a stronger OP/ED signal than transcript text alone.</li><li>Excel output kept the result accessible to non-developer review workflows.</li></ul></div>
-        </section>
-        <section class="case-section" id="architecture">
-          <h2>Architecture</h2>
-          <div class="flow-diagram" aria-label="Dataset-Assisted Opening and Ending Timestamp Detection architecture flow">
-    <div class="flow-node"><span>01</span>Episode media</div><div class="flow-node"><span>02</span>FFmpeg extraction</div><div class="flow-node"><span>03</span>Audio feature analysis</div><div class="flow-node"><span>04</span>Reference timestamp dataset</div><div class="flow-node"><span>05</span>Speech/non-speech signal</div><div class="flow-node"><span>06</span>Candidate ranges</div><div class="flow-node"><span>07</span>Excel output</div><div class="flow-node"><span>08</span>Human validation</div>
+        </div>
+      </div>
+    </section>
+    <section class="section case-section workflow-section" id="workflow">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Workflow and architecture</p><h2>Who acts, what changes and what happens next.</h2></div>
+        <div class="workflow-diagram" aria-label="Anime OP/ED Timecodes architecture and workflow">
+    <article class="workflow-node">
+      <header><span>01</span><strong>Workflow stage 01</strong></header>
+      <h3>Episode media</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Load episode list</dd></div>
+        <div><dt>Result</dt><dd>Extract audio</dd></div>
+      </dl>
+    </article><article class="workflow-node">
+      <header><span>02</span><strong>Workflow stage 02</strong></header>
+      <h3>FFmpeg extraction</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Extract audio</dd></div>
+        <div><dt>Result</dt><dd>Compare against references</dd></div>
+      </dl>
+    </article><article class="workflow-node">
+      <header><span>03</span><strong>Workflow stage 03</strong></header>
+      <h3>Audio feature analysis</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Compare against references</dd></div>
+        <div><dt>Result</dt><dd>Identify repeated musical regions</dd></div>
+      </dl>
+    </article><article class="workflow-node">
+      <header><span>04</span><strong>Workflow stage 04</strong></header>
+      <h3>Reference timestamp dataset</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Identify repeated musical regions</dd></div>
+        <div><dt>Result</dt><dd>Add supporting signals</dd></div>
+      </dl>
+    </article>
   </div>
-          <div class="case-subsection"><h3>Workflow</h3><ol class="workflow-steps">
+        <div class="case-subsection workflow-sequence"><h3>Operator sequence</h3><ol class="workflow-steps">
     <li>Load episode list</li><li>Extract audio</li><li>Compare against references</li><li>Identify repeated musical regions</li><li>Add supporting signals</li><li>Write candidate ranges</li><li>Approve or edit</li><li>Export reviewed table</li>
   </ol></div>
-        </section>
+      </div>
+    </section>
+    <section class="section case-section safeguards-section section-ruled" id="safeguards">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Safeguards</p><h2>Risk stays visible at the decision point.</h2></header>
+        <ul class="safeguard-list"><li><span>01</span>Final timestamps required human validation.</li><li><span>02</span>Confidence labels are framed as supporting evidence, not certainty.</li><li><span>03</span>The public demo uses fictional filenames and simulated waveform regions.</li></ul>
+      </div>
+    </section>
+    <section class="section case-section evidence-section" id="evidence">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Evidence</p><h2>Artifacts that make the workflow reviewable.</h2></div>
+        <div class="evidence-gallery">
+    <figure class="evidence-wide"><div class="evidence-placeholder">Waveform, reference examples, repeated-pattern regions and Excel output</div><figcaption>Demonstrated a practical path for accelerating repetitive timestamp review.</figcaption></figure>
+  </div>
+      </div>
+    </section>
 
-        <section class="case-section" id="results">
-          <h2>Results</h2>
+    <section class="section case-section result-section section-ruled" id="results">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Result</p><h2>Created candidate timestamp ranges for human review without claiming automatic final accuracy.</h2></header>
+        <div class="story-copy">
           <ul class="clean-list"><li>Demonstrated a practical path for accelerating repetitive timestamp review.</li><li>Combined media-analysis signals with human approval controls.</li><li>Clarified which signals were useful and which needed caution.</li></ul>
           <div class="case-subsection"><h3>Learnings</h3><ul class="clean-list"><li>Human-validated references are valuable even without model fine-tuning.</li><li>The best output was an editable review table, not a hidden automated decision.</li></ul></div>
-        </section>
-        <div id="supporting-details">
+        </div>
+      </div>
+    </section>
+    <section class="section case-section technical-details" id="supporting-details">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Expandable technical detail</p><h2>Implementation, tests and known limits.</h2></div>
+        <div class="disclosure-grid">
+          <section class="case-section disclosure-section">
+    <details class="case-disclosure">
+      <summary>Implementation notes</summary>
+      <div class="disclosure-body"><ul class="clean-list"><li>The prototype focused on candidate generation, not autonomous final timing.</li><li>Repeated musical-pattern regions were a stronger OP/ED signal than transcript text alone.</li><li>Excel output kept the result accessible to non-developer review workflows.</li></ul></div>
+    </details>
+  </section>
           <section class="case-section disclosure-section">
     <details class="case-disclosure">
       <summary>Testing</summary>
@@ -164,7 +218,7 @@
   </section>
           <section class="case-section disclosure-section code-section">
             <details class="case-disclosure code-disclosure">
-              <summary>Code</summary>
+              <summary>Sanitized code</summary>
               <div class="disclosure-body"><h3>Candidate range scoring with human review output</h3><pre><code>// Sanitized illustrative excerpt
 function scoreCandidateRange(range, signals) {
   const support = [
@@ -184,9 +238,9 @@ function scoreCandidateRange(range, signals) {
             </details>
           </section>
         </div>
-      </article>
-    </div>
-  </section>
+      </div>
+    </section>
+  </article>
     </main>
     <footer class="site-footer">
     <div class="shell footer-main">
@@ -197,13 +251,10 @@ function scoreCandidateRange(range, signals) {
       <nav class="footer-links" aria-label="Professional links">
         <a href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="mailto:ali.aslam1128@gmail.com">ali.aslam1128@gmail.com</a>
-        <a href="../../docs/resume.pdf" download>Download Resume</a>
       </nav>
     </div>
     <div class="shell footer-bottom">
       <span>&copy; <span data-current-year></span> Ali Aslam.</span>
-      <span>Sanitized reconstructions and fictional operational data.</span>
     </div>
   </footer>
   </body>

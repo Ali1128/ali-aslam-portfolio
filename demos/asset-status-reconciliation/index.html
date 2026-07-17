@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Sanitized interactive reconstruction of browser-based ingest status reconciliation and tracker updates.">
   <title>Asset Status Reconciliation | Sanitized Demo</title>
+  <link rel="icon" href="data:,">
   <style>
     :root {
       color-scheme: light dark;
@@ -61,7 +62,8 @@
     .workflow-step.is-active strong { color: #0a6d60; }
     .workflow-step.is-complete::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--green); }
 
-    .workspace { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); min-height: 690px; }
+    .mobile-tabs { display: none; }
+    .workspace { display: grid; grid-template-columns: minmax(270px, 0.9fr) minmax(250px, 0.78fr) minmax(340px, 1.12fr); min-height: 690px; }
     .system-pane { display: grid; min-width: 0; grid-template-rows: auto minmax(0, 1fr) auto; background: var(--dark); color: #edf0ed; }
     .tracker-pane { display: grid; min-width: 0; grid-template-rows: auto minmax(0, 1fr); border-left: 1px solid #2d3331; background: white; }
     .pane-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0.75rem 1rem; }
@@ -72,6 +74,34 @@
     .system-pane .pane-head p { color: #899196; }
     .tracker-pane .pane-head p { color: var(--muted); }
     .counter { color: var(--orange); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.7rem; white-space: nowrap; }
+
+    .requirements-pane, .automation-pane, .results-pane { display: grid; min-width: 0; grid-template-rows: auto minmax(0, 1fr); }
+    .requirements-pane { border-right: 1px solid var(--line); background: white; }
+    .automation-pane { grid-template-rows: auto minmax(0, 1fr) auto; border-right: 1px solid var(--dark-line); background: var(--dark-2); color: #edf0ed; }
+    .results-pane { background: var(--dark); color: #edf0ed; }
+    .requirements-pane .pane-head { border-bottom: 1px solid var(--line); }
+    .automation-pane .pane-head, .results-pane .pane-head { border-bottom: 1px solid var(--dark-line); }
+    .automation-pane .pane-head p, .results-pane .pane-head p { color: #899196; }
+
+    .automation-activity { display: grid; align-content: start; gap: 0.75rem; min-height: 0; overflow: auto; padding: 0.8rem; }
+    .automation-card { border: 1px solid var(--dark-line); background: #171a1d; padding: 0.75rem; }
+    .automation-card, .candidate-example, .tracker-row { transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+    .automation-card span, .automation-card strong, .automation-card small { display: block; }
+    .automation-card span { color: #8e9893; font-size: 0.61rem; font-weight: 800; text-transform: uppercase; }
+    .automation-card strong { margin-top: 0.25rem; color: white; font-size: 0.75rem; }
+    .automation-card small { margin-top: 0.28rem; color: #8f9994; font-size: 0.64rem; }
+    .automation-card.is-active { border-color: var(--orange); background: #2b211b; }
+    .automation-card.is-complete { border-color: var(--green); background: #17271d; }
+    .candidate-examples { display: grid; gap: 0.45rem; }
+    .candidate-example { display: grid; grid-template-columns: 70px 1fr; gap: 0.5rem; padding: 0.55rem; border-left: 2px solid #4d5551; background: #15181a; font-size: 0.63rem; }
+    .candidate-example b { color: #9da6a2; text-transform: uppercase; }
+    .candidate-example span { color: #8a9490; }
+    .candidate-example.accepted.is-visible { border-color: var(--green); }
+    .candidate-example.accepted.is-visible b { color: #68d98a; }
+    .candidate-example.rejected.is-visible { border-color: var(--red); }
+    .candidate-example.rejected.is-visible b { color: #e57c79; }
+    .candidate-example.ambiguous.is-visible { border-color: var(--yellow); }
+    .candidate-example.ambiguous.is-visible b { color: #e6b64f; }
 
     .ingest-list { min-width: 0; min-height: 0; overflow: auto; }
     .ingest-row { display: grid; grid-template-columns: 70px minmax(180px, 1fr) 94px 86px; gap: 0.65rem; align-items: center; min-width: 520px; min-height: 54px; padding: 0.6rem 0.8rem; border-bottom: 1px solid #303438; background: var(--dark-2); font-size: 0.68rem; }
@@ -97,8 +127,8 @@
     .runtime-log .info { color: #83aed9; }
 
     .tracker-scroll { min-width: 0; min-height: 0; overflow: auto; }
-    .tracker-grid { min-width: 860px; }
-    .tracker-row { display: grid; grid-template-columns: 122px 116px repeat(5, 94px) 130px; min-height: 48px; border-bottom: 1px solid var(--line); }
+    .tracker-grid { min-width: 700px; }
+    .tracker-row { display: grid; grid-template-columns: 116px 108px repeat(5, 70px) 112px; min-height: 48px; border-bottom: 1px solid var(--line); }
     .tracker-row.header { position: sticky; top: 0; z-index: 2; min-height: 52px; background: #f4f6f4; color: #47504d; font-size: 0.65rem; font-weight: 800; }
     .tracker-cell { display: flex; align-items: center; min-width: 0; padding: 0.5rem; border-right: 1px solid var(--line); font-size: 0.67rem; }
     .tracker-cell:last-child { border-right: 0; }
@@ -111,6 +141,7 @@
     .issue { padding: 0.25rem 0.42rem; background: #fff1cd; color: #8e6500; font-size: 0.61rem; font-weight: 800; }
     .updated-row { background: #f1fbf5; }
     .review-row { background: #fff9eb; }
+    .selected-row { box-shadow: inset 3px 0 0 var(--orange); background: #fff5ed; }
 
     .security-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); background: #f4f7f5; }
     .security-step { position: relative; min-width: 0; padding: 0.8rem 1rem; border-right: 1px solid var(--line); }
@@ -123,9 +154,13 @@
     .privacy-note strong { color: #384541; }
 
     @media (max-width: 960px) {
+      .mobile-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--line); background: white; }
+      .mobile-tabs button { min-height: 44px; border: 0; border-right: 1px solid var(--line); background: white; color: #5b6560; font-weight: 800; cursor: pointer; }
+      .mobile-tabs button:last-child { border-right: 0; }
+      .mobile-tabs button[aria-selected="true"] { background: #f6ddd1; color: #8d3e20; box-shadow: inset 0 -3px 0 var(--orange); }
       .workspace { grid-template-columns: 1fr; }
-      .system-pane, .tracker-pane { min-height: 620px; }
-      .tracker-pane { border-left: 0; border-top: 1px solid var(--line); }
+      [data-mobile-panel] { display: none; min-height: 650px; border: 0; }
+      [data-mobile-panel].is-active { display: grid; }
       .security-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .security-step:nth-child(2) { border-right: 0; }
       .security-step:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
@@ -139,7 +174,7 @@
       .workflow-step { display: grid; grid-template-columns: 60px 1fr; align-items: center; border-right: 0; border-bottom: 1px solid var(--line); }
       .workflow-step:last-child { border-bottom: 0; }
       .workspace { min-height: 0; }
-      .system-pane, .tracker-pane { min-height: 680px; }
+      [data-mobile-panel] { min-height: 680px; }
       .security-strip { grid-template-columns: 1fr; }
       .security-step, .security-step:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
       .security-step:last-child { border-bottom: 0; }
@@ -172,24 +207,47 @@
       <div class="workflow-step" data-step="4"><span>05</span><strong>Update tracker</strong></div>
     </div>
 
-    <main class="workspace">
-      <section class="system-pane" aria-label="Fictional ingest management interface">
-        <header class="pane-head">
-          <div><h2>Ingest Manager</h2><p>Browser-visible records in the current authorized session</p></div>
-          <span class="counter"><strong data-hydrated-count>4</strong> / 8 rows</span>
-        </header>
-        <div class="ingest-list" data-ingest-list></div>
-        <div class="runtime-log" aria-live="polite"><ol data-runtime-log><li class="info">INFO: Ready. No credential values are displayed or retained.</li></ol></div>
-      </section>
+    <div class="mobile-tabs" role="tablist" aria-label="Reconciliation views">
+      <button type="button" role="tab" aria-selected="true" data-mobile-tab="requirements">Requirements</button>
+      <button type="button" role="tab" aria-selected="false" data-mobile-tab="automation">Automation</button>
+      <button type="button" role="tab" aria-selected="false" data-mobile-tab="results">Results</button>
+    </div>
 
-      <section class="tracker-pane" aria-label="Fictional operations tracker">
+    <main class="workspace">
+      <section class="requirements-pane is-active" data-mobile-panel="requirements" aria-label="Fictional Airtable requirements">
         <header class="pane-head">
-          <div><h2>Operations Tracker</h2><p>Only unchecked fields with one verified completed match are updated</p></div>
+          <div><h2>Airtable requirements</h2><p>Unchecked readiness fields selected for verification</p></div>
           <span class="counter"><strong data-updated-count>0</strong> updated</span>
         </header>
         <div class="tracker-scroll">
           <div class="tracker-grid" data-tracker-grid></div>
         </div>
+      </section>
+
+      <section class="automation-pane" data-mobile-panel="automation" aria-label="Puppeteer automation activity">
+        <header class="pane-head">
+          <div><h2>Puppeteer activity</h2><p>Deterministic search, hydration and verification</p></div>
+          <span class="counter" data-automation-state>Ready</span>
+        </header>
+        <div class="automation-activity">
+          <div class="automation-card" data-automation-card="requirement"><span>Selected requirement</span><strong>RIVS01007 / EN-US / SCC</strong><small>Mapped field is currently unchecked.</small></div>
+          <div class="automation-card" data-automation-card="search"><span>Browser search</span><strong>Waiting for run</strong><small>Uses the operator's existing authenticated session.</small></div>
+          <div class="automation-card" data-automation-card="verify"><span>Completed-ingest verification</span><strong>No decision yet</strong><small>Delivery presence alone does not satisfy readiness.</small></div>
+          <div class="candidate-examples" aria-label="Candidate outcomes">
+            <div class="candidate-example accepted" data-candidate-example="accepted"><b>Accepted</b><span>One exact DONE candidate</span></div>
+            <div class="candidate-example rejected" data-candidate-example="rejected"><b>Rejected</b><span>Delivered or processing only</span></div>
+            <div class="candidate-example ambiguous" data-candidate-example="ambiguous"><b>Ambiguous</b><span>Multiple completed candidates</span></div>
+          </div>
+        </div>
+        <div class="runtime-log" aria-live="polite"><ol data-runtime-log><li class="info">INFO: Ready. No credential values are displayed or retained.</li></ol></div>
+      </section>
+
+      <section class="results-pane" data-mobile-panel="results" aria-label="Fictional ingest management records">
+        <header class="pane-head">
+          <div><h2>Ingest records</h2><p>Browser-visible candidates and completed stage</p></div>
+          <span class="counter"><strong data-hydrated-count>4</strong> / 8 rows</span>
+        </header>
+        <div class="ingest-list" data-ingest-list></div>
       </section>
     </main>
 
@@ -224,6 +282,7 @@
     let hydratedCount = 4;
     let updatedCount = 0;
     let running = false;
+    let selectedAlpha = "";
     let timers = [];
 
     const ingestList = document.querySelector("[data-ingest-list]");
@@ -232,6 +291,27 @@
     const updatedLabel = document.querySelector("[data-updated-count]");
     const logRoot = document.querySelector("[data-runtime-log]");
     const runButton = document.querySelector("[data-run]");
+    const automationState = document.querySelector("[data-automation-state]");
+
+    function setMobilePanel(name) {
+      document.querySelectorAll("[data-mobile-tab]").forEach((tab) => {
+        tab.setAttribute("aria-selected", String(tab.dataset.mobileTab === name));
+      });
+      document.querySelectorAll("[data-mobile-panel]").forEach((panel) => {
+        panel.classList.toggle("is-active", panel.dataset.mobilePanel === name);
+      });
+    }
+
+    document.querySelectorAll("[data-mobile-tab]").forEach((tab) => {
+      tab.addEventListener("click", () => setMobilePanel(tab.dataset.mobileTab));
+    });
+
+    function setAutomationCard(name, state, message) {
+      const card = document.querySelector(`[data-automation-card="${name}"]`);
+      card.classList.toggle("is-active", state === "active");
+      card.classList.toggle("is-complete", state === "complete");
+      if (message) card.querySelector("strong").textContent = message;
+    }
 
     function renderIngest() {
       ingestList.innerHTML = records.slice(0, hydratedCount).map((record) => `
@@ -255,7 +335,7 @@
           <div class="tracker-cell">Episode</div><div class="tracker-cell">Alpha / locale</div><div class="tracker-cell center">A/V linked</div><div class="tracker-cell center">DFXP linked</div><div class="tracker-cell center">SCC linked</div><div class="tracker-cell center">SCC FN</div><div class="tracker-cell center">AD linked</div><div class="tracker-cell">Issue flag</div>
         </div>
         ${trackerRows.map((row) => `
-          <div class="tracker-row${row.issue ? " review-row" : Object.values(row.fields).some(Boolean) ? " updated-row" : ""}">
+          <div class="tracker-row${row.issue ? " review-row" : Object.values(row.fields).some(Boolean) ? " updated-row" : ""}${row.alpha === selectedAlpha ? " selected-row" : ""}">
             <div class="tracker-cell name"><strong>${row.episode}</strong><span>${row.locale}</span></div>
             <div class="tracker-cell name"><strong>${row.alpha}</strong><span>unchecked fields only</span></div>
             <div class="tracker-cell center">${mark(row.fields.av)}</div>
@@ -289,8 +369,11 @@
 
     function completeRun() {
       running = false;
+      selectedAlpha = "";
+      renderTracker();
       runButton.disabled = false;
       runButton.textContent = "Run again";
+      automationState.textContent = "Complete";
       document.querySelectorAll("[data-step]").forEach((step) => {
         step.classList.remove("is-active");
         step.classList.add("is-complete");
@@ -303,11 +386,21 @@
       runButton.disabled = true;
       runButton.textContent = "Running...";
       logRoot.innerHTML = "";
+      selectedAlpha = "RIVS01007";
+      renderTracker();
+      automationState.textContent = "Selecting row";
+      setAutomationCard("requirement", "active", "RIVS01007 / EN-US / SCC");
+      setAutomationCard("search", "idle", "Waiting for browser search");
+      setAutomationCard("verify", "idle", "No decision yet");
+      document.querySelectorAll("[data-candidate-example]").forEach((example) => example.classList.remove("is-visible"));
       setStep(0);
       log("INFO: Reused the operator's existing authenticated browser context.", "info");
 
       schedule(450, () => {
         setStep(1);
+        automationState.textContent = "Hydrating";
+        setAutomationCard("requirement", "complete");
+        setAutomationCard("search", "active", "Searching ALP IDs and hydrating rows");
         hydratedCount = records.length;
         renderIngest();
         log(`OK: Hydrated lazy-loaded rows from 4 to ${records.length}.`, "ok");
@@ -315,17 +408,24 @@
 
       schedule(900, () => {
         setStep(2);
+        automationState.textContent = "Inspecting candidates";
+        setAutomationCard("search", "complete", `${records.length} browser rows indexed`);
+        setAutomationCard("verify", "active", "Inspecting status, locale, class and extension");
         log("INFO: Normalized alpha ID, locale, asset class, and expected extension.", "info");
       });
 
       schedule(1350, () => {
         setStep(3);
+        automationState.textContent = "Applying guard";
+        setAutomationCard("verify", "complete", "Accepted, rejected and ambiguous outcomes logged");
+        document.querySelectorAll("[data-candidate-example]").forEach((example) => example.classList.add("is-visible"));
         log("OK: Verified five completed candidates; two records are not complete.", "ok");
         log("WARN: Two completed SCC candidates map to one requirement.", "warn");
       });
 
       schedule(1800, () => {
         setStep(4);
+        automationState.textContent = "Updating tracker";
         records.filter((record) => record.outcome === "update").forEach((record) => {
           const row = trackerRows.find((item) => item.alpha === record.alpha);
           if (row && !row.fields[record.field]) {
@@ -346,12 +446,18 @@
       timers.forEach((timer) => window.clearTimeout(timer));
       timers = [];
       running = false;
+      selectedAlpha = "";
       hydratedCount = 4;
       updatedCount = 0;
       const cleanRows = JSON.parse(initialTracker);
       trackerRows.splice(0, trackerRows.length, ...cleanRows);
       runButton.disabled = false;
       runButton.textContent = "Run reconciliation";
+      automationState.textContent = "Ready";
+      setAutomationCard("requirement", "idle", "RIVS01007 / EN-US / SCC");
+      setAutomationCard("search", "idle", "Waiting for run");
+      setAutomationCard("verify", "idle", "No decision yet");
+      document.querySelectorAll("[data-candidate-example]").forEach((example) => example.classList.remove("is-visible"));
       document.querySelectorAll("[data-step]").forEach((step) => step.classList.remove("is-active", "is-complete"));
       logRoot.innerHTML = '<li class="info">INFO: Ready. No credential values are displayed or retained.</li>';
       renderIngest();

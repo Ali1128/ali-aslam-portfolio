@@ -4,16 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Uses Airtable as the operational source of truth, a Cloudflare Worker/API layer for secure public data delivery, custom HTML/CSS/JavaScript embedded in Squarespace and Softr portals for authenticated studio users.">
-    <title>Live Multi-Studio Schedule and Calendar Platform | Ali Aslam</title>
-    <link rel="stylesheet" href="../../styles.css">
-    <script src="../../script.js" defer></script>
+    <title>K-Taekwondo Calendar Operations | Ali Aslam</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="../../styles.css?v=stage2-20260716f">
+    <script src="../../script.js?v=stage2-20260716f" defer></script>
   </head>
   <body data-page="projects">
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header" data-site-header>
     <nav class="nav shell" aria-label="Primary navigation">
       <a class="brand" href="../../index.html" aria-label="Ali Aslam home">
-        <span class="brand-mark" aria-hidden="true">AA</span>
         <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
@@ -23,118 +23,207 @@
         <span aria-hidden="true"></span>
       </button>
       <div class="nav-links" id="primary-navigation">
-        <a href="../../index.html" data-nav="home">Home</a><a href="../../projects.html" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../resume.html" data-nav="resume">Resume</a>
+        <a href="../../index.html#work" data-nav="projects" aria-current="page">Work</a><a href="../../about.html" data-nav="about">About</a><a href="../../docs/resume.txt" data-nav="resume">Resume</a>
         <span class="nav-contact-actions" aria-label="Professional links">
-          <a class="nav-action" href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a class="nav-action" href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="nav-action" href="mailto:ali.aslam1128@gmail.com">Email</a>
-          <a class="nav-action nav-download" href="../../docs/resume.pdf" download>Download Resume</a>
+          <a class="nav-action" href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </span>
       </div>
     </nav>
   </header>
     <main id="main">
-      <section class="page-hero case-hero">
+      <section class="page-hero case-hero editorial-project-hero">
     <div class="shell">
       <p class="eyebrow">Live public web application</p>
-      <h1>Live Multi-Studio Schedule and Calendar Platform</h1>
-      <p>Uses Airtable as the operational source of truth, a Cloudflare Worker/API layer for secure public data delivery, custom HTML/CSS/JavaScript embedded in Squarespace and Softr portals for authenticated studio users.</p>
+      <div class="project-hero-heading">
+        <div>
+          <h1>K-Taekwondo Calendar Operations</h1>
+          <p class="project-function">Uses Airtable as the operational source of truth, a Cloudflare Worker/API layer for secure public data delivery, custom HTML/CSS/JavaScript embedded in Squarespace and Softr portals for authenticated studio users.</p>
+        </div>
+        <span class="status-badge">Live web application and operations prototype</span>
+      </div>
       <div class="hero-actions">
+        <a class="button button-primary" href="#demonstration">View functional demonstration</a>
         <a class="button button-secondary" href="../../projects.html">All projects</a>
-        <a class="button button-ghost" href="#case-study">Read case study</a>
       </div>
       <dl class="metadata-grid">
-    <div><dt>Status</dt><dd>Live web application and operations prototype</dd></div><div><dt>Role</dt><dd>System designer, builder and workflow documenter</dd></div><div><dt>Scale</dt><dd>Multi-studio schedule, event and information platform</dd></div><div><dt>Tools</dt><dd>Squarespace, Airtable, Cloudflare Workers, Softr</dd></div>
+    <div><dt>Status</dt><dd>Live web application and operations prototype</dd></div><div><dt>Role</dt><dd>System designer, builder and workflow documenter</dd></div><div><dt>Users</dt><dd>Studio administrators, families, students and public website visitors</dd></div><div><dt>Scale</dt><dd>Multi-studio schedule, event and information platform</dd></div><div><dt>Tools</dt><dd>Squarespace, Airtable, Cloudflare Workers, Softr</dd></div>
   </dl>
     </div>
   </section>
-  <section class="section" id="case-study">
+  <section class="section project-demonstration" id="demonstration">
     <div class="shell">
-      <section class="demo-panel calendar-demo" aria-label="K-Taekwondo calendar platform demo">
+      <section class="demo-panel calendar-demo" data-calendar-demo aria-label="K-Taekwondo calendar operations platform demo">
     <div class="demo-panel-header">
       <div>
-        <p class="demo-kicker">Live public project</p>
-        <h2>Multi-studio calendar flow</h2>
+        <p class="demo-kicker">Sanitized Softr + Airtable reconstruction</p>
+        <h2>Calendar operations workspace</h2>
       </div>
       <a class="button button-primary" href="https://www.k-taekwondo.com/test" target="_blank" rel="noopener noreferrer">Open live test page</a>
     </div>
-    <div class="calendar-layout">
-      <figure class="calendar-image">
-        <img src="../../assets/images/ktaekwondo-calendar-august-2026.png" alt="K-Taekwondo Glendale August 2026 public calendar screenshot">
-        <figcaption>Authorized public calendar artwork used for the K-Taekwondo case study.</figcaption>
-      </figure>
-      <div class="permissions-matrix">
-        <h3>Verified public data flow</h3>
-        <div class="flow-diagram compact">
-          <div class="flow-node"><span>01</span>Softr studio dashboards</div>
-          <div class="flow-node"><span>02</span>Airtable source of truth</div>
-          <div class="flow-node"><span>03</span>Cloudflare Worker/API layer</div>
-          <div class="flow-node"><span>04</span>Squarespace calendar widget</div>
+    <p class="demo-values-note">Fictional demonstration values. No private records, credentials or contact details are shown.</p>
+    <div class="calendar-dashboard" data-calendar-dashboard>
+      <div class="calendar-dashboard-toolbar">
+        <div>
+          <span class="calendar-console-label">Softr / studio operations</span>
+          <strong>Schedule workspace</strong>
         </div>
-        <h3>Permissions matrix</h3>
-        <table>
-          <tbody>
-            <tr><th>Public visitor</th><td>Read public schedule and event fields</td></tr>
-            <tr><th>Studio admin</th><td>Edit applicable studio schedule through authenticated views</td></tr>
-            <tr><th>Operator</th><td>Review restricted changes and publishing logs</td></tr>
-          </tbody>
-        </table>
+        <div class="calendar-toolbar-controls">
+          <label>Studio<select data-calendar-studio aria-label="Choose demo studio"><option>Chatsworth</option><option>Glendale</option><option>Pasadena</option></select></label>
+          <button class="button button-secondary" type="button" data-calendar-sync>Sync Airtable</button>
+        </div>
       </div>
-    </div>
-  </section>
-      <div class="impact-strip">
-        <div><span>Outcome</span><strong>Connected public-facing calendar presentation with maintainable studio operations data and role-based administrative workflows.</strong></div>
-        <div><span>Public status</span><strong>Live web application and operations prototype</strong></div>
-        <div><span>Contribution</span><strong>System designer, builder and workflow documenter</strong></div>
+      <div class="calendar-summary-grid" aria-label="Calendar workspace summary">
+        <div><span>Published</span><strong>28</strong><small>public records</small></div>
+        <div><span>Needs review</span><strong>03</strong><small>operator queue</small></div>
+        <div><span>Next sync</span><strong>18 min</strong><small>scheduled refresh</small></div>
+        <div><span>Source</span><strong>Airtable</strong><small data-calendar-sync-state>last sync 2 min ago</small></div>
       </div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="shell case-layout">
-      <aside class="case-aside">
-        <nav aria-label="Case study sections">
-          <a href="#summary">Summary</a>
-          <a href="#problem">Problem</a>
-          <a href="#approach">Contribution</a>
-          <a href="#architecture">Architecture</a>
-          <a href="#results">Results</a>
-          <a href="#supporting-details">Supporting details</a>
-        </nav>
-      </aside>
-      <article class="case-content">
-        <section class="case-section" id="summary">
-          <h2>Summary</h2>
-          <p class="case-lead">Uses Airtable as the operational source of truth, a Cloudflare Worker/API layer for secure public data delivery, custom HTML/CSS/JavaScript embedded in Squarespace and Softr portals for authenticated studio users.</p>
-          <div class="case-subsection"><h3>Output</h3><ul class="clean-list"><li>Public calendar widget, studio-specific schedules and operational admin flows</li></ul></div>
-          <div class="case-subsection"><h3>Users and stakeholders</h3><ul class="clean-list"><li>Studio administrators editing schedules and events.</li><li>Families and students viewing public schedules.</li><li>Operators approving changes and maintaining information sections.</li></ul></div>
+      <div class="calendar-dashboard-grid">
+        <section class="calendar-operator-panel" aria-labelledby="calendar-operator-title">
+          <div class="calendar-panel-heading"><div><span class="calendar-panel-kicker">Operator view</span><h3 id="calendar-operator-title">Upcoming schedule</h3></div><span class="calendar-state" data-calendar-status aria-live="polite">Ready for review</span></div>
+          <div class="calendar-view-tabs" role="tablist" aria-label="Calendar views">
+            <button type="button" role="tab" aria-selected="true" class="is-active" data-calendar-view="today">Today</button>
+            <button type="button" role="tab" aria-selected="false" data-calendar-view="week">Week</button>
+            <button type="button" role="tab" aria-selected="false" data-calendar-view="month">Month</button>
+          </div>
+          <div class="calendar-view-panel is-active" data-calendar-view-panel="today">
+            <div class="calendar-date-row"><strong>Thursday, July 16</strong><span>4 items</span></div>
+            <div class="calendar-event-list">
+              <article class="calendar-event-row" data-calendar-event="class"><time>4:00 PM</time><div><strong>Trial class</strong><span>Yellow belt group / regular class</span></div><b class="calendar-chip is-published">Published</b><button type="button" class="calendar-edit" data-calendar-edit>Edit</button></article>
+              <article class="calendar-event-row" data-calendar-event="class"><time>5:00 PM</time><div><strong>Purple to black</strong><span>Intermediate group / regular class</span></div><b class="calendar-chip is-published">Published</b><button type="button" class="calendar-edit" data-calendar-edit>Edit</button></article>
+              <article class="calendar-event-row is-review-row" data-calendar-event="event"><time>7:00 PM</time><div><strong>Instructor check-in</strong><span>Internal event / draft announcement</span></div><b class="calendar-chip is-review">Needs review</b><button type="button" class="calendar-edit" data-calendar-edit>Edit</button></article>
+            </div>
+          </div>
+          <div class="calendar-view-panel" data-calendar-view-panel="week" hidden>
+            <div class="calendar-week-grid"><div><b>Mon</b><span>4 classes</span><em>1 review</em></div><div><b>Tue</b><span>4 classes</span><em>Published</em></div><div><b>Wed</b><span>3 classes</span><em>Published</em></div><div><b>Thu</b><span>4 classes</span><em>Published</em></div><div><b>Fri</b><span>4 classes</span><em>Published</em></div></div>
+            <p class="calendar-panel-note">Weekly schedule is assembled from recurring class records and studio-specific overrides.</p>
+          </div>
+          <div class="calendar-view-panel" data-calendar-view-panel="month" hidden>
+            <div class="calendar-month-grid" aria-label="Fictional July 2026 monthly calendar"><span class="calendar-month-day is-muted">28</span><span class="calendar-month-day is-muted">29</span><span class="calendar-month-day is-muted">30</span><span class="calendar-month-day">1</span><span class="calendar-month-day">2</span><span class="calendar-month-day">3</span><span class="calendar-month-day">4</span><span class="calendar-month-day">5</span><span class="calendar-month-day">6</span><span class="calendar-month-day">7</span><span class="calendar-month-day">8</span><span class="calendar-month-day">9</span><span class="calendar-month-day">10</span><span class="calendar-month-day">11</span><span class="calendar-month-day">12</span><span class="calendar-month-day">13</span><span class="calendar-month-day">14</span><span class="calendar-month-day is-today">15<em>Closure</em></span><span class="calendar-month-day">16<em>Classes</em></span><span class="calendar-month-day">17</span><span class="calendar-month-day is-event">18<em>Belt test</em></span><span class="calendar-month-day">19</span><span class="calendar-month-day">20</span><span class="calendar-month-day">21</span><span class="calendar-month-day">22</span><span class="calendar-month-day">23</span><span class="calendar-month-day">24</span><span class="calendar-month-day">25</span><span class="calendar-month-day">26</span><span class="calendar-month-day">27</span><span class="calendar-month-day">28</span><span class="calendar-month-day">29</span><span class="calendar-month-day">30</span><span class="calendar-month-day">31</span></div>
+          </div>
         </section>
-        <section class="case-section" id="problem">
-          <h2>Problem</h2>
+        <aside class="calendar-public-panel" aria-labelledby="calendar-public-title">
+          <div class="calendar-panel-heading"><div><span class="calendar-panel-kicker">Public preview</span><h3 id="calendar-public-title">What visitors see</h3></div><span class="calendar-live-dot">Live fields</span></div>
+          <div class="public-preview-card"><div class="public-preview-heading"><strong>Chatsworth</strong><span>Today’s schedule</span></div><div class="public-class"><time>4:00</time><strong>Trial - Yellow belt</strong></div><div class="public-class"><time>5:00</time><strong>Purple - Black</strong></div><div class="public-class"><time>7:00</time><strong>Adult class</strong></div></div>
+          <div class="public-event-list"><div><span>July 18</span><strong>Belt test</strong><small>Published event</small></div><div><span>July 27</span><strong>Nunchuck class</strong><small>Published event</small></div></div>
+        </aside>
+      </div>
+      <div class="calendar-dashboard-footer">
+        <div><span class="calendar-panel-kicker">Airtable change log</span><strong data-calendar-log>Public payload ready for review</strong></div>
+        <ol><li><b>01</b>Record edited</li><li><b>02</b>Review state checked</li><li><b>03</b>Public fields refreshed</li></ol>
+      </div>
+    </div>
+    <div class="calendar-architecture-strip" aria-label="Calendar system flow"><span><b>01</b>Softr dashboard</span><i>→</i><span><b>02</b>Airtable source</span><i>→</i><span><b>03</b>Worker/API fields</span><i>→</i><span><b>04</b>Public calendar</span></div>
+  </section>
+      <div class="outcome-strip" aria-label="Project outcome, scale and primary safeguard">
+    <div><span>Outcome</span><strong>Connected public-facing calendar presentation with maintainable studio operations data and role-based administrative workflows.</strong></div>
+    <div><span>Scale</span><strong>Multi-studio schedule, event and information platform</strong></div>
+    <div><span>Primary safeguard</span><strong>Public code should never contain Airtable credentials or private admin URLs.</strong></div>
+  </div>
+    </div>
+  </section>
+  <article class="project-story">
+    <section class="section case-section" id="problem">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Operational problem</p><h2>Where the workflow broke down.</h2></header>
+        <div class="story-copy">
           <ul class="clean-list"><li>A multi-studio martial-arts organization needed public schedules and events that could stay aligned with operational updates.</li><li>Studio-specific details, monthly events, weekly schedules and information sections needed one maintainable source of truth.</li><li>Administrative editing had to remain separate from the public website presentation.</li></ul>
           <div class="case-subsection"><h3>Constraints</h3><ul class="clean-list"><li>Public pages can show authorized K-Taekwondo branding and public event information.</li><li>Private Airtable identifiers, Cloudflare configuration, private Softr settings and user details are excluded.</li><li>The final architecture must be documented from inspected public/local source, not guessed.</li></ul></div>
-        </section>
-        <section class="case-section" id="approach">
-          <h2>My contribution</h2>
+        </div>
+      </div>
+    </section>
+    <section class="section case-section section-ruled" id="built">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">What I built</p><h2>A practical production-facing system.</h2><p class="section-summary">Public calendar widget, studio-specific schedules and operational admin flows</p></header>
+        <div class="story-copy">
           <ul class="clean-list"><li>Use Airtable as the operational data source for studios, weekly schedules, monthly calendar events, event sessions, information sections, pending changes and publishing logs.</li><li>Serve public schedule payloads through a Cloudflare Worker/API layer so the Squarespace widget does not expose private credentials.</li><li>Use custom embedded HTML/CSS/JavaScript for the public calendar and Softr for authenticated studio-facing dashboards.</li></ul>
+          <div class="case-subsection"><h3>Users and stakeholders</h3><ul class="clean-list"><li>Studio administrators editing schedules and events.</li><li>Families and students viewing public schedules.</li><li>Operators approving changes and maintaining information sections.</li></ul></div>
           <div class="case-subsection"><h3>Production supervision lens</h3><ul class="clean-list"><li>Turn evolving workflow behavior into clear operating steps and review expectations.</li><li>Keep status, blockers and exception reasons visible to production and technical partners.</li><li>Preserve human approval at decisions that affect creative output, readiness or destructive actions.</li><li>Maintain a shared schedule source of truth with clear permissions, publishing states and delivery paths.</li></ul></div>
-          <div class="case-subsection"><h3>Implementation notes</h3><ul class="clean-list"><li>Inspected source confirmed a public Squarespace widget, Airtable-backed payload handling and a Cloudflare Worker API layer.</li><li>The live test page uses a Worker-backed public data path and fallback data when live data is unavailable.</li><li>The platform supports weekly schedules, monthly events, event sessions, today views, overrides and English/Spanish presentation patterns.</li></ul></div>
-        </section>
-        <section class="case-section" id="architecture">
-          <h2>Architecture</h2>
-          <div class="flow-diagram" aria-label="Live Multi-Studio Schedule and Calendar Platform architecture flow">
-    <div class="flow-node"><span>01</span>Softr studio dashboards</div><div class="flow-node"><span>02</span>Airtable operations tables</div><div class="flow-node"><span>03</span>Cloudflare Worker/API layer</div><div class="flow-node"><span>04</span>Squarespace embedded widget</div><div class="flow-node"><span>05</span>Public calendar users</div><div class="flow-node"><span>06</span>Publishing logs and review</div>
+        </div>
+      </div>
+    </section>
+    <section class="section case-section workflow-section" id="workflow">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Workflow and architecture</p><h2>Who acts, what changes and what happens next.</h2></div>
+        <div class="workflow-diagram" aria-label="K-Taekwondo Calendar Operations architecture and workflow">
+    <article class="workflow-node">
+      <header><span>01</span><strong>Workflow stage 01</strong></header>
+      <h3>Softr studio dashboards</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Studio admin edits schedule</dd></div>
+        <div><dt>Result</dt><dd>Change reaches Airtable</dd></div>
+      </dl>
+    </article><article class="workflow-node">
+      <header><span>02</span><strong>Workflow stage 02</strong></header>
+      <h3>Airtable operations tables</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Change reaches Airtable</dd></div>
+        <div><dt>Result</dt><dd>Restricted changes route to admin review</dd></div>
+      </dl>
+    </article><article class="workflow-node">
+      <header><span>03</span><strong>Workflow stage 03</strong></header>
+      <h3>Cloudflare Worker/API layer</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Restricted changes route to admin review</dd></div>
+        <div><dt>Result</dt><dd>Cloudflare returns public fields</dd></div>
+      </dl>
+    </article><article class="workflow-node">
+      <header><span>04</span><strong>Workflow stage 04</strong></header>
+      <h3>Squarespace embedded widget</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>Cloudflare returns public fields</dd></div>
+        <div><dt>Result</dt><dd>Squarespace widget refreshes</dd></div>
+      </dl>
+    </article>
   </div>
-          <div class="case-subsection"><h3>Workflow</h3><ol class="workflow-steps">
+        <div class="case-subsection workflow-sequence"><h3>Operator sequence</h3><ol class="workflow-steps">
     <li>Studio admin edits schedule</li><li>Change reaches Airtable</li><li>Restricted changes route to admin review</li><li>Cloudflare returns public fields</li><li>Squarespace widget refreshes</li><li>Each studio sees applicable schedule and events</li>
   </ol></div>
-        </section>
+      </div>
+    </section>
+    <section class="section case-section safeguards-section section-ruled" id="safeguards">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Safeguards</p><h2>Risk stays visible at the decision point.</h2></header>
+        <ul class="safeguard-list"><li><span>01</span>Public code should never contain Airtable credentials or private admin URLs.</li><li><span>02</span>Studio-specific filtering limits what each public view needs to render.</li><li><span>03</span>Administrative review and publishing logs keep restricted changes visible before public presentation.</li></ul>
+      </div>
+    </section>
+    <section class="section case-section evidence-section" id="evidence">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Evidence</p><h2>Artifacts that make the workflow reviewable.</h2></div>
+        <div class="evidence-gallery evidence-calendar">
+      <figure class="evidence-wide evidence-calendar-shot">
+        <img src="../../assets/images/ktaekwondo-calendar-dashboard.png" alt="Sanitized calendar operations dashboard with Airtable sync state and public preview">
+        <figcaption>Sanitized dashboard view showing the operator workflow, source status and public calendar output.</figcaption>
+      </figure>
+      <figure class="evidence-terminal evidence-calendar-flow">
+        <div class="evidence-window-head"><span>Publishing path</span><strong>Reviewable</strong></div>
+        <ol class="calendar-evidence-flow"><li><b>Softr</b><span>Studio admin edits a schedule or event.</span></li><li><b>Airtable</b><span>Record state and publishing status stay visible.</span></li><li><b>Public widget</b><span>Approved fields render on the website.</span></li></ol>
+        <figcaption>Each handoff has a visible state before public presentation.</figcaption>
+      </figure>
+    </div>
+      </div>
+    </section>
 
-        <section class="case-section" id="results">
-          <h2>Results</h2>
+    <section class="section case-section result-section section-ruled" id="results">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Result</p><h2>Connected public-facing calendar presentation with maintainable studio operations data and role-based administrative workflows.</h2></header>
+        <div class="story-copy">
           <ul class="clean-list"><li>Created a maintainable path from operational schedule data to public website presentation.</li><li>Separated public display logic from private editing workflows.</li><li>Provided a live public page for review: https://www.k-taekwondo.com/test</li></ul>
           <div class="case-subsection"><h3>Learnings</h3><ul class="clean-list"><li>For small organizations, the strongest system is often a careful connection between familiar operational tools and a polished public view.</li><li>Fallback data and clear source-state indicators make live public widgets easier to troubleshoot.</li></ul></div>
-        </section>
-        <div id="supporting-details">
+        </div>
+      </div>
+    </section>
+    <section class="section case-section technical-details" id="supporting-details">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Expandable technical detail</p><h2>Implementation, tests and known limits.</h2></div>
+        <div class="disclosure-grid">
+          <section class="case-section disclosure-section">
+    <details class="case-disclosure">
+      <summary>Implementation notes</summary>
+      <div class="disclosure-body"><ul class="clean-list"><li>Inspected source confirmed a public Squarespace widget, Airtable-backed payload handling and a Cloudflare Worker API layer.</li><li>The live test page uses a Worker-backed public data path and fallback data when live data is unavailable.</li><li>The platform supports weekly schedules, monthly events, event sessions, today views, overrides and English/Spanish presentation patterns.</li></ul></div>
+    </details>
+  </section>
           <section class="case-section disclosure-section">
     <details class="case-disclosure">
       <summary>Testing</summary>
@@ -161,7 +250,7 @@
   </section>
           <section class="case-section disclosure-section code-section">
             <details class="case-disclosure code-disclosure">
-              <summary>Code</summary>
+              <summary>Sanitized code</summary>
               <div class="disclosure-body"><h3>Worker-shaped public calendar payload transformation</h3><pre><code>// Sanitized illustrative excerpt
 async function buildPublicCalendarPayload(studioSlug, language) {
   const records = await readScheduleSource(studioSlug);
@@ -178,9 +267,9 @@ async function buildPublicCalendarPayload(studioSlug, language) {
             </details>
           </section>
         </div>
-      </article>
-    </div>
-  </section>
+      </div>
+    </section>
+  </article>
     </main>
     <footer class="site-footer">
     <div class="shell footer-main">
@@ -191,13 +280,10 @@ async function buildPublicCalendarPayload(studioSlug, language) {
       <nav class="footer-links" aria-label="Professional links">
         <a href="https://www.linkedin.com/in/aliaslam2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/Ali1128/ali-aslam-portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="mailto:ali.aslam1128@gmail.com">ali.aslam1128@gmail.com</a>
-        <a href="../../docs/resume.pdf" download>Download Resume</a>
       </nav>
     </div>
     <div class="shell footer-bottom">
       <span>&copy; <span data-current-year></span> Ali Aslam.</span>
-      <span>Sanitized reconstructions and fictional operational data.</span>
     </div>
   </footer>
   </body>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Sanitized interactive reconstruction of a media inventory operations overlay using fictional data.">
   <title>Media Inventory Console | Sanitized Demo</title>
+  <link rel="icon" href="data:,">
   <style>
     :root {
       color-scheme: dark;
@@ -31,7 +32,7 @@
     * { box-sizing: border-box; }
     html { min-width: 320px; background: var(--bg); }
     body { min-height: 100vh; margin: 0; background: #151716; color: var(--text); }
-    button, input { font: inherit; }
+    button, input, select { font: inherit; }
     button { color: inherit; }
     button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
     [hidden] { display: none !important; }
@@ -97,7 +98,7 @@
       top: 3rem;
       right: 2rem;
       display: grid;
-      grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+      grid-template-rows: auto auto auto auto minmax(0, 1fr) auto auto;
       width: min(650px, 52vw);
       height: 590px;
       overflow: hidden;
@@ -126,6 +127,13 @@
     .console-head span { color: #c9ceca; }
     .count { color: white; font-weight: 800; }
     .status-dot { display: inline-block; width: 7px; height: 7px; margin-right: 0.35rem; background: var(--green); box-shadow: 0 0 0 3px rgba(56, 217, 120, 0.12); }
+
+    .season-toolbar { display: grid; grid-template-columns: minmax(150px, 0.8fr) auto minmax(170px, 1fr); gap: 0.55rem; align-items: end; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--line); background: #181a19; }
+    .season-toolbar label { display: grid; gap: 0.25rem; color: var(--muted); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; }
+    .season-toolbar select { min-width: 0; min-height: 34px; border: 1px solid #444945; border-radius: 0; background: #232623; color: #edf0ed; padding: 0.35rem 0.5rem; }
+    .hydrate-button { min-height: 34px; padding: 0.4rem 0.7rem; border: 1px solid #2e9b59; background: #225f39; color: white; font-size: 0.69rem; font-weight: 850; cursor: pointer; }
+    .hydration-status { align-self: center; color: #a5ada8; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.66rem; }
+    .hydration-status strong { color: var(--green); }
 
     .preset-row { display: flex; align-items: center; gap: 0.4rem; padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--line); background: #202220; overflow-x: auto; }
     .preset-row > span { flex: 0 0 auto; margin-right: 0.25rem; color: var(--muted); font-size: 0.67rem; text-transform: uppercase; }
@@ -178,10 +186,16 @@
     .file-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .locale { color: #858c87; text-align: right; }
 
-    .console-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 0.6rem; align-items: center; width: 100%; min-width: 0; min-height: 58px; padding: 0.65rem 0.75rem; border-top: 1px solid var(--line); background: #181a18; }
+    .activity-log { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; align-items: center; min-height: 38px; padding: 0.45rem 0.75rem; border-top: 1px solid var(--line); background: #0e100f; font-size: 0.64rem; }
+    .activity-log span { color: #737b76; font-weight: 850; text-transform: uppercase; }
+    .activity-log code { min-width: 0; overflow: hidden; color: #99c5a8; text-overflow: ellipsis; white-space: nowrap; }
+
+    .console-foot { display: grid; grid-template-columns: minmax(0, 1fr) 110px auto auto; gap: 0.6rem; align-items: center; width: 100%; min-width: 0; min-height: 62px; padding: 0.65rem 0.75rem; border-top: 1px solid var(--line); background: #181a18; }
     .selection-summary { min-width: 0; color: var(--muted); font-size: 0.7rem; }
     .selection-summary strong { color: white; }
     .selection-summary span { display: block; margin-top: 0.18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .action-choice { display: grid; gap: 0.2rem; color: var(--muted); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; }
+    .action-choice select { min-height: 34px; border: 1px solid #4a504b; border-radius: 0; background: #222522; color: white; padding: 0.35rem; font-size: 0.68rem; }
     .action-button { min-height: 36px; padding: 0.45rem 0.8rem; border: 0; background: #277d36; color: white; font-size: 0.7rem; font-weight: 850; cursor: pointer; }
     .action-button:disabled { background: #303530; color: #777d78; cursor: not-allowed; }
     .action-button.secondary { border: 1px solid #4a504b; background: transparent; color: #c2c7c3; }
@@ -213,9 +227,13 @@
       .inventory-console { inset: 0; width: 100%; height: 100%; border-inline: 0; box-shadow: none; }
       .preset-row { padding-inline: 0.55rem; }
       .filter-row { padding-inline: 0.5rem; }
+      .season-toolbar { grid-template-columns: 1fr 1fr; }
+      .hydration-status { grid-column: 1 / -1; }
       .console-foot { grid-template-columns: 1fr 1fr; }
       .selection-summary { grid-column: 1 / -1; }
+      .action-choice { grid-column: 1 / -1; }
       .action-button { width: 100%; }
+      .activity-log { grid-template-columns: 1fr; gap: 0.15rem; }
       .privacy-note { text-align: left; }
     }
 
@@ -259,6 +277,17 @@
           <strong><span class="status-dot" aria-hidden="true"></span>INVENTORY CONSOLE</strong>
           <span><b class="count" data-visible-count>0</b> files</span>
         </header>
+
+        <div class="season-toolbar">
+          <label>Season
+            <select data-season>
+              <option value="signal-s01">Signal House / Season 01</option>
+              <option value="northstar-s02">Northstar Kitchen / Season 02</option>
+            </select>
+          </label>
+          <button class="hydrate-button" type="button" data-hydrate>Hydrate season</button>
+          <span class="hydration-status" data-hydration-status><strong>7</strong> of 19 browser rows indexed</span>
+        </div>
 
         <div class="preset-row" role="group" aria-label="Filter presets">
           <span>View</span>
@@ -310,11 +339,19 @@
 
         <div class="file-pane" data-file-pane aria-live="polite"></div>
 
+        <div class="activity-log" aria-live="polite"><span>Action log</span><code data-action-log>Ready. Hydrate the season or work with the visible rows.</code></div>
+
         <footer class="console-foot">
           <div class="selection-summary">
             <strong><span data-selected-count>0</span> selected</strong>
             <span data-selection-label>Choose files to prepare an operator review.</span>
           </div>
+          <label class="action-choice">Action
+            <select data-action>
+              <option value="replace">Replace</option>
+              <option value="delete">Delete</option>
+            </select>
+          </label>
           <button class="action-button secondary" type="button" data-review disabled>Review selected</button>
           <button class="action-button" type="button" data-export>Export CSV</button>
         </footer>
@@ -326,11 +363,11 @@
 
   <div class="modal-backdrop" data-modal hidden>
     <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="review-title">
-      <h2 id="review-title">Review simulated selection</h2>
+      <h2 id="review-title">Confirm simulated action</h2>
       <p data-review-copy></p>
       <div class="dialog-actions">
         <button class="action-button secondary" type="button" data-close-modal>Cancel</button>
-        <button class="action-button" type="button" data-confirm-review>Mark reviewed</button>
+        <button class="action-button" type="button" data-confirm-review>Confirm review</button>
       </div>
     </section>
   </div>
@@ -365,6 +402,7 @@
       locale: new Set()
     };
     const selected = new Set();
+    let hydratedCount = 7;
     let lastFocus = null;
 
     const workspace = document.querySelector("[data-workspace]");
@@ -376,6 +414,12 @@
     const reviewButton = document.querySelector("[data-review]");
     const modal = document.querySelector("[data-modal]");
     const reviewCopy = document.querySelector("[data-review-copy]");
+    const seasonSelect = document.querySelector("[data-season]");
+    const hydrateButton = document.querySelector("[data-hydrate]");
+    const hydrationStatus = document.querySelector("[data-hydration-status]");
+    const actionSelect = document.querySelector("[data-action]");
+    const actionLog = document.querySelector("[data-action-log]");
+    const confirmButton = document.querySelector("[data-confirm-review]");
 
     function badgeClass(type) {
       return ({ AUD: "audio", VID: "video", CAP: "caption", SUB: "subtitle", STEM: "stem", AD: "ad" })[type] || "other";
@@ -388,7 +432,7 @@
 
     function visibleRecords() {
       const term = search.value.trim().toLowerCase();
-      return records.filter((record) => {
+      return records.slice(0, hydratedCount).filter((record) => {
         const searchText = `${record.id} ${record.version} ${record.type} ${record.label} ${record.scope} ${record.locale} ${record.file}`.toLowerCase();
         return matchesGroup(record, "version")
           && matchesGroup(record, "type")
@@ -424,6 +468,7 @@
     function render() {
       const rows = visibleRecords();
       visibleCount.textContent = String(rows.length);
+      hydrationStatus.innerHTML = `<strong>${hydratedCount}</strong> of ${records.length} browser rows indexed`;
       if (rows.length === 0) {
         pane.innerHTML = '<div class="empty-state">No fictional records match the active filters.</div>';
         updateSelectionSummary();
@@ -497,6 +542,21 @@
     document.querySelector("[data-reset]").addEventListener("click", () => applyPreset("all"));
     search.addEventListener("input", () => { updatePresetState(); render(); });
 
+    hydrateButton.addEventListener("click", () => {
+      hydratedCount = records.length;
+      hydrateButton.textContent = "Season hydrated";
+      actionLog.textContent = `Hydration complete. ${records.length} fictional rows indexed after the count stabilized.`;
+      render();
+    });
+
+    seasonSelect.addEventListener("change", () => {
+      hydratedCount = 7;
+      selected.clear();
+      hydrateButton.textContent = "Hydrate season";
+      actionLog.textContent = `Season changed to ${seasonSelect.options[seasonSelect.selectedIndex].text}. Visible rows reset.`;
+      applyPreset("all");
+    });
+
     pane.addEventListener("change", (event) => {
       if (!event.target.matches(".file-check")) return;
       event.target.checked ? selected.add(event.target.value) : selected.delete(event.target.value);
@@ -505,7 +565,9 @@
 
     reviewButton.addEventListener("click", () => {
       lastFocus = reviewButton;
-      reviewCopy.textContent = `${selected.size} fictional asset${selected.size === 1 ? "" : "s"} selected. This portfolio demo only simulates the human review checkpoint; it cannot modify production data.`;
+      const action = actionSelect.value;
+      reviewCopy.textContent = `${selected.size} fictional asset${selected.size === 1 ? "" : "s"} selected for ${action}. Confirming records the review in this demo only; no production data can be modified.`;
+      confirmButton.textContent = `Confirm ${action} review`;
       modal.hidden = false;
       document.querySelector("[data-close-modal]").focus();
     });
@@ -516,10 +578,13 @@
     }
 
     document.querySelector("[data-close-modal]").addEventListener("click", closeModal);
-    document.querySelector("[data-confirm-review]").addEventListener("click", () => {
+    confirmButton.addEventListener("click", () => {
+      const reviewedCount = selected.size;
+      const action = actionSelect.value;
       selected.clear();
       closeModal();
       render();
+      actionLog.textContent = `Human confirmation recorded for ${reviewedCount} simulated ${action} request${reviewedCount === 1 ? "" : "s"}. No files changed.`;
     });
     modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
     document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !modal.hidden) closeModal(); });
@@ -535,6 +600,7 @@
       link.download = "sanitized-media-inventory.csv";
       link.click();
       URL.revokeObjectURL(link.href);
+      actionLog.textContent = `CSV export prepared for ${rows.length} visible fictional records.`;
     });
 
     applyPreset("all");

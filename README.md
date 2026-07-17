@@ -8,12 +8,12 @@ Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 
 ## Project List
 
-- Season-Level Media Inventory Operations Console
-- Ingest Status Reconciliation and Airtable Readiness Automation
-- Automated Video Version Comparison and Difference Reporter
-- Dataset-Assisted Opening and Ending Timestamp Detection
-- Live Multi-Studio Schedule and Calendar Platform
-- AI-Assisted Instructional Keyframe Selection
+- Media Inventory Operations Console
+- Asset Status Reconciliation
+- VMAF Video Quality Check
+- Anime OP/ED Timecodes
+- K-Taekwondo Calendar
+- Instructional Keyframes
 
 ## File Structure
 
@@ -22,7 +22,6 @@ Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 ├── index.html
 ├── projects.html
 ├── about.html
-├── resume.html
 ├── styles.css
 ├── script.js
 ├── projects/
@@ -72,7 +71,7 @@ The interactive demos are public reconstructions with fictional internal-tool da
 
 ## Public Links
 
-The portfolio includes Ali's professional email, LinkedIn, GitHub and a generated public resume PDF. No phone number or private contact data is included.
+The portfolio includes LinkedIn and GitHub links. The plain-text resume contains no name, email, phone number, social profile or other direct contact information.
 
 ## Deployment
 
@@ -86,4 +85,4 @@ See `docs/privacy-and-sanitization.md` and `SECURITY.md`.
 
 ## AI Collaboration Disclosure
 
-Gemini and Codex supported iterative development, debugging, interface prototyping and code refinement. Ali defined the production problems, workflow architecture, domain logic, validation requirements and operational testing.
+Codex, Gemini and Claude Code supported iterative development, debugging, interface prototyping and code refinement. Ali defined the production problems, workflow architecture, domain logic, validation requirements and operational testing.

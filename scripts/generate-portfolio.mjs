@@ -13,10 +13,9 @@ const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const GENERATED_HTML = new Set();
 
 const contact = {
-  email: "ali.aslam1128@gmail.com",
   github: "https://github.com/Ali1128/ali-aslam-portfolio",
   linkedin: "https://www.linkedin.com/in/aliaslam2/",
-  resume: "docs/resume.pdf"
+  resumeText: "docs/resume.txt"
 };
 
 function write(relativePath, content) {
@@ -55,7 +54,7 @@ function escapeHtml(value) {
 const projects = [
   {
     slug: "media-inventory-console",
-    title: "Season-Level Media Inventory Operations Console",
+    title: "Media Inventory Operations Console",
     shortTitle: "Media Inventory Console",
     status: "Production-facing internal tool",
     role: "Workflow designer and developer",
@@ -259,8 +258,8 @@ function searchIndex(records, terms, extensions) {
   },
   {
     slug: "asset-reconciliation",
-    title: "Ingest Status Reconciliation and Airtable Readiness Automation",
-    shortTitle: "Ingest Status Reconciliation",
+    title: "Asset Status Reconciliation",
+    shortTitle: "Asset Reconciliation",
     status: "Working automation used by multiple operators",
     role: "Workflow designer, automation developer and tester",
     period: "Media Operations Automation Projects",
@@ -372,8 +371,8 @@ async function reconcileRequirement(requirement, browserPage, tracker) {
   },
   {
     slug: "video-version-comparison",
-    title: "Automated Video Version Comparison and Difference Reporter",
-    shortTitle: "Video Version Comparison",
+    title: "VMAF Video Quality Check",
+    shortTitle: "Video Quality Check",
     status: "Working prototype with preserved output; public demo reconstructed",
     role: "Workflow designer and prototype developer",
     period: "Media Operations Automation Projects - September 2025 to January 2026",
@@ -464,8 +463,8 @@ function summarizeRanges(frameScores, threshold) {
   },
   {
     slug: "op-ed-detection",
-    title: "Dataset-Assisted Opening and Ending Timestamp Detection",
-    shortTitle: "OP/ED Timestamp Detection",
+    title: "Anime OP/ED Timecodes",
+    shortTitle: "OP/ED Timecodes",
     status: "Experimental season-level prototype",
     role: "Prototype designer and media-analysis tester",
     period: "Earliest project in the September 2025 to January 2026 automation range",
@@ -555,7 +554,7 @@ function scoreCandidateRange(range, signals) {
   },
   {
     slug: "ktaekwondo-calendar",
-    title: "Live Multi-Studio Schedule and Calendar Platform",
+    title: "K-Taekwondo Calendar Operations",
     shortTitle: "K-Taekwondo Calendar",
     status: "Live web application and operations prototype",
     role: "System designer, builder and workflow documenter",
@@ -567,7 +566,7 @@ function scoreCandidateRange(range, signals) {
     type: "Live public web application",
     purpose: "Uses Airtable as the operational source of truth, a Cloudflare Worker/API layer for secure public data delivery, custom HTML/CSS/JavaScript embedded in Squarespace and Softr portals for authenticated studio users.",
     result: "Connected public-facing calendar presentation with maintainable studio operations data and role-based administrative workflows.",
-    visual: "Public calendar screenshot, architecture flow and permissions matrix",
+    visual: "Sanitized Softr-style operations dashboard and public calendar preview",
     demo: "calendar",
     problem: [
       "A multi-studio martial-arts organization needed public schedules and events that could stay aligned with operational updates.",
@@ -763,13 +762,12 @@ const employment = [
     ]
   },
   {
-    company: "Deluxe",
-    role: "Account Coordinator, Localization & Distribution",
-    dates: "July 2016 - July 2017",
+    company: "JK Moodo",
+    role: "Video Creative & Editor",
+    dates: "March 2017 - November 2021",
     bullets: [
-      "Managed catalog delivery workflows for theatrical, streaming, digital-purchase, console and channel distribution.",
-      "Coordinated video, audio, subtitle and dub deliverables across external vendors and international release deadlines.",
-      "Validated foreign-language audio and delivery data, resolving mismatches with dubbing and distribution partners."
+      "Produced and edited branded video for film and athletic studio divisions across web, YouTube and social platforms, managing briefs, shoots, schedules, approvals and delivery.",
+      "Built and coordinated a freelance network of cinematographers, editors and animators while tracking feedback, budgets and deliverables across concurrent projects."
     ]
   }
 ];
@@ -792,7 +790,8 @@ const resumeTools = [
   "OpenCV",
   "Adobe Creative Cloud",
   "Gemini",
-  "Codex"
+  "Codex",
+  "Claude Code"
 ];
 
 const resumeLanguages = ["English", "Urdu", "Punjabi", "Hindi"];
@@ -810,16 +809,14 @@ const capabilities = [
 
 function nav(prefix, active) {
   const links = [
-    ["home", "Home", "index.html"],
-    ["projects", "Work", "projects.html"],
+    ["projects", "Work", "index.html#work"],
     ["about", "About", "about.html"],
-    ["resume", "Resume", "resume.html"]
+    ["resume", "Resume", contact.resumeText]
   ];
 
   return `<header class="site-header" data-site-header>
     <nav class="nav shell" aria-label="Primary navigation">
       <a class="brand" href="${prefix}index.html" aria-label="Ali Aslam home">
-        <span class="brand-mark" aria-hidden="true">AA</span>
         <span class="brand-copy"><strong>Ali Aslam</strong><small>Media Operations Systems</small></span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
@@ -831,10 +828,8 @@ function nav(prefix, active) {
       <div class="nav-links" id="primary-navigation">
         ${links.map(([key, label, href]) => `<a href="${prefix}${href}" data-nav="${key}"${key === active ? ' aria-current="page"' : ""}>${label}</a>`).join("")}
         <span class="nav-contact-actions" aria-label="Professional links">
-          <a class="nav-action" href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a class="nav-action" href="${contact.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="nav-action" href="mailto:${contact.email}">Email</a>
-          <a class="nav-action nav-download" href="${prefix}${contact.resume}" download>Download Resume</a>
+          <a class="nav-action" href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </span>
       </div>
     </nav>
@@ -851,13 +846,10 @@ function footer(prefix) {
       <nav class="footer-links" aria-label="Professional links">
         <a href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="${contact.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="mailto:${contact.email}">${contact.email}</a>
-        <a href="${prefix}${contact.resume}" download>Download Resume</a>
       </nav>
     </div>
     <div class="shell footer-bottom">
       <span>&copy; <span data-current-year></span> Ali Aslam.</span>
-      <span>Sanitized reconstructions and fictional operational data.</span>
     </div>
   </footer>`;
 }
@@ -870,8 +862,9 @@ function layout({ title, description, active, prefix = "", body }) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${escapeHtml(description)}">
     <title>${escapeHtml(title)}</title>
-    <link rel="stylesheet" href="${prefix}styles.css">
-    <script src="${prefix}script.js" defer></script>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="${prefix}styles.css?v=stage2-20260716f">
+    <script src="${prefix}script.js?v=stage2-20260716f" defer></script>
   </head>
   <body data-page="${escapeHtml(active)}">
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -892,24 +885,61 @@ function statusBadge(text) {
   return `<span class="status-badge">${escapeHtml(text)}</span>`;
 }
 
-function projectCard(project, prefix = "") {
-  const visual = project.demo === "inventory"
-    ? `<span class="project-visual project-visual-image"><img src="${prefix}assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized media inventory overlay interface"></span>`
-    : project.demo === "calendar"
-      ? `<span class="project-visual project-visual-image project-visual-calendar-image"><img src="${prefix}assets/images/ktaekwondo-calendar-august-2026.png" alt="Published multi-studio calendar artwork"></span>`
-      : project.demo === "keyframes"
-        ? `<span class="project-visual project-visual-image project-visual-keyframe-image"><img src="${prefix}assets/images/ktaekwondo-keyframe-03.jpg" alt="Annotated Taekwondo instructional keyframe"></span>`
-        : `<span class="project-visual project-visual-${project.demo}" aria-hidden="true"></span>`;
+function projectStaticPreview(project, prefix = "", compact = false) {
+  const modifier = compact ? " is-compact" : "";
 
+  if (project.demo === "inventory") {
+    return `<span class="project-visual project-visual-image project-preview${modifier}">
+      <img src="${prefix}assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized media inventory overlay interface">
+    </span>`;
+  }
+
+  if (project.demo === "reconciliation") {
+    return `<span class="project-visual project-preview preview-reconciliation${modifier}" role="img" aria-label="Airtable requirements, browser automation and completed ingest verification">
+      <span class="preview-column preview-requirements"><b>Airtable</b><i>RIVS01007</i><i>EN-US / SCC</i><em>Unchecked</em></span>
+      <span class="preview-column preview-automation"><b>Puppeteer</b><i>Hydrate rows</i><i>Exact match</i><em>DONE verified</em></span>
+      <span class="preview-column preview-results"><b>Tracker</b><i>One candidate</i><i>Guard passed</i><em>Updated</em></span>
+    </span>`;
+  }
+
+  if (project.demo === "video") {
+    return `<span class="project-visual project-visual-image project-preview${modifier}">
+      <img src="${prefix}assets/images/vmaf-anime-comparison.png" alt="Original anime-style reference and compressed-frame quality comparison">
+    </span>`;
+  }
+
+  if (project.demo === "oped") {
+    return `<span class="project-visual project-visual-image project-preview${modifier}">
+      <img src="${prefix}assets/images/op-ed-anime-sequence.png" alt="Three original anime-style frames representing recap, opening and ending sequences">
+    </span>`;
+  }
+
+  if (project.demo === "calendar") {
+    return `<span class="project-visual project-visual-image project-visual-calendar-image project-preview${modifier}">
+      <img src="${prefix}assets/images/ktaekwondo-calendar-dashboard.png" alt="Sanitized Softr-style calendar operations dashboard and public preview">
+    </span>`;
+  }
+
+  if (project.demo === "keyframes") {
+    return `<span class="project-visual project-visual-image project-visual-keyframe-image project-preview${modifier}">
+      <img src="${prefix}assets/images/ktaekwondo-keyframe-03.jpg" alt="Annotated Taekwondo instructional keyframe">
+    </span>`;
+  }
+
+  return `<span class="project-visual project-preview${modifier}" aria-hidden="true"></span>`;
+}
+
+function projectCard(project, prefix = "") {
   return `<article class="project-card">
-    <a class="project-card-link" href="${prefix}projects/${project.slug}/">
-      ${visual}
+    <a class="project-card-link" href="${prefix}projects/${project.slug}/index.html">
+      ${projectStaticPreview(project, prefix)}
       <span class="project-card-body">
         ${statusBadge(project.status)}
         <h3>${escapeHtml(project.title)}</h3>
         <p>${escapeHtml(project.purpose)}</p>
         <strong>${escapeHtml(project.result)}</strong>
         ${tagList(project.technologies.slice(0, 4))}
+        <span class="card-case-link">View case study <span aria-hidden="true">&rarr;</span></span>
       </span>
     </a>
   </article>`;
@@ -969,9 +999,43 @@ function supportingModuleBlock() {
   </section>`;
 }
 
+function workflowModel(project) {
+  if (project.demo === "inventory") {
+    return [
+      { system: "Operator + CMS", action: "Select season and hydrate every episode inventory", state: "Virtualized browser-visible rows", result: "Complete local season index" },
+      { system: "Browser tool", action: "Normalize and classify filenames", state: "Type, locale, version and scope", result: "Searchable inventory state" },
+      { system: "Operator", action: "Search, filter and select assets", state: "Reviewed queue or CSV export", result: "Focused action set" },
+      { system: "Human review", action: "Confirm delete or replace request", state: "Named assets and chosen action", result: "Logged outcome or cancellation" }
+    ];
+  }
+
+  if (project.demo === "reconciliation") {
+    return [
+      { system: "Airtable operator", action: "Read one unchecked readiness requirement", state: "Alpha ID, locale, asset class and extension", result: "Deterministic search specification" },
+      { system: "Puppeteer", action: "Open authenticated search and hydrate rows", state: "Browser-visible ingest records", result: "Complete candidate set" },
+      { system: "Rules engine", action: "Match fields and verify completed stage", state: "Accepted, rejected or ambiguous candidates", result: "Explainable decision" },
+      { system: "Update guard", action: "Update one field or stop for review", state: "Unchecked tracker field and run log", result: "Scoped update or manual-review state" }
+    ];
+  }
+
+  return project.architecture.slice(0, 4).map((step, index) => ({
+    system: `Workflow stage ${String(index + 1).padStart(2, "0")}`,
+    action: step,
+    state: project.workflow[index] || "Reviewed production context",
+    result: project.workflow[index + 1] || "Human-reviewed output"
+  }));
+}
+
 function architectureFlow(project) {
-  return `<div class="flow-diagram" aria-label="${escapeHtml(project.title)} architecture flow">
-    ${project.architecture.map((step, index) => `<div class="flow-node"><span>${String(index + 1).padStart(2, "0")}</span>${escapeHtml(step)}</div>`).join("")}
+  return `<div class="workflow-diagram" aria-label="${escapeHtml(project.title)} architecture and workflow">
+    ${workflowModel(project).map((step, index) => `<article class="workflow-node">
+      <header><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(step.system)}</strong></header>
+      <h3>${escapeHtml(step.action)}</h3>
+      <dl>
+        <div><dt>Data or state</dt><dd>${escapeHtml(step.state)}</dd></div>
+        <div><dt>Result</dt><dd>${escapeHtml(step.result)}</dd></div>
+      </dl>
+    </article>`).join("")}
   </div>`;
 }
 
@@ -985,6 +1049,7 @@ function metaGrid(project) {
   const meta = [
     ["Status", project.status],
     ["Role", project.role],
+    ["Users", project.users],
     ["Scale", project.scale],
     ["Tools", project.technologies.slice(0, 4).join(", ")]
   ];
@@ -992,6 +1057,107 @@ function metaGrid(project) {
   return `<dl class="metadata-grid">
     ${meta.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
   </dl>`;
+}
+
+function conciseScale(project) {
+  if (project.demo === "inventory") return "1,000+ assets in a season inventory";
+  if (project.demo === "reconciliation") return "50-100 tracker records in a typical run";
+  return project.scale;
+}
+
+function primarySafeguard(project) {
+  if (project.demo === "inventory") return "Human confirmation before delete or replace";
+  if (project.demo === "reconciliation") return "No exact completed match means no update";
+  return project.safeguards[0];
+}
+
+function outcomeStrip(project) {
+  return `<div class="outcome-strip" aria-label="Project outcome, scale and primary safeguard">
+    <div><span>Outcome</span><strong>${escapeHtml(project.result)}</strong></div>
+    <div><span>Scale</span><strong>${escapeHtml(conciseScale(project))}</strong></div>
+    <div><span>Primary safeguard</span><strong>${escapeHtml(primarySafeguard(project))}</strong></div>
+  </div>`;
+}
+
+function beforeAfterWorkflow() {
+  const before = ["Select season", "Open episode", "Scroll records", "Find asset manually", "Open menu", "Choose action", "Confirm", "Refresh"];
+  const after = ["Hydrate season", "Search or filter", "Select asset", "Confirm action", "Review log"];
+
+  return `<div class="workflow-comparison" aria-label="Media inventory workflow before and after">
+    <article>
+      <p class="evidence-label">Before</p>
+      <h3>Repeated episode-by-episode inspection</h3>
+      <ol>${before.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>
+    </article>
+    <article>
+      <p class="evidence-label">After</p>
+      <h3>One hydrated season workflow</h3>
+      <ol>${after.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>
+    </article>
+  </div>`;
+}
+
+function evidenceGallery(project) {
+  if (project.demo === "inventory") {
+    return `<div class="evidence-gallery evidence-inventory">
+      <figure class="evidence-wide">
+        ${beforeAfterWorkflow()}
+        <figcaption>Before-and-after operator path based on the documented working workflow.</figcaption>
+      </figure>
+      <figure class="evidence-terminal">
+        <div class="evidence-window-head"><span>Selected queue</span><strong>2 assets</strong></div>
+        <ol class="evidence-queue"><li><code>signal_s01e02_caption_en-us_full.scc</code></li><li><code>signal_s01e02_caption_en-us_full_alt.scc</code></li></ol>
+        <figcaption>Selection remains visible before export, delete or replace review.</figcaption>
+      </figure>
+      <figure class="evidence-terminal">
+        <div class="evidence-window-head"><span>Action log</span><strong>Human reviewed</strong></div>
+        <pre class="evidence-log">[OK] 19 rows hydrated\n[INFO] 2 caption candidates selected\n[WAIT] Replace requires confirmation\n[OK] Review logged; no automatic action</pre>
+        <figcaption>Sanitized fictional log showing the confirmation boundary.</figcaption>
+      </figure>
+    </div>`;
+  }
+
+  if (project.demo === "reconciliation") {
+    return `<div class="evidence-gallery evidence-reconciliation">
+      <figure class="evidence-wide">
+        <div class="match-evidence" aria-label="Accepted, rejected and ambiguous matching examples">
+          <article class="match-accepted"><span>Accepted</span><strong>RIVS01007 / EN-US / SCC</strong><p>One candidate, expected extension, status DONE.</p></article>
+          <article class="match-rejected"><span>Rejected</span><strong>NORK01003 / EN-US / DFXP</strong><p>Candidate is delivered, but ingest is not complete.</p></article>
+          <article class="match-ambiguous"><span>Ambiguous</span><strong>QHAR01005 / EN-US / SCC</strong><p>Two completed candidates; tracker remains unchanged.</p></article>
+        </div>
+        <figcaption>Deterministic examples used to explain why an update proceeded or stopped.</figcaption>
+      </figure>
+      <figure class="evidence-terminal">
+        <div class="evidence-window-head"><span>Run log</span><strong>Guarded batch</strong></div>
+        <pre class="evidence-log">[OK] Browser rows hydrated: 8\n[OK] Exact completed matches: 4\n[SKIP] Incomplete candidates: 2\n[REVIEW] Ambiguous requirements: 1</pre>
+        <figcaption>Every skipped update retains an operator-readable reason.</figcaption>
+      </figure>
+      <figure class="evidence-tracker">
+        <div class="evidence-window-head"><span>Airtable readiness</span><strong>Scoped update</strong></div>
+        <div class="tracker-evidence-row"><span>RIVS01007</span><b>A/V &#10003;</b><b>DFXP &#10003;</b><b>SCC &#10003;</b></div>
+        <div class="tracker-evidence-row is-review"><span>QHAR01005</span><b>Manual review</b><b>No update</b></div>
+        <figcaption>Only mapped unchecked fields receive a verified update.</figcaption>
+      </figure>
+    </div>`;
+  }
+
+  if (project.demo === "calendar") {
+    return `<div class="evidence-gallery evidence-calendar">
+      <figure class="evidence-wide evidence-calendar-shot">
+        <img src="../../assets/images/ktaekwondo-calendar-dashboard.png" alt="Sanitized calendar operations dashboard with Airtable sync state and public preview">
+        <figcaption>Sanitized dashboard view showing the operator workflow, source status and public calendar output.</figcaption>
+      </figure>
+      <figure class="evidence-terminal evidence-calendar-flow">
+        <div class="evidence-window-head"><span>Publishing path</span><strong>Reviewable</strong></div>
+        <ol class="calendar-evidence-flow"><li><b>Softr</b><span>Studio admin edits a schedule or event.</span></li><li><b>Airtable</b><span>Record state and publishing status stay visible.</span></li><li><b>Public widget</b><span>Approved fields render on the website.</span></li></ol>
+        <figcaption>Each handoff has a visible state before public presentation.</figcaption>
+      </figure>
+    </div>`;
+  }
+
+  return `<div class="evidence-gallery">
+    <figure class="evidence-wide"><div class="evidence-placeholder">${escapeHtml(project.visual)}</div><figcaption>${escapeHtml(project.results[0])}</figcaption></figure>
+  </div>`;
 }
 
 function projectDemo(project) {
@@ -1012,11 +1178,11 @@ function linkingDemo() {
         <p class="demo-kicker">Sanitized interactive reconstruction</p>
         <h2>Hydrated file-linking search</h2>
       </div>
-      <a class="button button-secondary" href="../../demos/file-linking-search/" target="_blank" rel="noopener">Open full-screen demo</a>
+      <a class="button button-secondary" href="../../demos/file-linking-search/index.html" target="_blank" rel="noopener">Open full-screen demo</a>
     </div>
     <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="standalone-demo-frame linking-demo-frame">
-      <iframe src="../../demos/file-linking-search/" title="Sanitized interactive file linking search" loading="eager"></iframe>
+      <iframe src="../../demos/file-linking-search/index.html" title="Sanitized interactive file linking search" loading="eager"></iframe>
     </div>
     <div class="inventory-impact" aria-label="Workflow impact">
       <div><strong>37-step baseline</strong><span>recorded manual linking path before the search layer</span></div>
@@ -1030,20 +1196,15 @@ function inventoryDemo() {
   return `<section class="demo-panel inventory-demo inventory-embed" aria-label="Interactive media inventory console demo">
     <div class="demo-panel-header">
       <div>
-        <p class="demo-kicker">Sanitized interactive reconstruction</p>
+        <p class="demo-kicker">SANITIZED INTERACTIVE RECONSTRUCTION</p>
         <h2>Season inventory overlay</h2>
       </div>
-      <a class="button button-secondary" href="../../demos/media-inventory-console/" target="_blank" rel="noopener">Open full-screen demo</a>
+      <a class="button button-secondary" href="../../demos/media-inventory-console/index.html" target="_blank" rel="noopener">Open full-screen demo</a>
     </div>
-    <p class="demo-values-note">Fictional demonstration values apply to the reconstructed interface; reported workflow impact is labeled separately below.</p>
     <div class="inventory-demo-frame">
-      <iframe src="../../demos/media-inventory-console/" title="Sanitized interactive media inventory console" loading="eager"></iframe>
+      <iframe src="../../demos/media-inventory-console/index.html" title="Sanitized interactive media inventory console" loading="lazy"></iframe>
     </div>
-    <div class="inventory-impact" aria-label="Workflow impact">
-      <div><strong>1,000+</strong><span>assets supported in a season inventory</span></div>
-      <div><strong>4-7 min to under 1 min</strong><span>reported locate, verify and delete/replace workflow</span></div>
-      <div><strong>Human confirmation</strong><span>required before destructive operations</span></div>
-    </div>
+    <p class="demo-caption">Fictional demonstration data. Interface behavior reflects the original workflow.</p>
   </section>`;
 }
 
@@ -1051,20 +1212,15 @@ function reconciliationDemo() {
   return `<section class="demo-panel standalone-demo-embed" aria-label="Interactive ingest status reconciliation demo">
     <div class="demo-panel-header">
       <div>
-        <p class="demo-kicker">Sanitized interactive reconstruction</p>
+        <p class="demo-kicker">SANITIZED INTERACTIVE RECONSTRUCTION</p>
         <h2>Ingest status to readiness update</h2>
       </div>
-      <a class="button button-secondary" href="../../demos/asset-status-reconciliation/" target="_blank" rel="noopener">Open full-screen demo</a>
+      <a class="button button-secondary" href="../../demos/asset-status-reconciliation/index.html" target="_blank" rel="noopener">Open full-screen demo</a>
     </div>
-    <p class="demo-values-note">Fictional demonstration values.</p>
     <div class="standalone-demo-frame reconciliation-demo-frame">
-      <iframe src="../../demos/asset-status-reconciliation/" title="Sanitized interactive ingest status reconciliation" loading="eager"></iframe>
+      <iframe src="../../demos/asset-status-reconciliation/index.html" title="Sanitized interactive ingest status reconciliation" loading="lazy"></iframe>
     </div>
-    <div class="inventory-impact" aria-label="Workflow safeguards">
-      <div><strong>Browser-visible read</strong><span>uses the operator's existing authenticated context</span></div>
-      <div><strong>Single-match guard</strong><span>updates only one mapped unchecked readiness field</span></div>
-      <div><strong>Manual review</strong><span>processing, missing and ambiguous rows remain unchanged</span></div>
-    </div>
+    <p class="demo-caption">Fictional demonstration data. Interface behavior reflects the original workflow.</p>
   </section>`;
 }
 
@@ -1084,6 +1240,10 @@ function videoDemo() {
       <div><span>Review ranges</span><strong>03</strong></div>
       <div><span>Decision</span><strong>Human review</strong></div>
     </div>
+    <figure class="generated-production-visual">
+      <img src="../../assets/images/vmaf-anime-comparison.png" alt="Original anime-style reference frame beside a compressed comparison frame">
+      <figcaption>Original publish-safe production frame created for this reconstruction. Left: reference. Right: intentionally compressed comparison.</figcaption>
+    </figure>
     <div class="video-panes">
       <figure class="video-pane">
         <figcaption><span>Reference frame</span><small>00:11:48.120 | VMAF 96.4</small></figcaption>
@@ -1117,6 +1277,10 @@ function opedDemo() {
       <button class="button button-primary" type="button" data-oped-approve>Approve selected candidates</button>
     </div>
     <p class="demo-values-note">Fictional demonstration values.</p>
+    <figure class="generated-production-visual">
+      <img src="../../assets/images/op-ed-anime-sequence.png" alt="Original anime-style recap, opening and ending sequence frames">
+      <figcaption>Original publish-safe anime-style frames created for timeline analysis: recap, opening sequence and ending sequence.</figcaption>
+    </figure>
     <div class="oped-layout">
       <aside class="episode-list">
         <h3>Season episodes</h3>
@@ -1146,37 +1310,68 @@ function opedDemo() {
 }
 
 function calendarDemo() {
-  return `<section class="demo-panel calendar-demo" aria-label="K-Taekwondo calendar platform demo">
+  return `<section class="demo-panel calendar-demo" data-calendar-demo aria-label="K-Taekwondo calendar operations platform demo">
     <div class="demo-panel-header">
       <div>
-        <p class="demo-kicker">Live public project</p>
-        <h2>Multi-studio calendar flow</h2>
+        <p class="demo-kicker">Sanitized Softr + Airtable reconstruction</p>
+        <h2>Calendar operations workspace</h2>
       </div>
       <a class="button button-primary" href="https://www.k-taekwondo.com/test" target="_blank" rel="noopener noreferrer">Open live test page</a>
     </div>
-    <div class="calendar-layout">
-      <figure class="calendar-image">
-        <img src="../../assets/images/ktaekwondo-calendar-august-2026.png" alt="K-Taekwondo Glendale August 2026 public calendar screenshot">
-        <figcaption>Authorized public calendar artwork used for the K-Taekwondo case study.</figcaption>
-      </figure>
-      <div class="permissions-matrix">
-        <h3>Verified public data flow</h3>
-        <div class="flow-diagram compact">
-          <div class="flow-node"><span>01</span>Softr studio dashboards</div>
-          <div class="flow-node"><span>02</span>Airtable source of truth</div>
-          <div class="flow-node"><span>03</span>Cloudflare Worker/API layer</div>
-          <div class="flow-node"><span>04</span>Squarespace calendar widget</div>
+    <p class="demo-values-note">Fictional demonstration values. No private records, credentials or contact details are shown.</p>
+    <div class="calendar-dashboard" data-calendar-dashboard>
+      <div class="calendar-dashboard-toolbar">
+        <div>
+          <span class="calendar-console-label">Softr / studio operations</span>
+          <strong>Schedule workspace</strong>
         </div>
-        <h3>Permissions matrix</h3>
-        <table>
-          <tbody>
-            <tr><th>Public visitor</th><td>Read public schedule and event fields</td></tr>
-            <tr><th>Studio admin</th><td>Edit applicable studio schedule through authenticated views</td></tr>
-            <tr><th>Operator</th><td>Review restricted changes and publishing logs</td></tr>
-          </tbody>
-        </table>
+        <div class="calendar-toolbar-controls">
+          <label>Studio<select data-calendar-studio aria-label="Choose demo studio"><option>Chatsworth</option><option>Glendale</option><option>Pasadena</option></select></label>
+          <button class="button button-secondary" type="button" data-calendar-sync>Sync Airtable</button>
+        </div>
+      </div>
+      <div class="calendar-summary-grid" aria-label="Calendar workspace summary">
+        <div><span>Published</span><strong>28</strong><small>public records</small></div>
+        <div><span>Needs review</span><strong>03</strong><small>operator queue</small></div>
+        <div><span>Next sync</span><strong>18 min</strong><small>scheduled refresh</small></div>
+        <div><span>Source</span><strong>Airtable</strong><small data-calendar-sync-state>last sync 2 min ago</small></div>
+      </div>
+      <div class="calendar-dashboard-grid">
+        <section class="calendar-operator-panel" aria-labelledby="calendar-operator-title">
+          <div class="calendar-panel-heading"><div><span class="calendar-panel-kicker">Operator view</span><h3 id="calendar-operator-title">Upcoming schedule</h3></div><span class="calendar-state" data-calendar-status aria-live="polite">Ready for review</span></div>
+          <div class="calendar-view-tabs" role="tablist" aria-label="Calendar views">
+            <button type="button" role="tab" aria-selected="true" class="is-active" data-calendar-view="today">Today</button>
+            <button type="button" role="tab" aria-selected="false" data-calendar-view="week">Week</button>
+            <button type="button" role="tab" aria-selected="false" data-calendar-view="month">Month</button>
+          </div>
+          <div class="calendar-view-panel is-active" data-calendar-view-panel="today">
+            <div class="calendar-date-row"><strong>Thursday, July 16</strong><span>4 items</span></div>
+            <div class="calendar-event-list">
+              <article class="calendar-event-row" data-calendar-event="class"><time>4:00 PM</time><div><strong>Trial class</strong><span>Yellow belt group / regular class</span></div><b class="calendar-chip is-published">Published</b><button type="button" class="calendar-edit" data-calendar-edit>Edit</button></article>
+              <article class="calendar-event-row" data-calendar-event="class"><time>5:00 PM</time><div><strong>Purple to black</strong><span>Intermediate group / regular class</span></div><b class="calendar-chip is-published">Published</b><button type="button" class="calendar-edit" data-calendar-edit>Edit</button></article>
+              <article class="calendar-event-row is-review-row" data-calendar-event="event"><time>7:00 PM</time><div><strong>Instructor check-in</strong><span>Internal event / draft announcement</span></div><b class="calendar-chip is-review">Needs review</b><button type="button" class="calendar-edit" data-calendar-edit>Edit</button></article>
+            </div>
+          </div>
+          <div class="calendar-view-panel" data-calendar-view-panel="week" hidden>
+            <div class="calendar-week-grid"><div><b>Mon</b><span>4 classes</span><em>1 review</em></div><div><b>Tue</b><span>4 classes</span><em>Published</em></div><div><b>Wed</b><span>3 classes</span><em>Published</em></div><div><b>Thu</b><span>4 classes</span><em>Published</em></div><div><b>Fri</b><span>4 classes</span><em>Published</em></div></div>
+            <p class="calendar-panel-note">Weekly schedule is assembled from recurring class records and studio-specific overrides.</p>
+          </div>
+          <div class="calendar-view-panel" data-calendar-view-panel="month" hidden>
+            <div class="calendar-month-grid" aria-label="Fictional July 2026 monthly calendar"><span class="calendar-month-day is-muted">28</span><span class="calendar-month-day is-muted">29</span><span class="calendar-month-day is-muted">30</span><span class="calendar-month-day">1</span><span class="calendar-month-day">2</span><span class="calendar-month-day">3</span><span class="calendar-month-day">4</span><span class="calendar-month-day">5</span><span class="calendar-month-day">6</span><span class="calendar-month-day">7</span><span class="calendar-month-day">8</span><span class="calendar-month-day">9</span><span class="calendar-month-day">10</span><span class="calendar-month-day">11</span><span class="calendar-month-day">12</span><span class="calendar-month-day">13</span><span class="calendar-month-day">14</span><span class="calendar-month-day is-today">15<em>Closure</em></span><span class="calendar-month-day">16<em>Classes</em></span><span class="calendar-month-day">17</span><span class="calendar-month-day is-event">18<em>Belt test</em></span><span class="calendar-month-day">19</span><span class="calendar-month-day">20</span><span class="calendar-month-day">21</span><span class="calendar-month-day">22</span><span class="calendar-month-day">23</span><span class="calendar-month-day">24</span><span class="calendar-month-day">25</span><span class="calendar-month-day">26</span><span class="calendar-month-day">27</span><span class="calendar-month-day">28</span><span class="calendar-month-day">29</span><span class="calendar-month-day">30</span><span class="calendar-month-day">31</span></div>
+          </div>
+        </section>
+        <aside class="calendar-public-panel" aria-labelledby="calendar-public-title">
+          <div class="calendar-panel-heading"><div><span class="calendar-panel-kicker">Public preview</span><h3 id="calendar-public-title">What visitors see</h3></div><span class="calendar-live-dot">Live fields</span></div>
+          <div class="public-preview-card"><div class="public-preview-heading"><strong>Chatsworth</strong><span>Today’s schedule</span></div><div class="public-class"><time>4:00</time><strong>Trial - Yellow belt</strong></div><div class="public-class"><time>5:00</time><strong>Purple - Black</strong></div><div class="public-class"><time>7:00</time><strong>Adult class</strong></div></div>
+          <div class="public-event-list"><div><span>July 18</span><strong>Belt test</strong><small>Published event</small></div><div><span>July 27</span><strong>Nunchuck class</strong><small>Published event</small></div></div>
+        </aside>
+      </div>
+      <div class="calendar-dashboard-footer">
+        <div><span class="calendar-panel-kicker">Airtable change log</span><strong data-calendar-log>Public payload ready for review</strong></div>
+        <ol><li><b>01</b>Record edited</li><li><b>02</b>Review state checked</li><li><b>03</b>Public fields refreshed</li></ol>
       </div>
     </div>
+    <div class="calendar-architecture-strip" aria-label="Calendar system flow"><span><b>01</b>Softr dashboard</span><i>→</i><span><b>02</b>Airtable source</span><i>→</i><span><b>03</b>Worker/API fields</span><i>→</i><span><b>04</b>Public calendar</span></div>
   </section>`;
 }
 
@@ -1225,85 +1420,142 @@ function productionLens(project) {
   return [...shared, specific[project.demo]];
 }
 
+function heroSystemComposition() {
+  const inventory = publicProjects.find((project) => project.demo === "inventory");
+  const reconciliation = publicProjects.find((project) => project.demo === "reconciliation");
+
+  return `<figure class="hero-system-composition" aria-label="Previews of two production-facing workflow systems">
+    <div class="system-layer layer-reconciliation">${projectStaticPreview(reconciliation, "", true)}</div>
+    <div class="system-layer layer-inventory">${projectStaticPreview(inventory, "", true)}</div>
+    <figcaption>Sanitized static previews of working interfaces and reconstructed workflows.</figcaption>
+  </figure>`;
+}
+
+function featuredSystem(project, index) {
+  const isInventory = project.demo === "inventory";
+  const operationalVisual = isInventory
+    ? `<div class="featured-metric" aria-label="Reported workflow duration improvement"><span>4-7 minutes per asset</span><b aria-hidden="true">&rarr;</b><strong>under one minute</strong></div>
+       <p class="metric-context">Secondary scale: 1,000+ assets in a season inventory.</p>`
+    : `<div class="featured-pipeline" aria-label="Reconciliation workflow">
+        <span>Airtable requirement</span><b aria-hidden="true">&rarr;</b><span>Puppeteer</span><b aria-hidden="true">&rarr;</b><span>DONE verification</span><b aria-hidden="true">&rarr;</b><span>Guarded tracker update</span>
+      </div>
+      <p class="metric-context">Typical run: 50-100 records. No exact completed match means no update.</p>`;
+
+  return `<article class="featured-system${index % 2 === 0 ? "" : " is-reversed"}">
+    <header class="featured-system-heading">
+      <p class="section-kicker">Featured system ${String(index + 1).padStart(2, "0")}</p>
+      <h3>${escapeHtml(project.title)}</h3>
+      <p><strong>Function:</strong> ${escapeHtml(project.purpose)}</p>
+    </header>
+    <div class="featured-system-layout">
+      <div class="featured-system-visual">${projectStaticPreview(project)}</div>
+      <div class="featured-system-details">
+        <dl>
+          <div><dt>Status</dt><dd>${escapeHtml(project.status)}</dd></div>
+          <div><dt>Role</dt><dd>${escapeHtml(project.role)}</dd></div>
+          <div><dt>Technologies</dt><dd>${escapeHtml(project.technologies.slice(0, 4).join(", "))}</dd></div>
+          <div><dt>Scale</dt><dd>${escapeHtml(conciseScale(project))}</dd></div>
+          <div><dt>Verified outcome</dt><dd>${escapeHtml(project.result)}</dd></div>
+        </dl>
+        ${operationalVisual}
+        <a class="text-link" href="projects/${project.slug}/index.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </article>`;
+}
+
 function renderProjectPage(project) {
-  const body = `<section class="page-hero case-hero">
+  const body = `<section class="page-hero case-hero editorial-project-hero">
     <div class="shell">
       <p class="eyebrow">${escapeHtml(project.type)}</p>
-      <h1>${escapeHtml(project.title)}</h1>
-      <p>${escapeHtml(project.purpose)}</p>
+      <div class="project-hero-heading">
+        <div>
+          <h1>${escapeHtml(project.title)}</h1>
+          <p class="project-function">${escapeHtml(project.purpose)}</p>
+        </div>
+        ${statusBadge(project.status)}
+      </div>
       <div class="hero-actions">
+        <a class="button button-primary" href="#demonstration">View functional demonstration</a>
         <a class="button button-secondary" href="../../projects.html">All projects</a>
-        <a class="button button-ghost" href="#case-study">Read case study</a>
       </div>
       ${metaGrid(project)}
     </div>
   </section>
-  <section class="section" id="case-study">
+  <section class="section project-demonstration" id="demonstration">
     <div class="shell">
       ${projectDemo(project)}
-      <div class="impact-strip">
-        <div><span>Outcome</span><strong>${escapeHtml(project.result)}</strong></div>
-        <div><span>Public status</span><strong>${escapeHtml(project.status)}</strong></div>
-        <div><span>Contribution</span><strong>${escapeHtml(project.role)}</strong></div>
-      </div>
+      ${outcomeStrip(project)}
     </div>
   </section>
-  <section class="section">
-    <div class="shell case-layout">
-      <aside class="case-aside">
-        <nav aria-label="Case study sections">
-          <a href="#summary">Summary</a>
-          <a href="#problem">Problem</a>
-          <a href="#approach">Contribution</a>
-          <a href="#architecture">Architecture</a>
-          <a href="#results">Results</a>
-          <a href="#supporting-details">Supporting details</a>
-        </nav>
-      </aside>
-      <article class="case-content">
-        <section class="case-section" id="summary">
-          <h2>Summary</h2>
-          <p class="case-lead">${escapeHtml(project.purpose)}</p>
-          ${subsectionList("Output", [project.output])}
-          ${subsectionList("Users and stakeholders", project.stakeholders)}
-        </section>
-        <section class="case-section" id="problem">
-          <h2>Problem</h2>
+  <article class="project-story">
+    <section class="section case-section" id="problem">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Operational problem</p><h2>Where the workflow broke down.</h2></header>
+        <div class="story-copy">
           <ul class="clean-list">${project.problem.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
           ${subsectionList("Constraints", project.constraints)}
-        </section>
-        <section class="case-section" id="approach">
-          <h2>My contribution</h2>
+        </div>
+      </div>
+    </section>
+    <section class="section case-section section-ruled" id="built">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">What I built</p><h2>A practical production-facing system.</h2><p class="section-summary">${escapeHtml(project.output)}</p></header>
+        <div class="story-copy">
           <ul class="clean-list">${project.approach.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          ${subsectionList("Users and stakeholders", project.stakeholders)}
           ${subsectionList("Production supervision lens", productionLens(project))}
-          ${subsectionList("Implementation notes", project.details)}
-        </section>
-        <section class="case-section" id="architecture">
-          <h2>Architecture</h2>
-          ${architectureFlow(project)}
-          <div class="case-subsection"><h3>Workflow</h3>${workflowSteps(project)}</div>
-        </section>
-        ${project.slug === "media-inventory-console" ? supportingModuleBlock() : ""}
-        <section class="case-section" id="results">
-          <h2>Results</h2>
+        </div>
+      </div>
+    </section>
+    <section class="section case-section workflow-section" id="workflow">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Workflow and architecture</p><h2>Who acts, what changes and what happens next.</h2></div>
+        ${architectureFlow(project)}
+        <div class="case-subsection workflow-sequence"><h3>Operator sequence</h3>${workflowSteps(project)}</div>
+      </div>
+    </section>
+    <section class="section case-section safeguards-section section-ruled" id="safeguards">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Safeguards</p><h2>Risk stays visible at the decision point.</h2></header>
+        <ul class="safeguard-list">${project.safeguards.slice(0, 4).map((item, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span>${escapeHtml(item)}</li>`).join("")}</ul>
+      </div>
+    </section>
+    <section class="section case-section evidence-section" id="evidence">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Evidence</p><h2>Artifacts that make the workflow reviewable.</h2></div>
+        ${evidenceGallery(project)}
+      </div>
+    </section>
+    ${project.slug === "media-inventory-console" ? `<div class="shell">${supportingModuleBlock()}</div>` : ""}
+    <section class="section case-section result-section section-ruled" id="results">
+      <div class="shell story-grid">
+        <header><p class="section-kicker">Result</p><h2>${escapeHtml(project.result)}</h2></header>
+        <div class="story-copy">
           <ul class="clean-list">${project.results.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
           ${subsectionList("Learnings", project.learned)}
-        </section>
-        <div id="supporting-details">
+        </div>
+      </div>
+    </section>
+    <section class="section case-section technical-details" id="supporting-details">
+      <div class="shell">
+        <div class="section-heading"><p class="section-kicker">Expandable technical detail</p><h2>Implementation, tests and known limits.</h2></div>
+        <div class="disclosure-grid">
+          ${disclosureBlock("Implementation notes", project.details)}
           ${disclosureBlock("Testing", project.testing)}
           ${disclosureBlock("Safeguards", project.safeguards)}
           ${disclosureBlock("Limitations", project.limitations)}
           ${disclosureBlock("Next iteration", project.next)}
           <section class="case-section disclosure-section code-section">
             <details class="case-disclosure code-disclosure">
-              <summary>Code</summary>
+              <summary>Sanitized code</summary>
               <div class="disclosure-body"><h3>${escapeHtml(project.codeLabel)}</h3><pre><code>${escapeHtml(project.code)}</code></pre></div>
             </details>
           </section>
         </div>
-      </article>
-    </div>
-  </section>`;
+      </div>
+    </section>
+  </article>`;
 
   return layout({
     title: `${project.title} | Ali Aslam`,
@@ -1315,110 +1567,13 @@ function renderProjectPage(project) {
 }
 
 function homePage() {
-  const featured = publicProjects.slice(0, 4).map((project) => projectCard(project)).join("");
-  const impactItems = [
-    ["4-7 min -> under 1 min", "Reported per-asset locate, verify and delete/replace workflow."],
-    ["1,000+ assets", "Season inventories supported by the browser-based operations console."],
-    ["Human review", "Retained for ambiguous matches, media-analysis findings and AI-assisted outputs."]
-  ];
-  const productionPractices = [
-    ["Plan + track", "Translate deliverables and dependencies into visible, reviewable production states."],
-    ["Run reviews", "Prepare organized materials, decision points and clear follow-up actions."],
-    ["Document workflows", "Update operating guidance as tools, constraints and handoffs evolve."],
-    ["Surface blockers", "Report exceptions early with context and practical course-correction options."],
-    ["Support users", "Make new systems understandable to operators, artists and production partners."],
-    ["Partner with tech", "Turn workflow feedback into testable requirements for tools and pipeline improvements."]
-  ];
+  const templatePath = join(ROOT, "scripts/templates/home-dashboard.html");
 
-  const body = `<section class="hero">
-    <div class="shell home-hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Ali Aslam / Production operations / Creative technology</p>
-        <h1>Production systems for evolving creative workflows.</h1>
-        <p class="hero-title">Production-facing tools, media operations and AI-assisted prototyping.</p>
-        <p class="hero-text">I connect creative teams, production data, media assets and technical tools. My work brings clear tracking, organized reviews, visible blockers and human-in-the-loop approval to fast-changing traditional and GenAI pipelines.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="projects.html">View selected work</a>
-          <a class="button button-secondary" href="${contact.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a class="button button-secondary" href="${contact.github}" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button button-secondary" href="mailto:${contact.email}">Email</a>
-          <a class="button button-ghost" href="${contact.resume}" download>Download Resume</a>
-        </div>
-      </div>
-      <aside class="glance-block" aria-labelledby="glance-title">
-        <p class="section-kicker" id="glance-title">At a glance</p>
-        <ul>
-          <li>10 years across media, VFX, localization and distribution</li>
-          <li>Production-facing workflow tools</li>
-          <li>Animation and episodic operations</li>
-          <li>AI-assisted prototyping with human review</li>
-        </ul>
-      </aside>
-      <figure class="hero-work-sample">
-        <img src="assets/images/media-inventory-overlay-sanitized.jpeg" alt="Sanitized season-level media inventory overlay showing fictional filenames and statuses">
-        <figcaption><span>Production-facing inventory workflow</span><strong>Sanitized reconstruction</strong></figcaption>
-      </figure>
-    </div>
-  </section>
-  <section class="section">
-    <div class="shell split-section">
-      <div>
-        <p class="section-kicker">Profile</p>
-        <h2>A production operator who can shape the workflow with technical teams.</h2>
-      </div>
-      <div class="rich-text">
-        <p>My background spans streaming media operations, localization and distribution, animation and VFX production, asset delivery, production tracking and workflow automation. I am most useful where teams need someone to understand the work, organize it, communicate it and improve the system around it.</p>
-        <p>The case studies below show working tools, experimental prototypes and public reconstructions. Each one states what was operational, what was rebuilt for this portfolio and where human review remained required.</p>
-      </div>
-    </div>
-  </section>
-  <section class="section section-ruled">
-    <div class="shell">
-      <div class="section-heading">
-        <p class="section-kicker">Selected work</p>
-        <h2>Systems for assets, reviews and production visibility.</h2>
-      </div>
-      <div class="card-grid two-up">${featured}</div>
-      <div class="section-action"><a class="text-link" href="projects.html">View all six case studies</a></div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="shell">
-      <div class="section-heading">
-        <p class="section-kicker">Production practice</p>
-        <h2>What I bring to an evolving pipeline.</h2>
-      </div>
-      <div class="practice-list">${productionPractices.map(([title, copy], index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><div><h3>${escapeHtml(title)}</h3><p>${escapeHtml(copy)}</p></div></article>`).join("")}</div>
-    </div>
-  </section>
-  <section class="section section-dark">
-    <div class="shell">
-      <div class="section-heading">
-        <p class="section-kicker">Selected operational impact</p>
-        <h2>Evidence, with limits stated plainly.</h2>
-      </div>
-      <div class="metric-grid">${impactItems.map(([value, label]) => `<div class="metric-card"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`).join("")}</div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="shell split-section">
-      <div>
-        <p class="section-kicker">AI-assisted development</p>
-        <h2>Faster iteration, human-defined production logic.</h2>
-      </div>
-      <div class="rich-text">
-        <p>Gemini and Codex supported iterative development, debugging, interface prototyping and code refinement. I defined the production problems, workflow architecture, domain logic, validation requirements and operational testing.</p>
-        <p><a class="text-link" href="about.html#ai-workflow">Read the workflow and safeguards</a></p>
-      </div>
-    </div>
-  </section>`;
+  if (!existsSync(templatePath)) {
+    throw new Error("Required homepage template is missing: scripts/templates/home-dashboard.html");
+  }
 
-  return layout({
-    title: "Ali Aslam | Production Systems for GenAI Workflows",
-    description: "Production operations, creative technology and AI-assisted workflow portfolio for Ali Aslam.",
-    active: "home",
-    body
-  });
+  return readFileSync(templatePath, "utf8");
 }
 
 function projectsPage() {
@@ -1488,7 +1643,7 @@ function aboutPage() {
     <div class="shell split-section">
       <div><p class="section-kicker">GenAI workflow approach</p><h2>Use emerging tools without losing production accountability.</h2></div>
       <div class="rich-text">
-        <p>I use Gemini and Codex to accelerate exploration, debugging, documentation and interface iteration. I remain responsible for the production problem, workflow architecture, domain rules, test cases and final judgment.</p>
+        <p>I use Codex, Gemini and Claude Code to accelerate exploration, debugging, documentation and interface iteration. I remain responsible for the production problem, workflow architecture, domain rules, test cases and final judgment.</p>
         <p>For AI-assisted creative or media workflows, I separate suggestions from approvals, show the evidence behind a recommendation, document known limits and route uncertain output to a person. The goal is useful support for artists and operators, not an automated claim of creative ownership.</p>
       </div>
     </div>
@@ -1504,51 +1659,6 @@ function aboutPage() {
     title: "About | Ali Aslam",
     description: "About Ali Aslam and his work between production, media operations and technical systems.",
     active: "about",
-    body
-  });
-}
-
-function resumePage() {
-  const body = `<section class="page-hero">
-    <div class="shell">
-      <p class="eyebrow">Resume</p>
-      <h1>Media operations, VFX production and localization.</h1>
-      <p>Employment timeline and working toolkit across episodic media, creative production, global distribution and production-facing workflow systems.</p>
-      <div class="hero-actions">
-        <a class="button button-primary" href="${contact.resume}" download>Download Resume PDF</a>
-        <a class="button button-secondary" href="docs/resume.txt">Plain-text resume</a>
-        <a class="button button-ghost" href="mailto:${contact.email}">Professional contact</a>
-      </div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="shell resume-sheet">
-      <section class="resume-section">
-        <h2>Summary</h2>
-        <p>Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production. Builds clear trackers, review systems, status reporting and lightweight tools for evolving creative workflows.</p>
-      </section>
-      <section class="resume-section">
-        <h2>Employment</h2>
-        <div class="resume-timeline">
-          ${employment.map((job) => `<article>
-            <div class="resume-job-heading"><div><h3>${escapeHtml(job.company)}</h3><p>${escapeHtml(job.role)}</p></div><time>${escapeHtml(job.dates)}</time></div>
-            <ul class="clean-list">${job.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
-          </article>`).join("")}
-        </div>
-      </section>
-      <section class="resume-section">
-        <h2>Education</h2>
-        <div class="resume-job-heading"><div><h3>Santa Clara University</h3><p>BA in Communication</p></div><time>2013</time></div>
-      </section>
-      <section class="resume-section"><h2>Tools</h2>${tagList(resumeTools)}</section>
-      <section class="resume-section"><h2>Languages</h2><p>${escapeHtml(resumeLanguages.join(", "))}</p></section>
-    </div>
-  </section>`;
-
-  return layout({
-    title: "Resume | Ali Aslam",
-    description: "Ali Aslam resume summary for media operations, production workflow and creative technology roles.",
-    active: "resume",
     body
   });
 }
@@ -1575,26 +1685,26 @@ const reconFixture = [
 ];
 
 const css = `:root {
-  --bg: #f6f5f2;
+  --bg: #f3f0e9;
   --surface: #ffffff;
-  --surface-strong: #efeee9;
-  --ink: #181a1b;
-  --muted: #5e6263;
-  --line: #d8d8d2;
-  --accent: #0f766e;
-  --accent-dark: #125c57;
-  --accent-soft: #dcefeb;
-  --rust: #c76529;
-  --gold: #e2a23d;
-  --blue: #2f6f99;
-  --danger: #a33a32;
-  --dark: #131516;
-  --dark-2: #1d2021;
+  --surface-strong: #ebe7df;
+  --ink: #121316;
+  --muted: #64676d;
+  --line: rgba(18, 19, 22, 0.11);
+  --accent: #e56835;
+  --accent-dark: #b54f27;
+  --accent-soft: #f6ddd1;
+  --rust: #e56835;
+  --gold: #b87925;
+  --blue: #3c7fc0;
+  --danger: #b74a4a;
+  --dark: #15171a;
+  --dark-2: #1d2024;
   --radius: 6px;
   --radius-small: 4px;
-  --shadow: 0 18px 50px rgba(16, 18, 19, 0.14);
-  --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --shadow: 0 18px 48px rgba(18, 19, 22, 0.13);
+  --font: Geist, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 * { box-sizing: border-box; }
@@ -1604,9 +1714,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.62;
 }
-body, button, input, select { font: inherit; }
+button, input, select { font: inherit; }
 img { display: block; max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 a { color: inherit; }
@@ -1616,24 +1727,21 @@ code { background: #e9efec; border-radius: var(--radius-small); padding: 0.1rem 
 pre { overflow-x: auto; margin: 0; padding: 1.25rem; border-radius: var(--radius); background: #101719; color: #e8f4ef; line-height: 1.55; }
 pre code { display: block; padding: 0; border-radius: 0; background: transparent; color: inherit; overflow-wrap: normal; word-break: normal; }
 .hero-copy, .hero-console, .project-card, .project-card-body, .demo-panel, .mini-console, .table-wrap, .queue-panel, .flow-node, .workflow-steps li, .case-aside, .case-content, .case-section, .resume-main, .resume-block, .metric-card, .contact-grid article, pre { min-width: 0; }
-:focus-visible { outline: 3px solid rgba(15, 118, 110, 0.45); outline-offset: 4px; }
+:focus-visible { outline: 3px solid rgba(229, 104, 53, 0.48); outline-offset: 4px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .skip-link { position: fixed; top: 0.75rem; left: 0.75rem; z-index: 30; transform: translateY(-160%); padding: 0.7rem 1rem; border-radius: var(--radius-small); background: var(--dark); color: white; text-decoration: none; }
 .skip-link:focus { transform: translateY(0); }
 .shell { width: min(1200px, calc(100% - 2.5rem)); margin: 0 auto; }
-.site-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(220, 227, 223, 0.9); background: rgba(247, 248, 245, 0.94); backdrop-filter: blur(14px); }
+.site-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(243, 240, 233, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
 .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--ink); min-width: 0; }
-.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--accent); border-radius: var(--radius); color: var(--accent-dark); background: var(--accent-soft); font-weight: 800; }
+.brand { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); min-width: 0; }
 .brand-copy { display: grid; line-height: 1.15; }
 .brand-copy small { color: var(--muted); font-size: 0.76rem; font-weight: 600; }
 .nav-links { display: flex; align-items: center; gap: 0.25rem; }
-.nav-links a { padding: 0.5rem 0.75rem; border-radius: var(--radius-small); color: var(--muted); font-weight: 750; text-decoration: none; }
+.nav-links a { padding: 0.5rem 0.75rem; border-radius: var(--radius-small); color: var(--muted); font-weight: 750; text-decoration: none; transition: color 180ms ease, background-color 180ms ease; }
 .nav-links a:hover, .nav-links a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-dark); }
 .nav-contact-actions { display: flex; align-items: center; gap: 0.15rem; margin-left: 0.35rem; padding-left: 0.5rem; border-left: 1px solid var(--line); }
 .nav-links .nav-action { padding-inline: 0.55rem; font-size: 0.8rem; }
-.nav-links .nav-download { background: var(--accent); color: white; }
-.nav-links .nav-download:hover { background: var(--accent-dark); color: white; }
 .nav-toggle { display: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); }
 .nav-toggle span:not(.sr-only) { display: block; width: 18px; height: 2px; margin: 4px auto; border-radius: 999px; background: currentColor; }
 .hero, .page-hero { border-bottom: 1px solid var(--line); background: #fbfcf9; }
@@ -1645,7 +1753,8 @@ pre code { display: block; padding: 0; border-radius: 0; background: transparent
 .hero-text, .page-hero p { max-width: 760px; margin: 1rem 0 0; color: var(--muted); font-size: 1.08rem; }
 .page-hero { padding: 5rem 0 3.5rem; }
 .hero-actions, .button-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.7rem; }
-.button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0.7rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-small); font-weight: 800; text-decoration: none; cursor: pointer; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0.7rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-small); font-weight: 800; text-decoration: none; cursor: pointer; transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease; }
+.button:hover { transform: translateY(-1px); }
 .button-primary { background: var(--accent); border-color: var(--accent); color: white; }
 .button-primary:hover { background: var(--accent-dark); color: white; }
 .button-secondary { background: var(--surface); color: var(--ink); }
@@ -1676,7 +1785,7 @@ h3 { margin: 0 0 0.5rem; line-height: 1.2; }
 .capability-grid, .process-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .metric-grid, .history-grid, .contact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .project-card { min-width: 0; }
-.project-card-link { display: grid; grid-template-rows: 150px 1fr; height: 100%; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; text-decoration: none; box-shadow: 0 10px 26px rgba(23,32,33,0.06); }
+.project-card-link { display: grid; grid-template-rows: 150px 1fr; height: 100%; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; text-decoration: none; box-shadow: 0 10px 26px rgba(23,32,33,0.06); transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
 .project-card-link:hover { transform: translateY(-2px); color: inherit; }
 .project-card-body { display: grid; align-content: start; gap: 0.75rem; padding: 1rem; min-width: 0; }
 .project-card h3 { font-size: 1.1rem; }
@@ -1769,6 +1878,83 @@ td { color: #273638; }
 .calendar-image { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: white; }
 .calendar-image figcaption { padding: 0.65rem 0.8rem; color: var(--muted); font-size: 0.86rem; }
 .permissions-matrix { min-width: 0; }
+.calendar-dashboard { overflow: hidden; border: 1px solid #cdd6d1; border-radius: 6px; background: #edf2ef; color: #17201e; box-shadow: 0 16px 34px rgba(0,0,0,0.18); }
+.calendar-dashboard-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.1rem; background: #202a29; color: #f5faf7; }
+.calendar-dashboard-toolbar strong { display: block; margin-top: 0.15rem; font-size: 1.05rem; }
+.calendar-console-label, .calendar-panel-kicker { display: block; color: #78c7b2; font-family: var(--mono); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.calendar-toolbar-controls { display: flex; align-items: end; gap: 0.65rem; }
+.calendar-toolbar-controls label { display: grid; gap: 0.25rem; color: #bdc9c4; font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; }
+.calendar-toolbar-controls select { min-height: 38px; padding: 0.45rem 2rem 0.45rem 0.65rem; border: 1px solid #52625e; border-radius: 4px; background: #2a3532; color: #f5faf7; }
+.calendar-toolbar-controls .button { min-height: 38px; padding: 0.5rem 0.75rem; border-color: #d4e1db; background: #f5faf7; color: #17201e; font-size: 0.8rem; }
+.calendar-summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid #d5ded9; background: #f7faf8; }
+.calendar-summary-grid > div { min-width: 0; padding: 0.85rem 1rem; border-right: 1px solid #d5ded9; }
+.calendar-summary-grid > div:last-child { border-right: 0; }
+.calendar-summary-grid span, .calendar-summary-grid small { display: block; color: #65716d; font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; }
+.calendar-summary-grid strong { display: block; margin: 0.12rem 0; color: #18211f; font-size: 1.35rem; line-height: 1.2; }
+.calendar-summary-grid small { color: #75817c; font-family: var(--font); font-size: 0.72rem; text-transform: none; }
+.calendar-dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr); gap: 0.85rem; padding: 0.85rem; }
+.calendar-operator-panel, .calendar-public-panel { min-width: 0; border: 1px solid #d0d9d4; border-radius: 5px; background: #ffffff; }
+.calendar-panel-heading { display: flex; align-items: end; justify-content: space-between; gap: 0.75rem; padding: 0.85rem 0.95rem; border-bottom: 1px solid #dce4df; }
+.calendar-panel-heading h3 { margin: 0.18rem 0 0; color: #17201e; font-size: 1.05rem; }
+.calendar-state, .calendar-live-dot { color: #31875b; font-family: var(--mono); font-size: 0.68rem; font-weight: 800; white-space: nowrap; }
+.calendar-live-dot::before { display: inline-block; width: 6px; height: 6px; margin-right: 0.35rem; border-radius: 50%; background: #39a96f; content: ""; }
+.calendar-view-tabs { display: flex; gap: 0.3rem; padding: 0.75rem 0.95rem 0; }
+.calendar-view-tabs button { padding: 0.38rem 0.6rem; border: 1px solid #d3ddd7; border-radius: 4px; background: #f4f7f5; color: #66736e; font-size: 0.76rem; font-weight: 800; cursor: pointer; }
+.calendar-view-tabs button.is-active { border-color: #253e38; background: #253e38; color: #ffffff; }
+.calendar-view-panel { padding: 0.8rem 0.95rem 0.95rem; }
+.calendar-date-row { display: flex; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.45rem; color: #5c6964; font-size: 0.74rem; }
+.calendar-date-row strong { color: #25302c; }
+.calendar-event-list { display: grid; gap: 0.4rem; }
+.calendar-event-row { display: grid; grid-template-columns: 60px minmax(0, 1fr) auto auto; gap: 0.65rem; align-items: center; padding: 0.68rem 0.72rem; border: 1px solid #e0e7e3; border-left: 3px solid #49a779; border-radius: 4px; background: #fbfcfb; }
+.calendar-event-row.is-review-row { border-left-color: #d47c38; background: #fffaf3; }
+.calendar-event-row time { color: #bf512e; font-family: var(--mono); font-size: 0.72rem; font-weight: 800; }
+.calendar-event-row strong, .calendar-event-row span { display: block; }
+.calendar-event-row strong { color: #1f2926; font-size: 0.78rem; }
+.calendar-event-row span { overflow: hidden; color: #6d7974; font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }
+.calendar-chip { padding: 0.22rem 0.4rem; border-radius: 3px; font-family: var(--mono); font-size: 0.61rem; text-transform: uppercase; white-space: nowrap; }
+.calendar-chip.is-published { background: #dcefe3; color: #28784f; }
+.calendar-chip.is-review { background: #f8e5ca; color: #9b5a1f; }
+.calendar-edit { border: 0; background: transparent; color: #8a4b2f; font-family: var(--mono); font-size: 0.66rem; font-weight: 800; cursor: pointer; }
+.calendar-week-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.4rem; }
+.calendar-week-grid > div { display: grid; gap: 0.22rem; min-height: 92px; padding: 0.6rem; border: 1px solid #dae3de; background: #f6f9f7; }
+.calendar-week-grid b { color: #253b35; font-size: 0.76rem; }
+.calendar-week-grid span, .calendar-week-grid em { color: #6e7b75; font-size: 0.68rem; font-style: normal; }
+.calendar-week-grid em { align-self: end; color: #bb5f31; font-family: var(--mono); font-size: 0.61rem; }
+.calendar-panel-note { margin: 0.75rem 0 0; color: #6e7b75 !important; font-size: 0.72rem; }
+.calendar-month-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; padding: 2px; background: #d7e0db; }
+.calendar-month-day { min-height: 46px; padding: 0.35rem; background: #ffffff; color: #3b4843; font-family: var(--mono); font-size: 0.66rem; }
+.calendar-month-day.is-muted { color: #aab3af; }
+.calendar-month-day.is-today { background: #e7f1ec; color: #24724b; }
+.calendar-month-day.is-event { background: #fff1e4; color: #9c512d; }
+.calendar-month-day em { display: block; margin-top: 0.25rem; color: inherit; font-family: var(--font); font-size: 0.56rem; font-style: normal; line-height: 1.1; }
+.public-preview-card { margin: 0.9rem; padding: 0.8rem; border: 1px solid #dbe3df; background: #f8faf9; }
+.public-preview-heading { display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.6rem; }
+.public-preview-heading strong { color: #1b2924; font-size: 0.85rem; }
+.public-preview-heading span { color: #718079; font-family: var(--mono); font-size: 0.63rem; text-transform: uppercase; }
+.public-class { display: grid; grid-template-columns: 48px 1fr; gap: 0.5rem; padding: 0.48rem 0; border-top: 1px solid #e0e7e3; }
+.public-class time { color: #cf4634; font-family: var(--mono); font-size: 0.75rem; font-weight: 800; }
+.public-class strong { color: #25302c; font-size: 0.74rem; }
+.public-event-list { display: grid; gap: 0.4rem; padding: 0 0.9rem 0.9rem; }
+.public-event-list div { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 0.35rem 0.55rem; padding: 0.48rem 0; border-top: 1px solid #e0e7e3; }
+.public-event-list span { color: #c14f32; font-family: var(--mono); font-size: 0.64rem; font-weight: 800; }
+.public-event-list strong { color: #29352f; font-size: 0.72rem; }
+.public-event-list small { grid-column: 2; color: #718079; font-size: 0.65rem; }
+.calendar-dashboard-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1rem; border-top: 1px solid #d5ded9; background: #e5ede8; }
+.calendar-dashboard-footer strong { display: block; margin-top: 0.22rem; color: #283832; font-size: 0.74rem; }
+.calendar-dashboard-footer ol { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 0; padding: 0; list-style: none; color: #65736c; font-family: var(--mono); font-size: 0.63rem; }
+.calendar-dashboard-footer li { display: inline-flex; align-items: center; gap: 0.25rem; }
+.calendar-dashboard-footer b { color: #b85230; }
+.calendar-architecture-strip { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.4rem 0.7rem; padding: 0.8rem 0 0.1rem; color: #b8c8c2; font-family: var(--mono); font-size: 0.68rem; }
+.calendar-architecture-strip span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.calendar-architecture-strip b { color: #e9a375; }
+.calendar-architecture-strip i { color: #7cc5b0; font-style: normal; }
+.evidence-calendar-shot { grid-column: 1 / -1; }
+.evidence-calendar-shot img { width: 100%; background: #edf2ef; }
+.calendar-evidence-flow { display: grid; gap: 0.7rem; margin: 0; padding: 1rem 1.1rem 1rem 2rem; color: #c9cfcc; font-size: 0.72rem; }
+.calendar-evidence-flow li { padding-left: 0.2rem; }
+.calendar-evidence-flow b, .calendar-evidence-flow span { display: block; }
+.calendar-evidence-flow b { color: #e9a375; font-family: var(--mono); font-size: 0.68rem; }
+.calendar-evidence-flow span { margin-top: 0.2rem; color: #dbe4e0; }
 .flow-diagram { display: grid; gap: 0.7rem; }
 .flow-diagram:not(.compact) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .flow-node { position: relative; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 0.85rem; font-weight: 800; min-width: 0; }
@@ -1943,26 +2129,192 @@ td { color: #273638; }
 .footer-main { display: flex; justify-content: space-between; gap: 2rem; align-items: flex-start; }
 .footer-main p { max-width: 600px; margin: 0; color: #aebbbb; }
 .footer-main a { margin: 0; font-weight: 800; }
-.footer-links { display: grid; grid-template-columns: repeat(2, minmax(110px, 1fr)); gap: 0.35rem 1rem; min-width: min(100%, 340px); }
-.glance-block { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 1rem; align-items: start; padding: 1rem 0; border-block: 1px solid var(--line); }
-.glance-block .section-kicker { margin: 0; }
-.glance-block ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; }
-.glance-block li { min-width: 0; padding: 0 1rem; border-left: 1px solid var(--line); color: #364143; font-size: 0.9rem; font-weight: 760; }
-.reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms ease, transform 420ms ease; }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+/* Stage 1 editorial shell and function-first project hierarchy */
+.nav { min-height: 64px; }
+.nav-links a { font-size: 0.82rem; }
+.nav-links a:hover, .nav-links a[aria-current="page"] { background: transparent; color: var(--accent-dark); }
+.nav-links a[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--accent); }
+.hero, .page-hero { background: var(--bg); }
+.editorial-home-hero { overflow: hidden; }
+.hero-editorial-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(460px, 0.92fr); gap: clamp(2.5rem, 4vw, 4rem); align-items: center; min-height: 0; padding: 5.25rem 0 4.25rem; }
+.hero-copy { min-width: 0; }
+.hero h1 { max-width: 720px; font-size: 4.6rem; line-height: 1; font-weight: 720; }
+.hero-text { max-width: 680px; font-size: 1.12rem; }
+.hero-system-composition { position: relative; min-width: 0; min-height: 510px; margin: 0; }
+.hero-system-composition figcaption { position: absolute; right: 0; bottom: 0; color: var(--muted); font-family: var(--mono); font-size: 0.68rem; }
+.system-layer { position: absolute; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); background: var(--dark); box-shadow: 0 18px 42px rgba(18,19,22,0.18); }
+.system-layer .project-preview { width: 100%; height: 100%; min-height: 0; }
+.layer-reconciliation { top: 0; right: 0; width: 82%; height: 220px; z-index: 1; }
+.layer-inventory { left: 0; right: 8%; bottom: 38px; height: 330px; z-index: 4; transform: none; }
+.layer-inventory img { width: 100%; height: 100%; object-fit: cover; }
+.project-preview::before, .project-preview::after { display: none; }
+.project-preview { min-height: 230px; background: var(--dark); }
+.preview-reconciliation { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; padding: 0.65rem; background: #0f1113; }
+.preview-column { display: grid; align-content: start; gap: 0.38rem; min-width: 0; padding: 0.65rem; border: 1px solid #35393d; background: #1d2024; color: #cfd4d2; font-size: 0.68rem; }
+.preview-column b { color: white; font-size: 0.73rem; }
+.preview-column i { overflow: hidden; color: #929a97; font-family: var(--mono); font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
+.preview-column em { margin-top: auto; padding: 0.24rem 0.35rem; border-left: 2px solid var(--blue); background: #182533; color: #88bce8; font-style: normal; font-weight: 800; }
+.preview-automation em { border-color: var(--gold); background: #2d2618; color: #e0bb73; }
+.preview-results em { border-color: #31885f; background: #172a22; color: #79c69e; }
+.preview-video { display: grid; grid-template-rows: 1fr 24px auto; gap: 0.55rem; padding: 0.75rem; }
+.preview-video-panes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
+.preview-video-panes i { display: flex; align-items: flex-end; padding: 0.5rem; border: 1px solid #3b4044; background: linear-gradient(#2b3438 0 48%, #161b1e 48%); color: #c8cfcc; font-size: 0.64rem; font-style: normal; }
+.preview-timeline { position: relative; display: block; border: 1px solid #353a3d; background: #0d0f11; }
+.preview-timeline::before { content: ""; position: absolute; left: 5%; right: 5%; top: 50%; height: 2px; background: #4b5255; }
+.preview-timeline b { position: absolute; top: 6px; width: 12%; height: 10px; background: var(--accent); }
+.preview-timeline b:nth-child(1) { left: 18%; }
+.preview-timeline b:nth-child(2) { left: 48%; width: 8%; background: var(--blue); }
+.preview-timeline b:nth-child(3) { left: 71%; width: 16%; background: var(--gold); }
+.preview-technical { color: #8f9894; font-family: var(--mono); font-size: 0.62rem; }
+.preview-oped { display: grid; grid-template-columns: 70px 1fr; gap: 0.6rem; padding: 0.7rem; }
+.preview-episodes { display: grid; align-content: start; gap: 0.35rem; }
+.preview-episodes i { padding: 0.35rem; border: 1px solid #373c3f; background: #1d2024; color: #9da5a2; font-family: var(--mono); font-size: 0.62rem; font-style: normal; }
+.preview-episodes i:first-child { border-color: var(--accent); color: white; }
+.preview-waveforms { position: relative; display: grid; align-content: center; gap: 0.45rem; overflow: hidden; }
+.preview-waveforms b { display: block; height: 18px; background: repeating-linear-gradient(90deg, #263238 0 3px, #52636a 3px 5px, #1b2226 5px 8px); clip-path: polygon(0 50%, 4% 22%, 8% 78%, 12% 35%, 18% 66%, 24% 18%, 31% 74%, 38% 42%, 45% 62%, 53% 28%, 62% 73%, 70% 40%, 78% 68%, 87% 30%, 94% 72%, 100% 50%); }
+.preview-waveforms em { position: absolute; top: 18%; bottom: 18%; width: 12%; border: 1px solid var(--accent); background: rgba(229,104,53,0.14); color: #f3a987; font-size: 0.58rem; font-style: normal; text-align: center; }
+.preview-waveforms em:nth-of-type(1) { left: 15%; }
+.preview-waveforms em:nth-of-type(2) { right: 10%; border-color: var(--blue); background: rgba(60,127,192,0.14); color: #8fbce8; }
+.work-intro { margin-bottom: 4.5rem; padding-bottom: 3rem; border-bottom: 1px solid var(--line); }
+.featured-system-list { display: grid; gap: 6rem; }
+.featured-system { display: grid; gap: 1.5rem; }
+.featured-system-heading { display: grid; grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr); gap: 2rem; align-items: end; }
+.featured-system-heading .section-kicker { grid-column: 1 / -1; }
+.featured-system-heading h3 { margin: 0; font-size: 3rem; }
+.featured-system-heading p:last-child { max-width: 65ch; margin: 0; color: var(--muted); }
+.featured-system-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.65fr); gap: 1.5rem; align-items: stretch; }
+.featured-system.is-reversed .featured-system-visual { order: 2; }
+.featured-system-visual { min-width: 0; overflow: hidden; border: 1px solid #292d31; border-radius: var(--radius); background: var(--dark); box-shadow: var(--shadow); }
+.featured-system-visual .project-preview { width: 100%; height: 100%; min-height: 430px; }
+.featured-system-visual .project-preview img { width: 100%; height: 100%; object-fit: cover; }
+.featured-system-details { display: flex; flex-direction: column; min-width: 0; padding: 1.35rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 12px 32px rgba(18,19,22,0.05); }
+.featured-system-details dl { display: grid; gap: 0; margin: 0; }
+.featured-system-details dl div { padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
+.featured-system-details dt { color: var(--muted); font-size: 0.7rem; font-weight: 850; text-transform: uppercase; }
+.featured-system-details dd { margin: 0.18rem 0 0; font-size: 0.9rem; font-weight: 750; }
+.featured-system-details .text-link { margin-top: auto; padding-top: 1.25rem; }
+.featured-metric { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.65rem; align-items: center; margin-top: 1rem; padding: 0.85rem; background: var(--accent-soft); }
+.featured-metric span, .featured-metric strong { font-size: 0.85rem; line-height: 1.25; }
+.featured-metric strong { color: var(--accent-dark); }
+.featured-metric b { color: var(--accent); }
+.metric-context { margin: 0.65rem 0 0; color: var(--muted); font-size: 0.78rem; }
+.featured-pipeline { display: grid; gap: 0.35rem; margin-top: 1rem; }
+.featured-pipeline span { padding: 0.48rem 0.55rem; border-left: 2px solid var(--accent); background: #f7f3ed; font-size: 0.76rem; font-weight: 800; }
+.featured-pipeline b { color: var(--accent); line-height: 1; }
+.secondary-work .project-card-body > strong { font-size: 0.86rem; line-height: 1.4; }
+.card-case-link { margin-top: auto; padding-top: 0.25rem; color: var(--accent-dark); font-size: 0.84rem; font-weight: 850; }
+.editorial-project-hero { padding: clamp(4rem, 8vw, 7rem) 0 3rem; }
+.editorial-project-hero h1 { max-width: 980px; font-size: 4.35rem; }
+.project-hero-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; align-items: start; }
+.project-hero-heading .status-badge { margin-top: 0.8rem; }
+.project-function { max-width: 72ch !important; font-size: 1.12rem !important; }
+.editorial-project-hero .metadata-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 3rem; }
+.editorial-project-hero .metadata-grid div { padding: 1rem 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }
+.editorial-project-hero .metadata-grid div + div { padding-left: 1rem; border-left: 1px solid var(--line); }
+.project-demonstration { padding-top: 2rem; background: var(--surface); }
+.project-demonstration .demo-panel { margin-bottom: 0; }
+.demo-caption { margin: 0; padding: 0.8rem 1rem; border-top: 1px solid #34383c; background: #17191c; color: #b9c0bd !important; font-size: 0.76rem; }
+.outcome-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1rem; border: 1px solid var(--line); background: var(--surface); }
+.outcome-strip div { padding: 1.15rem; border-right: 1px solid var(--line); }
+.outcome-strip div:last-child { border-right: 0; }
+.outcome-strip span, .outcome-strip strong { display: block; }
+.outcome-strip span { color: var(--accent-dark); font-size: 0.7rem; font-weight: 850; text-transform: uppercase; }
+.outcome-strip strong { margin-top: 0.35rem; font-size: 0.9rem; line-height: 1.4; }
+.project-story > .case-section { padding: 6rem 0; border-bottom: 0; }
+.story-grid { display: grid; grid-template-columns: minmax(250px, 0.72fr) minmax(0, 1.28fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
+.story-grid header { position: sticky; top: 96px; }
+.story-grid header h2 { max-width: 520px; font-size: 2.7rem; }
+.section-summary { max-width: 50ch; color: var(--muted); }
+.story-copy { max-width: 75ch; }
+.story-copy > .clean-list { margin-top: 0; }
+.workflow-section .section-heading, .evidence-section .section-heading, .technical-details .section-heading { max-width: 760px; }
+.workflow-diagram { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); background: var(--surface); }
+.workflow-node { min-width: 0; padding: 1.1rem; border-right: 1px solid var(--line); }
+.workflow-node:last-child { border-right: 0; }
+.workflow-node header { display: flex; gap: 0.55rem; align-items: center; }
+.workflow-node header span { color: var(--accent); font-family: var(--mono); font-size: 0.7rem; }
+.workflow-node header strong { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; }
+.workflow-node h3 { min-height: 4.6em; margin: 1rem 0; font-size: 1rem; }
+.workflow-node dl { display: grid; gap: 0.75rem; margin: 0; }
+.workflow-node dl div { padding-top: 0.65rem; border-top: 1px solid var(--line); }
+.workflow-node dt { color: var(--muted); font-size: 0.65rem; font-weight: 850; text-transform: uppercase; }
+.workflow-node dd { margin: 0.18rem 0 0; font-size: 0.78rem; line-height: 1.45; }
+.workflow-sequence { margin-top: 3rem; }
+.safeguard-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.safeguard-list li { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 0.8rem; padding: 1rem 0; border-top: 1px solid var(--line); color: var(--muted); }
+.safeguard-list span { color: var(--accent); font-family: var(--mono); font-size: 0.72rem; }
+.evidence-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.evidence-gallery figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.evidence-gallery figcaption { padding: 0.75rem 0.9rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; }
+.evidence-wide { grid-column: 1 / -1; }
+.workflow-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.workflow-comparison article { padding: 1.25rem; }
+.workflow-comparison article + article { border-left: 1px solid var(--line); background: #f7f4ee; }
+.workflow-comparison h3 { font-size: 1rem; }
+.workflow-comparison ol { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 1rem 0 0; padding: 0; list-style: none; counter-reset: evidence-steps; }
+.workflow-comparison li { counter-increment: evidence-steps; padding: 0.45rem 0.55rem; border: 1px solid var(--line); background: white; font-size: 0.75rem; }
+.workflow-comparison li::before { content: counter(evidence-steps, decimal-leading-zero) " "; color: var(--accent); font-family: var(--mono); }
+.evidence-label { margin: 0 0 0.5rem; color: var(--accent-dark); font-size: 0.68rem; font-weight: 850; text-transform: uppercase; }
+.evidence-terminal { background: var(--dark) !important; color: white; }
+.evidence-window-head { display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0.85rem; border-bottom: 1px solid #363a3e; font-family: var(--mono); font-size: 0.7rem; }
+.evidence-window-head strong { color: #7ac79f; }
+.evidence-queue { min-height: 120px; margin: 0; padding: 1rem 1rem 1rem 2.2rem; color: #c9cfcc; font-size: 0.72rem; }
+.evidence-queue code { background: transparent; color: inherit; }
+.evidence-log { min-height: 120px; border-radius: 0; background: #101214; color: #b9c2be; font-size: 0.7rem; }
+.match-evidence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.match-evidence article { min-width: 0; padding: 1rem; border-right: 1px solid var(--line); }
+.match-evidence article:last-child { border-right: 0; }
+.match-evidence span { display: block; margin-bottom: 0.4rem; color: #31885f; font-size: 0.68rem; font-weight: 850; text-transform: uppercase; }
+.match-evidence strong { display: block; font-family: var(--mono); font-size: 0.78rem; }
+.match-evidence p { margin: 0.55rem 0 0; color: var(--muted); font-size: 0.76rem; }
+.match-evidence .match-rejected span { color: var(--danger); }
+.match-evidence .match-ambiguous span { color: var(--gold); }
+.evidence-tracker { background: white; }
+.evidence-tracker .evidence-window-head { border-color: var(--line); color: var(--ink); }
+.tracker-evidence-row { display: grid; grid-template-columns: 1fr repeat(3, auto); gap: 0.5rem; padding: 0.85rem; border-bottom: 1px solid var(--line); font-size: 0.72rem; }
+.tracker-evidence-row b { color: #31885f; }
+.tracker-evidence-row.is-review { background: #fff7e4; }
+.tracker-evidence-row.is-review b { color: var(--gold); }
+.evidence-placeholder { display: grid; min-height: 220px; place-items: center; padding: 2rem; background: var(--dark); color: white; text-align: center; }
+.result-section h2 { font-size: 2.7rem; }
+.technical-details { background: var(--surface-strong); }
+.disclosure-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.disclosure-grid > .case-section { padding: 0; border: 0; }
+.disclosure-grid .case-disclosure { height: 100%; }
+.supporting-module { margin: 0 0 4rem; padding: 0; border-bottom: 0; }
+.supporting-module .case-disclosure { background: var(--surface); }
 @media (max-width: 1120px) {
   .nav-toggle { display: block; }
-  .nav-links { position: absolute; top: 74px; left: 1rem; right: 1rem; display: none; flex-direction: column; align-items: stretch; padding: 0.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+  .nav-links { position: absolute; top: 64px; left: 1rem; right: 1rem; display: none; flex-direction: column; align-items: stretch; padding: 0.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
   .nav-links.is-open { display: flex; }
   .nav-contact-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0.35rem 0 0; padding: 0.5rem 0 0; border-top: 1px solid var(--line); border-left: 0; }
   .nav-links .nav-action { text-align: center; }
 }
 @media (max-width: 980px) {
-  .hero-grid, .split-section, .case-layout, .oped-layout, .calendar-layout, .resume-layout { grid-template-columns: 1fr; }
+  .hero-grid, .hero-editorial-grid, .split-section, .case-layout, .oped-layout, .calendar-layout, .resume-layout, .story-grid { grid-template-columns: 1fr; }
+  .hero-editorial-grid { min-height: 0; }
+  .hero h1 { font-size: 3.8rem; }
+  .editorial-project-hero h1 { font-size: 3.6rem; }
+  .story-grid header h2, .result-section h2 { font-size: 2.35rem; }
+  .hero-system-composition { width: min(100%, 720px); min-height: 520px; margin-inline: auto; }
+  .featured-system-heading { grid-template-columns: 1fr; }
+  .featured-system-layout { grid-template-columns: 1fr; }
+  .featured-system.is-reversed .featured-system-visual { order: 0; }
+  .featured-system-visual .project-preview { min-height: 390px; }
+  .editorial-project-hero .metadata-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .editorial-project-hero .metadata-grid div + div { padding-left: 0; border-left: 0; }
+  .editorial-project-hero .metadata-grid div:nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--line); }
+  .story-grid header { position: static; }
+  .workflow-diagram { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .workflow-node:nth-child(2) { border-right: 0; }
+  .workflow-node:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .three-up, .project-index-grid, .capability-grid, .process-grid, .metadata-grid, .workflow-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case-aside { position: static; }
   .demo-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .demo-split, .recon-grid, .comparison-grid, .video-panes, .impact-strip, .metric-grid, .history-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+  .calendar-dashboard-grid { grid-template-columns: 1fr; }
+  .calendar-dashboard-toolbar { align-items: flex-start; flex-direction: column; }
   .oms-stage { grid-template-columns: 190px minmax(0, 1fr); }
   .oms-poster { min-height: 430px; }
   .oms-cms { min-height: 430px; padding-right: 1.6rem; }
@@ -1970,11 +2322,9 @@ td { color: #273638; }
   .vmaf-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .vmaf-summary div:nth-child(2) { border-right: 0; }
   .vmaf-summary div:nth-child(-n + 2) { border-bottom: 1px solid #343a3b; }
-  .glance-block { grid-template-columns: 1fr; }
-  .glance-block ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .glance-block li { padding: 0.65rem 1rem; border-bottom: 1px solid var(--line); }
 }
 @media (max-width: 720px) {
+  body { font-size: 16px; }
   .brand-copy small { display: none; }
   .shell { width: min(100% - 2rem, 1200px); }
   .hero h1 { font-size: 3rem; }
@@ -1985,11 +2335,47 @@ td { color: #273638; }
   .hero-work-sample img { aspect-ratio: 16 / 9; }
   .hero-work-sample figcaption { flex-direction: column; gap: 0.15rem; }
   .section { padding: 3rem 0; }
+  .hero-editorial-grid { gap: 2.5rem; padding: 3.5rem 0; }
+  .hero-system-composition { display: grid; gap: 0.75rem; min-height: 0; }
+  .system-layer { position: relative; inset: auto; width: 100%; height: 120px; transform: none; }
+  .layer-inventory { grid-row: 1; height: 220px; }
+  .layer-reconciliation { grid-row: 2; height: 160px; }
+  .hero-system-composition figcaption { position: static; padding-top: 0.35rem; }
+  .work-intro { margin-bottom: 3rem; }
+  .featured-system-list { gap: 4rem; }
+  .featured-system-heading h3 { font-size: 2rem; }
+  .featured-system-visual .project-preview { min-height: 250px; }
+  .preview-reconciliation { padding: 0.4rem; }
+  .preview-column { padding: 0.45rem; }
+  .featured-metric { grid-template-columns: 1fr; }
+  .featured-metric b { transform: rotate(90deg); width: fit-content; }
+  .project-hero-heading { grid-template-columns: 1fr; gap: 0.5rem; }
+  .project-hero-heading .status-badge { margin-top: 0; }
+  .editorial-project-hero .metadata-grid, .outcome-strip, .workflow-diagram, .workflow-comparison, .match-evidence, .evidence-gallery, .disclosure-grid { grid-template-columns: 1fr; }
+  .editorial-project-hero .metadata-grid div, .editorial-project-hero .metadata-grid div:nth-child(even) { padding: 0.8rem 0; border-left: 0; }
+  .outcome-strip div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .outcome-strip div:last-child { border-bottom: 0; }
+  .project-story > .case-section { padding: 4rem 0; }
+  .workflow-node, .workflow-node:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
+  .workflow-node:last-child { border-bottom: 0; }
+  .workflow-node h3 { min-height: 0; }
+  .workflow-comparison article + article { border-top: 1px solid var(--line); border-left: 0; }
+  .evidence-wide { grid-column: auto; }
+  .match-evidence article { border-right: 0; border-bottom: 1px solid var(--line); }
+  .match-evidence article:last-child { border-bottom: 0; }
+  .tracker-evidence-row { grid-template-columns: 1fr; }
   .two-up, .three-up, .project-index-grid, .capability-grid, .process-grid, .metadata-grid, .workflow-steps, .inventory-stats, .signal-grid, .practice-list, .inventory-impact { grid-template-columns: 1fr; }
   .practice-list article, .practice-list article:nth-child(even) { padding: 1rem 0; border-right: 0; }
   .project-card-link { grid-template-rows: 180px 1fr; }
   .project-visual { min-height: 180px; }
   .demo-controls { grid-template-columns: 1fr; }
+  .calendar-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .calendar-summary-grid > div:nth-child(2) { border-right: 0; }
+  .calendar-summary-grid > div:nth-child(-n + 2) { border-bottom: 1px solid #d5ded9; }
+  .calendar-dashboard-footer { align-items: flex-start; flex-direction: column; }
+  .calendar-event-row { grid-template-columns: 56px minmax(0, 1fr) auto; }
+  .calendar-event-row .calendar-edit { grid-column: 2; justify-self: start; padding: 0; }
+  .calendar-week-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-main, .footer-bottom { flex-direction: column; }
   .flow-diagram:not(.compact) { grid-template-columns: 1fr; }
   .oms-stage { grid-template-columns: 1fr; }
@@ -2008,8 +2394,7 @@ td { color: #273638; }
   .vmaf-summary { grid-template-columns: 1fr 1fr; }
   .video-pane figcaption { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
   .code-disclosure pre { margin: 0.75rem; }
-  .glance-block ul, .footer-links, .nav-contact-actions { grid-template-columns: 1fr; }
-  .glance-block li { padding-inline: 0; border-left: 0; }
+  .nav-contact-actions { grid-template-columns: 1fr; }
   .resume-job-heading { flex-direction: column; gap: 0.35rem; }
   .resume-job-heading time { white-space: normal; }
   table { min-width: 0; table-layout: fixed; }
@@ -2199,30 +2584,80 @@ document.querySelectorAll("[data-oped-demo]").forEach((root) => {
   });
 });
 
-const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function setupCalendarDemo(root) {
+  const studio = root.querySelector("[data-calendar-studio]");
+  const syncButton = root.querySelector("[data-calendar-sync]");
+  const status = root.querySelector("[data-calendar-status]");
+  const syncState = root.querySelector("[data-calendar-sync-state]");
+  const log = root.querySelector("[data-calendar-log]");
+  const viewButtons = Array.from(root.querySelectorAll("[data-calendar-view]"));
+  const panels = Array.from(root.querySelectorAll("[data-calendar-view-panel]"));
 
-if (motionAllowed && "IntersectionObserver" in window) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
+  function setStatus(message) {
+    if (status) status.textContent = message;
+  }
+
+  viewButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const view = button.getAttribute("data-calendar-view");
+      viewButtons.forEach((node) => {
+        const active = node === button;
+        node.classList.toggle("is-active", active);
+        node.setAttribute("aria-selected", String(active));
+      });
+      panels.forEach((panel) => {
+        const active = panel.getAttribute("data-calendar-view-panel") === view;
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+      });
+      setStatus((view ? view.charAt(0).toUpperCase() + view.slice(1) : "Calendar") + " view loaded");
     });
-  }, { threshold: 0.14 });
-
-  document.querySelectorAll(".project-card, .practice-list article, .metric-card, .demo-panel, .case-section").forEach((node) => {
-    node.classList.add("reveal");
-    observer.observe(node);
   });
-}`;
+
+  if (studio) {
+    studio.addEventListener("change", () => {
+      setStatus(studio.value + " workspace loaded");
+      if (log) log.textContent = "Studio filter changed; public payload remains scoped to approved fields";
+    });
+  }
+
+  if (syncButton) {
+    syncButton.addEventListener("click", () => {
+      syncButton.disabled = true;
+      syncButton.textContent = "Syncing...";
+      setStatus("Reading Airtable changes...");
+      if (log) log.textContent = "Airtable records read; checking publishing state";
+      window.setTimeout(() => {
+        syncButton.disabled = false;
+        syncButton.textContent = "Sync again";
+        if (syncState) syncState.textContent = "last sync just now";
+        if (log) log.textContent = "Public payload ready for review";
+        setStatus("Sync complete; review queue unchanged");
+      }, 700);
+    });
+  }
+
+  root.querySelectorAll("[data-calendar-edit]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const row = button.closest("[data-calendar-event]");
+      if (!row) return;
+      row.classList.add("is-review-row");
+      const chip = row.querySelector(".calendar-chip");
+      if (chip) {
+        chip.classList.remove("is-published");
+        chip.classList.add("is-review");
+        chip.textContent = "Needs review";
+      }
+      button.textContent = "Queued";
+      setStatus("Change queued for human review");
+      if (log) log.textContent = "Draft change captured; no public fields updated";
+    });
+  });
+}
+
+document.querySelectorAll("[data-calendar-demo]").forEach(setupCalendarDemo);`;
 
 const resumeText = `RESUME
-
-PROFESSIONAL CONTACT
-${contact.email}
-${contact.linkedin}
-${contact.github}
 
 SUMMARY
 Production operations and media workflow professional with experience across animation, VFX, streaming media, localization, digital distribution and post-production. Builds clear trackers, review systems, status reporting and lightweight tools for evolving creative workflows.
@@ -2233,7 +2668,7 @@ ${job.dates}
 ${job.bullets.map((bullet) => `- ${bullet}`).join("\n")}`).join("\n\n")}
 
 EDUCATION
-Santa Clara University - BA in Communication, 2013
+Santa Clara University - BA in Communication
 
 TOOLS
 ${resumeTools.join(", ")}
@@ -2252,12 +2687,12 @@ Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 
 ## Project List
 
-- Season-Level Media Inventory Operations Console
-- Ingest Status Reconciliation and Airtable Readiness Automation
-- Automated Video Version Comparison and Difference Reporter
-- Dataset-Assisted Opening and Ending Timestamp Detection
-- Live Multi-Studio Schedule and Calendar Platform
-- AI-Assisted Instructional Keyframe Selection
+- Media Inventory Operations Console
+- Asset Status Reconciliation
+- VMAF Video Quality Check
+- Anime OP/ED Timecodes
+- K-Taekwondo Calendar
+- Instructional Keyframes
 
 ## File Structure
 
@@ -2266,7 +2701,6 @@ Repository reference: <https://github.com/Ali1128/ali-aslam-portfolio>
 ├── index.html
 ├── projects.html
 ├── about.html
-├── resume.html
 ├── styles.css
 ├── script.js
 ├── projects/
@@ -2316,7 +2750,7 @@ The interactive demos are public reconstructions with fictional internal-tool da
 
 ## Public Links
 
-The portfolio includes Ali's professional email, LinkedIn, GitHub and a generated public resume PDF. No phone number or private contact data is included.
+The portfolio includes LinkedIn and GitHub links. The plain-text resume contains no name, email, phone number, social profile or other direct contact information.
 
 ## Deployment
 
@@ -2330,7 +2764,7 @@ See \`docs/privacy-and-sanitization.md\` and \`SECURITY.md\`.
 
 ## AI Collaboration Disclosure
 
-Gemini and Codex supported iterative development, debugging, interface prototyping and code refinement. Ali defined the production problems, workflow architecture, domain logic, validation requirements and operational testing.`;
+Codex, Gemini and Claude Code supported iterative development, debugging, interface prototyping and code refinement. Ali defined the production problems, workflow architecture, domain logic, validation requirements and operational testing.`;
 
 const security = `# Security Notes
 
@@ -2533,13 +2967,15 @@ const requiredCopies = [
   ["scripts/templates/demos/file-linking-search/index.html", "demos/file-linking-search/index.html"],
   ["scripts/templates/demos/asset-status-reconciliation/index.html", "demos/asset-status-reconciliation/index.html"],
   ["scripts/source-assets/images/media-inventory-overlay-sanitized.jpeg", "assets/images/media-inventory-overlay-sanitized.jpeg"],
+  ["scripts/source-assets/images/op-ed-anime-sequence.png", "assets/images/op-ed-anime-sequence.png"],
+  ["scripts/source-assets/images/vmaf-anime-comparison.png", "assets/images/vmaf-anime-comparison.png"],
   ["scripts/source-assets/images/ktaekwondo-calendar-august-2026.png", "assets/images/ktaekwondo-calendar-august-2026.png"],
+  ["scripts/source-assets/images/ktaekwondo-calendar-dashboard.png", "assets/images/ktaekwondo-calendar-dashboard.png"],
   ["scripts/source-assets/images/ktaekwondo-keyframe-01.jpg", "assets/images/ktaekwondo-keyframe-01.jpg"],
   ["scripts/source-assets/images/ktaekwondo-keyframe-02.jpg", "assets/images/ktaekwondo-keyframe-02.jpg"],
   ["scripts/source-assets/images/ktaekwondo-keyframe-03.jpg", "assets/images/ktaekwondo-keyframe-03.jpg"],
   ["scripts/source-assets/images/ktaekwondo-keyframe-04.jpg", "assets/images/ktaekwondo-keyframe-04.jpg"],
-  ["scripts/source-assets/images/ktaekwondo-keyframe-05.jpg", "assets/images/ktaekwondo-keyframe-05.jpg"],
-  ["scripts/source-assets/resume.pdf", contact.resume]
+  ["scripts/source-assets/images/ktaekwondo-keyframe-05.jpg", "assets/images/ktaekwondo-keyframe-05.jpg"]
 ];
 
 for (const [source, output] of requiredCopies) copyRequired(source, output);
@@ -2547,7 +2983,6 @@ for (const [source, output] of requiredCopies) copyRequired(source, output);
 write("index.html", homePage());
 write("projects.html", projectsPage());
 write("about.html", aboutPage());
-write("resume.html", resumePage());
 write("styles.css", css);
 write("script.js", js);
 write("README.md", readme);
