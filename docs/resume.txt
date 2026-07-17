@@ -31,7 +31,7 @@ EDUCATION
 Santa Clara University - BA in Communication
 
 TOOLS
-ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Adobe Creative Cloud, Gemini, Codex, Claude Code
+ShotGrid, Ftrack, Airtable, Jira, Asana, Google Workspace, Microsoft Office, Aspera, AWS/S3, Google Cloud, JavaScript, Puppeteer, Python, FFmpeg, OpenCV, Maya, Adobe Creative Cloud, Gemini, Codex, Claude Code
 
 LANGUAGES
 English, Urdu, Punjabi, Hindi
